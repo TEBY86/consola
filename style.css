@@ -32,6 +32,11 @@
     --modal-link-color: #00FFFF; /* Cian para enlaces (ej. Forgot Password) */
 }
 
+/* Aplicar box-sizing a todos los elementos para un control de diseño predecible */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 /*
  * Reset básico y tipografía fluida.
  * La fuente 'Inter' es limpia y moderna, ideal para interfaces.
@@ -48,7 +53,12 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    box-sizing: border-box;
+    /* Usar position: fixed para asegurar que ocupe todo el viewport y no haya scrollbars */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden; /* Evita barras de desplazamiento en el cuerpo */
     /* Sutil gradiente radial para añadir profundidad al fondo, creando un "escenario" para el neumorfismo */
     background: radial-gradient(circle at 50% 50%, #250040 0%, var(--bg-color) 100%); /* Ajustado al nuevo color */
@@ -60,6 +70,7 @@ html, body {
     -moz-user-select: none;      /* Old versions of Firefox */
     -ms-user-select: none;       /* Internet Explorer/Edge */
     user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+    -webkit-tap-highlight-color: transparent; /* Elimina el resalte azul/gris al tocar en iOS/Android */
 }
 
 /* Ocultar barra de desplazamiento para navegadores basados en WebKit (Chrome, Safari) */
@@ -88,6 +99,7 @@ body, html {
     flex-direction: column;
     position: relative;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición suave para redimensionamiento */
+    flex-shrink: 0; /* Evita que el marco de la aplicación se encoja */
 }
 
 /*
