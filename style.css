@@ -90,17 +90,6 @@ html, body {
     -webkit-tap-highlight-color: transparent; /* Elimina el resalte azul/gris al tocar en iOS/Android */
 }
 
-/* Ocultar barra de desplazamiento para navegadores basados en WebKit (Chrome, Safari) */
-body::-webkit-scrollbar, html::-webkit-scrollbar {
-    display: none;
-}
-
-/* Ocultar barra de desplazamiento para IE, Edge y Firefox */
-body, html {
-    -ms-overflow-style: none;   /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-
 
 /*
  * Contenedor principal que ahora se extiende a pantalla completa.
@@ -388,8 +377,6 @@ body, html {
     overflow-x: scroll; /* Permite el desplazamiento horizontal */
     scroll-snap-type: x mandatory; /* Fuerza el "snap" a los ítems */
     -webkit-overflow-scrolling: touch; /* Desplazamiento suave en iOS */
-    scrollbar-width: none; /* Oculta la barra de desplazamiento para Firefox */
-    -ms-overflow-style: none;   /* Oculta la barra de desplazamiento para IE y Edge */
     gap: 15px; /* Espacio entre los ítems del dock */
     padding-left: 50px; /* Padding para permitir que el primer ítem se centre */
     padding-right: 50px; /* Padding para permitir que el último ítem se centre */
@@ -416,10 +403,6 @@ body, html {
     display: none;
 }
 
-/* Oculta la barra de desplazamiento para navegadores basados en WebKit (Chrome, Safari) */
-.nav-bar::-webkit-scrollbar {
-    display: none;
-}
 
 .nav-item {
     display: flex;
