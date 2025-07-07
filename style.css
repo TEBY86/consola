@@ -46,24 +46,28 @@ html, body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
-    height: 100%; /* Asegura que html y body ocupen toda la altura */
-    min-height: 100vh; /* Asegura que html y body ocupen al menos el 100% del viewport */
+    /* Asegura que html y body ocupen toda la altura y ancho del viewport */
+    height: 100%;
+    min-height: 100vh;
+    width: 100%;
+    min-width: 100vw;
     background: var(--bg-color); /* Fondo base */
     color: var(--text-dark);
+    /* Centra el contenido (app-frame) en el medio de la pantalla */
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Usar position: fixed para asegurar que ocupe todo el viewport y no haya scrollbars */
+    /* Usa position: fixed para asegurar que ocupe todo el viewport y no haya scrollbars en el body/html */
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    overflow: hidden; /* Evita barras de desplazamiento en el cuerpo */
+    overflow: hidden; /* Evita barras de desplazamiento en el cuerpo principal */
     /* Sutil gradiente radial para añadir profundidad al fondo, creando un "escenario" para el neumorfismo */
     background: radial-gradient(circle at 50% 50%, #250040 0%, var(--bg-color) 100%); /* Ajustado al nuevo color */
 
-    /* Propiedades para evitar la selección de texto al tocar con el dedo */
+    /* Propiedades para evitar la selección de texto al tocar con el dedo y el resalte al presionar */
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none;   /* Safari */
     -khtml-user-select: none;    /* Konqueror HTML */
@@ -128,16 +132,17 @@ body, html {
 }
 
 /*
- * Área de contenido principal. Ahora con overflow: auto para permitir el desplazamiento interno.
+ * Área de contenido principal. Ahora con overflow: hidden para evitar barras de desplazamiento internas.
+ * ADVERTENCIA: Si el contenido excede la altura, se cortará y no será accesible.
  */
 .app-content {
     flex-grow: 1;
-    overflow-y: auto; /* Cambiado a auto para permitir el desplazamiento interno */
+    overflow-y: hidden; /* Cambiado a hidden para eliminar la barra de desplazamiento interna */
     padding: 20px;
     background-color: var(--bg-color);
     padding-top: 20px; /* Ajustado para eliminar el espacio de la barra de estado */
     padding-bottom: calc(var(--nav-bar-height) + 20px);
-    -webkit-overflow-scrolling: touch; /* Desplazamiento suave en iOS */
+    -webkit-overflow-scrolling: touch; /* Desplazamiento suave en iOS (si se reintroduce overflow) */
 }
 
 /*
@@ -211,6 +216,12 @@ body, html {
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Curva de animación más elegante */
     will-change: transform, box-shadow; /* Optimización para animaciones */
+    /* Propiedades para evitar la selección de texto en elementos interactivos */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .module-item:hover {
@@ -306,6 +317,12 @@ body, html {
     margin: 0 auto 30px auto;
     display: block;
     will-change: transform, box-shadow;
+    /* Propiedades para evitar la selección de texto en elementos interactivos */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .main-action-button:hover {
@@ -331,7 +348,7 @@ body, html {
 /*
  * Barra de navegación inferior (El Dock de macOS).
  * Diseño glassmorphism con efectos de magnificación y transiciones fluidas.
- * Ahora ocupa todo el ancho y no tiene perspectiva 3D.
+ * Permite desplazamiento horizontal.
  */
 .nav-bar {
     position: absolute;
@@ -365,6 +382,12 @@ body, html {
     /* Eliminamos la transformación 3D */
     transform: none; 
     transform-origin: unset;
+    /* Propiedades para evitar la selección de texto en elementos interactivos */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .nav-bar:active {
@@ -399,6 +422,12 @@ body, html {
     min-width: 60px; /* Asegura un ancho mínimo para cada ítem */
     height: 100%; /* Ocupa la altura completa del nav-bar */
     justify-content: flex-end; /* Alinea el contenido en la parte inferior */
+    /* Propiedades para evitar la selección de texto en elementos interactivos */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .nav-item i {
