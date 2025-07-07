@@ -132,17 +132,17 @@ body, html {
 }
 
 /*
- * Área de contenido principal. Ahora con overflow: hidden para evitar barras de desplazamiento internas.
- * ADVERTENCIA: Si el contenido excede la altura, se cortará y no será accesible.
+ * Área de contenido principal. Permite desplazamiento vertical interno si el contenido es largo.
  */
 .app-content {
     flex-grow: 1;
-    overflow-y: hidden; /* Cambiado a hidden para eliminar la barra de desplazamiento interna */
+    overflow-y: auto; /* Permite el desplazamiento vertical interno del contenido */
     padding: 20px;
     background-color: var(--bg-color);
     padding-top: 20px; /* Ajustado para eliminar el espacio de la barra de estado */
     padding-bottom: calc(var(--nav-bar-height) + 20px);
-    -webkit-overflow-scrolling: touch; /* Desplazamiento suave en iOS (si se reintroduce overflow) */
+    -webkit-overflow-scrolling: touch; /* Desplazamiento suave en iOS */
+    height: 100%; /* Asegura que ocupe la altura disponible para el scroll */
 }
 
 /*
