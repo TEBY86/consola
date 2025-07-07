@@ -37,16 +37,17 @@
  * La fuente 'Inter' es limpia y moderna, ideal para interfaces.
  * Se utiliza `clamp()` para asegurar un tamaño de fuente responsivo y legible.
  */
-body {
+html, body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
+    height: 100%; /* Asegura que html y body ocupen toda la altura */
+    min-height: 100vh; /* Asegura que html y body ocupen al menos el 100% del viewport */
     background: var(--bg-color); /* Fondo base */
     color: var(--text-dark);
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
     box-sizing: border-box;
     overflow: hidden; /* Evita barras de desplazamiento en el cuerpo */
     /* Sutil gradiente radial para añadir profundidad al fondo, creando un "escenario" para el neumorfismo */
@@ -66,15 +67,14 @@ body, html {
 
 
 /*
- * Contenedor principal que ahora ocupa toda la pantalla, sin simular un marco de dispositivo.
- * Se eliminan los bordes redondeados y sombras que daban el aspecto de "teléfono".
+ * Contenedor principal que ahora simula un marco de dispositivo en pantallas grandes.
  */
 .app-frame {
-    width: 100vw; /* Ocupa el 100% del ancho del viewport */
-    height: 100vh; /* Ocupa el 100% del alto del viewport */
-    background-color: var(--bg-color);
-    border-radius: 0; /* Sin bordes redondeados para simular teléfono */
-    box-shadow: none; /* Sin sombras para simular teléfono */
+    width: 390px; /* Ancho de un iPhone moderno para simular dispositivo */
+    height: 844px; /* Alto de un iPhone moderno para simular dispositivo */
+    background-color: var(--bg-color); /* Usa el color de fondo principal */
+    border-radius: 48px; /* Bordes redondeados pronunciados para el marco del dispositivo */
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6); /* Sombra difusa y fuerte para el dispositivo */
     overflow: hidden; /* Oculta el contenido fuera del marco */
     display: flex;
     flex-direction: column;
@@ -95,8 +95,8 @@ body, html {
     color: var(--text-dark);
     font-size: 0.95em;
     font-weight: 500;
-    border-top-left-radius: 0; /* Sin bordes redondeados */
-    border-top-right-radius: 0; /* Sin bordes redondeados */
+    border-top-left-radius: 40px; /* Ajusta al radio del app-frame */
+    border-top-right-radius: 40px; /* Ajusta al radio del app-frame */
     box-shadow: inset 3px 3px 7px var(--dark-shadow), inset -3px -3px 7px var(--light-shadow);
     z-index: 10;
 }
@@ -108,17 +108,16 @@ body, html {
 }
 
 /*
- * Área de contenido principal con desplazamiento.
- * Padding ajustado para una composición visual equilibrada.
+ * Área de contenido principal. Ahora con overflow: hidden para evitar barras de desplazamiento.
  */
 .app-content {
     flex-grow: 1;
-    overflow-y: auto;
+    overflow-y: hidden; /* Cambiado a hidden para eliminar la barra de desplazamiento */
     padding: 20px;
     background-color: var(--bg-color);
     padding-top: 20px; /* Ajustado para eliminar el espacio de la barra de estado */
     padding-bottom: calc(var(--nav-bar-height) + 20px);
-    -webkit-overflow-scrolling: touch; /* Desplazamiento suave en iOS */
+    -webkit-overflow-scrolling: touch; /* Desplazamiento suave en iOS (si se reintroduce overflow) */
 }
 
 /*
@@ -323,7 +322,8 @@ body, html {
     background-color: rgba(42, 0, 79, 0.7); /* Fondo semi-transparente */
     backdrop-filter: blur(20px); /* Efecto de cristal esmerilado */
     -webkit-backdrop-filter: blur(20px); /* Compatibilidad con WebKit */
-    border-radius: 0; /* Sin bordes redondeados */
+    border-bottom-left-radius: 40px; /* Ajusta al radio del app-frame */
+    border-bottom-right-radius: 40px; /* Ajusta al radio del app-frame */
     display: flex; /* Direct flex container for items */
     align-items: flex-end; /* Alinea los ítems en la parte inferior para que crezcan hacia arriba */
     box-shadow: inset 3px 3px 7px var(--dark-shadow), inset -3px -3px 7px var(--light-shadow); /* Sombra interna neumórfica */
@@ -780,11 +780,37 @@ body, html {
 /*
  * Media Queries para una Responsividad Impecable.
  * Ahora, las media queries se centran en ajustar el diseño para pantallas más pequeñas,
- * ya que el diseño base ya es de pantalla completa.
+ * y el diseño base es el marco de dispositivo.
  */
-@media (min-width: 800px) {
-    /* No hay cambios específicos para .app-frame o status-bar en desktop,
-       ya que el diseño base ya es de pantalla completa */
+@media (max-width: 799px), (max-height: 899px) { /* Para pantallas más pequeñas que 800px de ancho o 900px de alto */
+    .app-frame {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .status-bar {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    .nav-bar {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    #floating-deploy-button {
+        right: 20px; /* Menos espacio desde el borde derecho */
+        bottom: 100px; /* Menos espacio desde abajo para no chocar con el dock */
+        width: 110px; /* Más pequeño */
+        height: 45px; /* Más pequeño */
+        font-size: 0.75em; /* Fuente más pequeña */
+        padding: 6px 12px; /* Padding más reducido */
+    }
+    #floating-deploy-button i {
+        font-size: 1.2em; /* Icono más pequeño en móvil */
+    }
+}
+
+@media (min-width: 800px) and (min-height: 900px) { /* Para pantallas grandes (desktop) */
     .nav-bar {
         bottom: 30px; /* Elevar un poco el dock en pantallas grandes */
         height: 85px; /* Ligeramente más alto */
@@ -810,39 +836,6 @@ body, html {
     }
     #floating-deploy-button i {
         font-size: 1.5em; /* Icono un poco más pequeño en desktop */
-    }
-}
-
-@media (max-width: 799px) { /* Para pantallas más pequeñas que 800px (móvil y tablet) */
-    .app-frame {
-        /* Ya es 100vw/100vh por defecto, no necesita redefinición */
-    }
-    .status-bar {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-    }
-    .nav-bar {
-        bottom: 0; /* Pegado al fondo en móvil */
-        border-radius: 0; /* Sin bordes redondeados en móvil */
-        padding: 0 10px; /* Ajuste de padding */
-        transform: none; /* Eliminar cualquier transformación 3D */
-    }
-    .nav-item i {
-        font-size: 1.5em;
-    }
-    .nav-item span {
-        transform: translateY(-40px);
-    }
-    #floating-deploy-button {
-        right: 20px; /* Menos espacio desde el borde derecho */
-        bottom: 100px; /* Menos espacio desde abajo para no chocar con el dock */
-        width: 110px; /* Más pequeño */
-        height: 45px; /* Más pequeño */
-        font-size: 0.75em; /* Fuente más pequeña */
-        padding: 6px 12px; /* Padding más reducido */
-    }
-    #floating-deploy-button i {
-        font-size: 1.2em; /* Icono más pequeño en móvil */
     }
 }
 
