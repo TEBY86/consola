@@ -103,23 +103,22 @@ body, html {
 
 
 /*
- * Contenedor principal que ahora simula un marco de dispositivo en pantallas grandes.
+ * Contenedor principal que ahora se extiende a pantalla completa.
  */
 .app-frame {
     width: 100%; /* Ocupa todo el ancho disponible */
     height: 100%; /* Ocupa toda la altura disponible */
-    max-width: 390px; /* Ancho máximo de un iPhone moderno para simular dispositivo */
-    max-height: 844px; /* Alto máximo de un iPhone moderno para simular dispositivo */
+    /* REMOVIDO: max-width y max-height para permitir que se expanda */
     background-color: var(--bg-color); /* Usa el color de fondo principal */
-    border-radius: 48px; /* Bordes redondeados pronunciados para el marco del dispositivo */
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6); /* Sombra difusa y fuerte para el dispositivo */
+    border-radius: 20px; /* Bordes redondeados sutiles para un look moderno */
+    /* REMOVIDO: box-shadow externa, ya que ahora es el fondo principal */
     overflow: hidden; /* Oculta el contenido fuera del marco */
     display: flex;
     flex-direction: column;
     position: relative;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición suave para redimensionamiento */
     flex-shrink: 0; /* Evita que el marco de la aplicación se encoja */
-    padding: 15px; /* Añade un padding para simular los biseles del dispositivo en pantallas pequeñas */
+    padding: 15px; /* Añade un padding para que el contenido no toque los bordes del viewport */
 }
 
 /*
@@ -135,8 +134,9 @@ body, html {
     color: var(--text-dark);
     font-size: 0.95em;
     font-weight: 500;
-    border-top-left-radius: 40px; /* Ajusta al radio del app-frame */
-    border-top-right-radius: 40px; /* Ajusta al radio del app-frame */
+    /* Ajusta al nuevo radio del app-frame */
+    border-top-left-radius: 20px; 
+    border-top-right-radius: 20px; 
     box-shadow: inset 3px 3px 7px var(--dark-shadow), inset -3px -3px 7px var(--light-shadow);
     z-index: 10;
 }
@@ -375,8 +375,9 @@ body, html {
     background-color: rgba(26, 0, 48, 0.7); /* Fondo semi-transparente, ajustado al nuevo color */
     backdrop-filter: blur(20px); /* Efecto de cristal esmerilado */
     -webkit-backdrop-filter: blur(20px); /* Compatibilidad con WebKit */
-    border-bottom-left-radius: 40px; /* Ajusta al radio del app-frame */
-    border-bottom-right-radius: 40px; /* Ajusta al radio del app-frame */
+    /* Ajusta al nuevo radio del app-frame */
+    border-bottom-left-radius: 20px; 
+    border-bottom-right-radius: 20px; 
     display: flex; /* Direct flex container for items */
     align-items: flex-end; /* Alinea los ítems en la parte inferior para que crezcan hacia arriba */
     box-shadow: inset 3px 3px 7px var(--dark-shadow), inset -3px -3px 7px var(--light-shadow); /* Sombra interna neumórfica */
