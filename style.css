@@ -4,12 +4,12 @@
  * más profundo y sofisticado, con un contraste óptimo y un toque premium.
  */
 :root {
-    --bg-color: #2A004F; /* Púrpura oscuro para el fondo y elementos principales */
+    --bg-color: #1A0030; /* Púrpura muy oscuro, casi negro, para el fondo y elementos principales */
     --primary-accent: #FF00FF; /* Fucsia vibrante para el brillo principal (WOM) */
     --secondary-accent: #A000A0; /* Un fucsia-magenta ligeramente más oscuro para acentos sutiles */
     --tertiary-accent: #00FFFF; /* Cian vibrante para un contraste dinámico */
-    --light-shadow: #380060; /* Sombra clara para el efecto neumórfico (arriba-izquierda) */
-    --dark-shadow: #1A002F; /* Sombra oscura para el efecto neumórfico (abajo-derecha) */
+    --light-shadow: #300050; /* Sombra clara para el efecto neumórfico (arriba-izquierda), ajustada al nuevo fondo */
+    --dark-shadow: #0A0018; /* Sombra oscura para el efecto neumórfico (abajo-derecha), ajustada al nuevo fondo */
     --text-light: #FFFFFF; /* Texto principal blanco para máxima legibilidad */
     --text-dark: #E0E0E0; /* Texto secundario ligeramente grisáceo, aún brillante */
     --border-radius-lg: 32px; /* Radio de borde grande para contenedores principales */
@@ -22,9 +22,9 @@
 
     /* Nuevas variables para el estilo de modal de la imagen (glassmorphism) */
     /* Ajustados a RGBA para mayor transparencia en el contenido del modal */
-    --modal-bg-gradient-start: rgba(58, 0, 111, 0.85); /* Púrpura más claro con 85% de opacidad */
-    --modal-bg-gradient-end: rgba(106, 0, 160, 0.85); /* Púrpura más intenso con 85% de opacidad */
-    --modal-input-border: #8A00C0; /* Borde de input más claro */
+    --modal-bg-gradient-start: rgba(26, 0, 48, 0.85); /* Púrpura más claro con 85% de opacidad, ajustado */
+    --modal-bg-gradient-end: rgba(50, 0, 80, 0.85); /* Púrpura más intenso con 85% de opacidad, ajustado */
+    --modal-input-border: #600090; /* Borde de input más claro, ajustado */
     --modal-input-text: #E0E0E0; /* Color de texto para inputs */
     --modal-button-gradient-start: #FF00FF; /* Fucsia para el inicio del botón */
     --modal-button-gradient-end: #8A00C0; /* Púrpura para el final del botón */
@@ -51,7 +51,15 @@ html, body {
     box-sizing: border-box;
     overflow: hidden; /* Evita barras de desplazamiento en el cuerpo */
     /* Sutil gradiente radial para añadir profundidad al fondo, creando un "escenario" para el neumorfismo */
-    background: radial-gradient(circle at 50% 50%, #350065 0%, var(--bg-color) 100%);
+    background: radial-gradient(circle at 50% 50%, #250040 0%, var(--bg-color) 100%); /* Ajustado al nuevo color */
+
+    /* Propiedades para evitar la selección de texto al tocar con el dedo */
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Safari */
+    -khtml-user-select: none;    /* Konqueror HTML */
+    -moz-user-select: none;      /* Old versions of Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
 /* Ocultar barra de desplazamiento para navegadores basados en WebKit (Chrome, Safari) */
@@ -108,16 +116,16 @@ body, html {
 }
 
 /*
- * Área de contenido principal. Ahora con overflow: hidden para evitar barras de desplazamiento.
+ * Área de contenido principal. Ahora con overflow: auto para permitir el desplazamiento interno.
  */
 .app-content {
     flex-grow: 1;
-    overflow-y: hidden; /* Cambiado a hidden para eliminar la barra de desplazamiento */
+    overflow-y: auto; /* Cambiado a auto para permitir el desplazamiento interno */
     padding: 20px;
     background-color: var(--bg-color);
     padding-top: 20px; /* Ajustado para eliminar el espacio de la barra de estado */
     padding-bottom: calc(var(--nav-bar-height) + 20px);
-    -webkit-overflow-scrolling: touch; /* Desplazamiento suave en iOS (si se reintroduce overflow) */
+    -webkit-overflow-scrolling: touch; /* Desplazamiento suave en iOS */
 }
 
 /*
@@ -319,7 +327,7 @@ body, html {
     left: 0;
     right: 0;
     height: var(--nav-bar-height);
-    background-color: rgba(42, 0, 79, 0.7); /* Fondo semi-transparente */
+    background-color: rgba(26, 0, 48, 0.7); /* Fondo semi-transparente, ajustado al nuevo color */
     backdrop-filter: blur(20px); /* Efecto de cristal esmerilado */
     -webkit-backdrop-filter: blur(20px); /* Compatibilidad con WebKit */
     border-bottom-left-radius: 40px; /* Ajusta al radio del app-frame */
@@ -802,7 +810,7 @@ body, html {
         bottom: 100px; /* Menos espacio desde abajo para no chocar con el dock */
         width: 110px; /* Más pequeño */
         height: 45px; /* Más pequeño */
-        font-size: 0.75em; /* Fuente más pequeña */
+        font-size: 0.75em; /* Fuente más pequeña para asegurar que quepa */
         padding: 6px 12px; /* Padding más reducido */
     }
     #floating-deploy-button i {
