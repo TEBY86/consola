@@ -329,7 +329,7 @@ body, html {
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    width: calc(100% - 60px);
+    width: calc(100% - 40px); /* Ajustado de 60px a 40px para mejor alineación */
     margin: 0 auto 30px auto;
     display: block;
     will-change: transform, box-shadow;
