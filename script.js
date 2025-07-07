@@ -144,8 +144,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Ocultar overlay de carga
-            loadingOverlay.style.opacity = '0';
-            loadingOverlay.addEventListener('transitionend', () => loadingOverlay.remove());
+            if (loadingOverlay) { // Asegurarse de que el elemento existe antes de interactuar
+                loadingOverlay.style.opacity = '0';
+                loadingOverlay.addEventListener('transitionend', function handler() {
+                    console.log('Loading overlay transition ended. Removing overlay.');
+                    loadingOverlay.remove();
+                    loadingOverlay.removeEventListener('transitionend', handler); // Limpiar el listener
+                });
+            } else {
+                console.warn('loadingOverlay no encontrado.');
+            }
 
             // Aplicación inicial del efecto del dock
             if (navItems.length > 0) {
@@ -167,151 +175,187 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // --- Manejadores de Eventos para el Modal de Acceso Inicial ---
-        requestNewCodeButton.addEventListener('click', () => {
-            console.log('Botón "Solicitar Nuevo Código" clickeado.');
-            showRequestDetailsSection();
-        });
+        if (requestNewCodeButton) {
+            requestNewCodeButton.addEventListener('click', () => {
+                console.log('Botón "Solicitar Nuevo Código" clickeado.');
+                showRequestDetailsSection();
+            });
+            console.log('Listener para requestNewCodeButton adjunto.');
+        } else { console.warn('requestNewCodeButton no encontrado.'); }
 
-        backToCodeEntryButton.addEventListener('click', () => {
-            console.log('Botón "Volver" clickeado en solicitud.');
-            showInitialAccessSection();
-        });
+        if (backToCodeEntryButton) {
+            backToCodeEntryButton.addEventListener('click', () => {
+                console.log('Botón "Volver" clickeado en solicitud.');
+                showInitialAccessSection();
+            });
+            console.log('Listener para backToCodeEntryButton adjunto.');
+        } else { console.warn('backToCodeEntryButton no encontrado.'); }
 
-        sendRequestButton.addEventListener('click', () => {
-            console.log('Botón "Enviar Solicitud por WhatsApp" clickeado.');
-            const userName = userNameInput.value.trim();
-            const userPhone = userPhoneInput.value.trim();
+        if (sendRequestButton) {
+            sendRequestButton.addEventListener('click', () => {
+                console.log('Botón "Enviar Solicitud por WhatsApp" clickeado.');
+                const userName = userNameInput.value.trim();
+                const userPhone = userPhoneInput.value.trim();
 
-            if (!userName || !userPhone) {
-                showCustomMessageBox('Por favor, completa todos los campos para solicitar acceso.', 'error');
-                return;
-            }
+                if (!userName || !userPhone) {
+                    showCustomMessageBox('Por favor, completa todos los campos para solicitar acceso.', 'error');
+                    return;
+                }
 
-            if (!isValidChileanPhoneNumber(userPhone)) {
-                showCustomMessageBox('Por favor, ingresa un número de teléfono válido (ej: 56912345678).', 'error');
-                return;
-            }
+                if (!isValidChileanPhoneNumber(userPhone)) {
+                    showCustomMessageBox('Por favor, ingresa un número de teléfono válido (ej: 56912345678).', 'error');
+                    return;
+                }
 
-            const messageForAdmin = `Solicitud de acceso a Consola WOM Venta:\n\nNombre: ${userName}\nTeléfono: ${userPhone}\n\nPor favor, envíame un código único de acceso.`;
-            
-            const whatsappUrl = `https://wa.me/${adminWhatsappNumber}?text=${encodeURIComponent(messageForAdmin)}`;
-            window.open(whatsappUrl, '_blank');
+                const messageForAdmin = `Solicitud de acceso a Consola WOM Venta:\n\nNombre: ${userName}\nTeléfono: ${userPhone}\n\nPor favor, envíame un código único de acceso.`;
+                
+                const whatsappUrl = `https://wa.me/${adminWhatsappNumber}?text=${encodeURIComponent(messageForAdmin)}`;
+                window.open(whatsappUrl, '_blank');
 
-            showInitialAccessSection(); // Vuelve a la sección de ingreso de código después de enviar la solicitud
-            initialModalMessage.textContent = '¡Solicitud enviada! Espera el código único que te enviaremos por WhatsApp.';
-            initialModalMessage.style.display = 'block'; // Muestra el mensaje de éxito
-            showCustomMessageBox('¡Solicitud enviada! Espera el código por WhatsApp.', 'info');
-        });
+                showInitialAccessSection(); // Vuelve a la sección de ingreso de código después de enviar la solicitud
+                initialModalMessage.textContent = '¡Solicitud enviada! Espera el código único que te enviaremos por WhatsApp.';
+                initialModalMessage.style.display = 'block'; // Muestra el mensaje de éxito
+                showCustomMessageBox('¡Solicitud enviada! Espera el código por WhatsApp.', 'info');
+            });
+            console.log('Listener para sendRequestButton adjunto.');
+        } else { console.warn('sendRequestButton no encontrado.'); }
 
-        accessButton.addEventListener('click', () => {
-            console.log('Botón "LOGIN" clickeado en modal de acceso.');
-            const enteredCode = uniqueCodeInput.value.trim();
-            console.log(`Depuración de Login: Código ingresado "${enteredCode}", Código correcto (almacenado) "${correctUniqueCode}"`);
+        if (accessButton) {
+            accessButton.addEventListener('click', () => {
+                console.log('Botón "LOGIN" clickeado en modal de acceso.');
+                const enteredCode = uniqueCodeInput.value.trim();
+                console.log(`Depuración de Login: Código ingresado "${enteredCode}", Código correcto (almacenado) "${correctUniqueCode}"`);
 
-            if (enteredCode === correctUniqueCode) {
-                console.log('Código correcto. Acceso concedido.');
-                initialAccessModal.classList.remove('show');
-                showCustomMessageBox('¡Acceso concedido! Bienvenido.', 'success');
-                localStorage.setItem('hasAccessedBefore', 'true'); // Guarda el estado de acceso
-                uniqueCodeInput.value = ''; // Limpia el campo de entrada
-                initialModalMessage.style.display = 'none'; // Oculta el mensaje si estaba visible
-            } else {
-                console.log('Código incorrecto.');
-                showCustomMessageBox('Código incorrecto. Inténtalo de nuevo.', 'error');
-                initialModalMessage.textContent = 'Código incorrecto. Inténtalo de nuevo.';
-                initialModalMessage.style.display = 'block'; // Muestra el mensaje de error
-            }
-        });
+                if (enteredCode === correctUniqueCode) {
+                    console.log('Código correcto. Acceso concedido.');
+                    initialAccessModal.classList.remove('show');
+                    showCustomMessageBox('¡Acceso concedido! Bienvenido.', 'success');
+                    localStorage.setItem('hasAccessedBefore', 'true'); // Guarda el estado de acceso
+                    uniqueCodeInput.value = ''; // Limpia el campo de entrada
+                    initialModalMessage.style.display = 'none'; // Oculta el mensaje si estaba visible
+                } else {
+                    console.log('Código incorrecto.');
+                    showCustomMessageBox('Código incorrecto. Inténtalo de nuevo.', 'error');
+                    initialModalMessage.textContent = 'Código incorrecto. Inténtalo de nuevo.';
+                    initialModalMessage.style.display = 'block'; // Muestra el mensaje de error
+                }
+            });
+            console.log('Listener para accessButton adjunto.');
+        } else { console.warn('accessButton no encontrado.'); }
+
 
         // --- Manejadores de Eventos para el Modal de Acceso de Administrador ---
-        adminLoginForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            console.log('Formulario de login de administrador enviado.');
+        if (adminLoginForm) {
+            adminLoginForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                console.log('Formulario de login de administrador enviado.');
 
-            const enteredAdminPassword = adminPasswordInput.value.trim();
-            console.log("Contraseña de Administrador Ingresada:", enteredAdminPassword);
+                const enteredAdminPassword = adminPasswordInput.value.trim();
+                console.log("Contraseña de Administrador Ingresada:", enteredAdminPassword);
 
-            if (enteredAdminPassword === adminPassword) {
-                console.log('Contraseña de administrador correcta.');
-                isAdminLoggedIn = true;
-                adminLoginModal.classList.remove('show');
-                adminLoginMessage.textContent = '';
-                adminLoginMessage.style.display = 'none'; // Oculta el mensaje
-                showCustomMessageBox('Acceso de administrador concedido.', 'success');
-                if (rememberMeCheckbox.checked) {
-                    localStorage.setItem('adminRemembered', 'true');
+                if (enteredAdminPassword === adminPassword) {
+                    console.log('Contraseña de administrador correcta.');
+                    isAdminLoggedIn = true;
+                    adminLoginModal.classList.remove('show');
+                    adminLoginMessage.textContent = '';
+                    adminLoginMessage.style.display = 'none'; // Oculta el mensaje
+                    showCustomMessageBox('Acceso de administrador concedido.', 'success');
+                    if (rememberMeCheckbox.checked) {
+                        localStorage.setItem('adminRemembered', 'true');
+                    } else {
+                        localStorage.removeItem('adminRemembered');
+                    }
                 } else {
-                    localStorage.removeItem('adminRemembered');
+                    console.log('Contraseña de administrador incorrecta.');
+                    adminLoginMessage.textContent = 'Contraseña incorrecta.';
+                    adminLoginMessage.style.display = 'block'; // Muestra el mensaje de error
+                    showCustomMessageBox('Contraseña de administrador incorrecta.', 'error');
                 }
-            } else {
-                console.log('Contraseña de administrador incorrecta.');
-                adminLoginMessage.textContent = 'Contraseña incorrecta.';
-                adminLoginMessage.style.display = 'block'; // Muestra el mensaje de error
-                showCustomMessageBox('Contraseña de administrador incorrecta.', 'error');
-            }
-        });
+            });
+            console.log('Listener para adminLoginForm adjunto.');
+        } else { console.warn('adminLoginForm no encontrado.'); }
 
-        forgotPasswordLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            console.log('Enlace "¿Olvidaste tu contraseña?" clickeado.');
-            showCustomMessageBox('Por favor, contacta al administrador para restablecer tu contraseña.', 'info');
-        });
+        if (forgotPasswordLink) {
+            forgotPasswordLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                console.log('Enlace "¿Olvidaste tu contraseña?" clickeado.');
+                showCustomMessageBox('Por favor, contacta al administrador para restablecer tu contraseña.', 'info');
+            });
+            console.log('Listener para forgotPasswordLink adjunto.');
+        } else { console.warn('forgotPasswordLink no encontrado.'); }
 
         // --- Manejador de Eventos para el Formulario de Actualización de Código (Panel de Admin) ---
-        updateCodeForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            console.log('Formulario de actualización de código enviado.');
+        if (updateCodeForm) {
+            updateCodeForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                console.log('Formulario de actualización de código enviado.');
 
-            const newCode = newUniqueCodeInput.value.trim();
-            if (newCode) {
-                correctUniqueCode = newCode;
-                localStorage.setItem('correctUniqueCode', newCode);
-                
-                lastCodeChangeTimestamp = Date.now(); // Reinicia el timestamp de cambio
-                localStorage.setItem('lastCodeChangeTimestamp', lastCodeChangeTimestamp.toString());
+                const newCode = newUniqueCodeInput.value.trim();
+                if (newCode) {
+                    correctUniqueCode = newCode;
+                    localStorage.setItem('correctUniqueCode', newCode);
+                    
+                    lastCodeChangeTimestamp = Date.now(); // Reinicia el timestamp de cambio
+                    localStorage.setItem('lastCodeChangeTimestamp', lastCodeChangeTimestamp.toString());
 
-                currentUniqueCodeDisplay.textContent = newCode;
-                showCustomMessageBox('Código único actualizado correctamente.', 'success');
-                console.log("Nuevo Código Único guardado:", newCode);
-                console.log("Nuevo Timestamp de Último Cambio de Código:", new Date(lastCodeChangeTimestamp));
+                    currentUniqueCodeDisplay.textContent = newCode;
+                    showCustomMessageBox('Código único actualizado correctamente.', 'success');
+                    console.log("Nuevo Código Único guardado:", newCode);
+                    console.log("Nuevo Timestamp de Último Cambio de Código:", new Date(lastCodeChangeTimestamp));
 
-                forcedAdminUpdateModal.classList.remove('show');
-                adminPanelModal.classList.remove('show');
-                
-                // Fuerza a los usuarios a reautenticarse con el nuevo código
-                localStorage.removeItem('hasAccessedBefore');
-                initialAccessModal.classList.add('show');
-                showInitialAccessSection();
-            } else {
-                showCustomMessageBox('El nuevo código no puede estar vacío.', 'error');
-            }
-        });
+                    forcedAdminUpdateModal.classList.remove('show');
+                    adminPanelModal.classList.remove('show');
+                    
+                    // Fuerza a los usuarios a reautenticarse con el nuevo código
+                    localStorage.removeItem('hasAccessedBefore');
+                    initialAccessModal.classList.add('show');
+                    showInitialAccessSection();
+                } else {
+                    showCustomMessageBox('El nuevo código no puede estar vacío.', 'error');
+                }
+            });
+            console.log('Listener para updateCodeForm adjunto.');
+        } else { console.warn('updateCodeForm no encontrado.'); }
 
         // --- Funcionalidad de Cierre de Modales ---
-        adminPanelCloseButton.addEventListener('click', () => {
-            console.log('Botón de cierre del panel de administración clickeado.');
-            adminPanelModal.classList.remove('show');
-        });
+        if (adminPanelCloseButton) {
+            adminPanelCloseButton.addEventListener('click', () => {
+                console.log('Botón de cierre del panel de administración clickeado.');
+                adminPanelModal.classList.remove('show');
+            });
+            console.log('Listener para adminPanelCloseButton adjunto.');
+        } else { console.warn('adminPanelCloseButton no encontrado.'); }
 
         // Cierra modales al hacer clic fuera de su contenido (excepto forced-admin-update-modal)
-        initialAccessModal.addEventListener('click', (event) => {
-            if (event.target === initialAccessModal) {
-                console.log('Clic fuera del modal de acceso inicial. Cerrando.');
-                initialAccessModal.classList.remove('show');
-            }
-        });
-        adminLoginModal.addEventListener('click', (event) => {
-            if (event.target === adminLoginModal) {
-                console.log('Clic fuera del modal de login de administrador. Cerrando.');
-                adminLoginModal.classList.remove('show');
-            }
-        });
-        adminPanelModal.addEventListener('click', (event) => {
-            if (event.target === adminPanelModal) {
-                console.log('Clic fuera del modal del panel de administración. Cerrando.');
-                adminPanelModal.classList.remove('show');
-            }
-        });
+        if (initialAccessModal) {
+            initialAccessModal.addEventListener('click', (event) => {
+                if (event.target === initialAccessModal) {
+                    console.log('Clic fuera del modal de acceso inicial. Cerrando.');
+                    initialAccessModal.classList.remove('show');
+                }
+            });
+            console.log('Listener para initialAccessModal (cerrar al clic fuera) adjunto.');
+        } else { console.warn('initialAccessModal no encontrado para listener de cierre.'); }
+
+        if (adminLoginModal) {
+            adminLoginModal.addEventListener('click', (event) => {
+                if (event.target === adminLoginModal) {
+                    console.log('Clic fuera del modal de login de administrador. Cerrando.');
+                    adminLoginModal.classList.remove('show');
+                }
+            });
+            console.log('Listener para adminLoginModal (cerrar al clic fuera) adjunto.');
+        } else { console.warn('adminLoginModal no encontrado para listener de cierre.'); }
+
+        if (adminPanelModal) {
+            adminPanelModal.addEventListener('click', (event) => {
+                if (event.target === adminPanelModal) {
+                    console.log('Clic fuera del modal del panel de administración. Cerrando.');
+                    adminPanelModal.classList.remove('show');
+                }
+            });
+            console.log('Listener para adminPanelModal (cerrar al clic fuera) adjunto.');
+        } else { console.warn('adminPanelModal no encontrado para listener de cierre.'); }
         // forcedAdminUpdateModal no tiene listener para cerrar al hacer clic fuera (es un bloqueo informativo)
 
 
@@ -399,6 +443,10 @@ document.addEventListener('DOMContentLoaded', () => {
          */
         function applyDockEffect() {
             // console.log("applyDockEffect ejecutado."); // Descomentar para depurar el efecto del dock
+            if (!navBar) {
+                console.warn('navBar no encontrado para applyDockEffect.');
+                return;
+            }
             const navBarRect = navBar.getBoundingClientRect();
             const navBarCenter = navBarRect.left + navBarRect.width / 2;
             const maxDistanceEffect = navBarRect.width / 2.5; 
@@ -435,18 +483,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     textScale = 0.9;
                 }
 
-                icon.style.transform = `scale(${scale})`;
-                textSpan.style.opacity = textOpacity;
-                textSpan.style.transform = `translateY(${textTranslateY}px) scale(${textScale})`;
+                if (icon) icon.style.transform = `scale(${scale})`;
+                if (textSpan) {
+                    textSpan.style.opacity = textOpacity;
+                    textSpan.style.transform = `translateY(${textTranslateY}px) scale(${textScale})`;
+                }
             });
         }
 
         // Debounce para la función de actualización del ítem centrado
         let scrollTimeout;
-        navBar.addEventListener('scroll', () => {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(applyDockEffect, 50); 
-        });
+        if (navBar) {
+            navBar.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(applyDockEffect, 50); 
+            });
+        } else { console.warn('navBar no encontrado para listener de scroll.'); }
 
         // Llama a applyDockEffect al redimensionar la ventana para ajustar los efectos
         window.addEventListener('resize', applyDockEffect);
@@ -466,11 +518,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (isAdminRequired && !isAdminLoggedIn) {
                 showCustomMessageBox('Acceso denegado. Se requiere acceso de administrador.', 'error');
-                adminLoginModal.classList.add('show'); 
-                adminPasswordInput.value = ''; 
-                adminLoginMessage.textContent = ''; 
-                adminLoginMessage.style.display = 'none';
-                rememberMeCheckbox.checked = false; 
+                if (adminLoginModal) adminLoginModal.classList.add('show'); 
+                if (adminPasswordInput) adminPasswordInput.value = ''; 
+                if (adminLoginMessage) {
+                    adminLoginMessage.textContent = ''; 
+                    adminLoginMessage.style.display = 'none';
+                }
+                if (rememberMeCheckbox) rememberMeCheckbox.checked = false; 
                 return; 
             }
 
@@ -499,9 +553,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'nav-admin':
                     showCustomMessageBox('Abriendo Panel de Administrador...');
-                    adminPanelModal.classList.add('show'); 
-                    currentUniqueCodeDisplay.textContent = correctUniqueCode; 
-                    newUniqueCodeInput.value = correctUniqueCode; 
+                    if (adminPanelModal) adminPanelModal.classList.add('show'); 
+                    if (currentUniqueCodeDisplay) currentUniqueCodeDisplay.textContent = correctUniqueCode; 
+                    if (newUniqueCodeInput) newUniqueCodeInput.value = correctUniqueCode; 
                     break;
                 case 'nav-reports':
                     showCustomMessageBox('Navegando a Reportes...');

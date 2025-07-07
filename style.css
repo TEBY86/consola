@@ -53,6 +53,18 @@ body {
     background: radial-gradient(circle at 50% 50%, #350065 0%, var(--bg-color) 100%);
 }
 
+/* Ocultar barra de desplazamiento para navegadores basados en WebKit (Chrome, Safari) */
+body::-webkit-scrollbar, html::-webkit-scrollbar {
+    display: none;
+}
+
+/* Ocultar barra de desplazamiento para IE, Edge y Firefox */
+body, html {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
 /*
  * Contenedor principal que ahora ocupa toda la pantalla, sin simular un marco de dispositivo.
  * Se eliminan los bordes redondeados y sombras que daban el aspecto de "teléfono".
