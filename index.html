@@ -16,12 +16,12 @@
                     },
                     colors: {
                         'fuchsia-exacto': '#E6007A', /* Color fucsia exacto de la imagen */
-                        'glass-dark': 'rgba(28, 28, 30, 0.75)', /* Fondo oscuro para el efecto de vidrio, más transparente */
+                        'glass-main-bg': 'rgba(255, 255, 255, 0.15)', /* Fondo más claro y translúcido para el efecto de vidrio principal */
                         'text-dark': '#333333', /* Texto oscuro para contraste con fondo blanco */
-                        'text-light-contrast': '#E0E0E0', /* Texto claro para elementos oscuros */
-                        'color-blanco': '#FFFFFF', /* Color blanco explícito para el texto de los botones */
-                        'panel-border': 'rgba(255, 255, 255, 0.1)', /* Borde sutil para paneles de vidrio */
-                        'dock-border': 'rgba(255, 255, 255, 0.18)', /* Borde más sutil para el dock */
+                        'text-light-contrast': '#E0E0E0', /* Texto claro para elementos oscuros (botones) */
+                        'panel-border-light': 'rgba(0, 0, 0, 0.08)', /* Borde sutil y oscuro para paneles de vidrio */
+                        'dock-background': 'rgba(40, 40, 45, 0.5)', /* Fondo del dock, oscuro y semitransparente */
+                        'dock-border': 'rgba(255, 255, 255, 0.12)', /* Borde más sutil para el dock */
                     }
                 }
             }
@@ -46,6 +46,10 @@
             /* Degradado radial muy sutil para añadir profundidad al fondo blanco */
             background-image: radial-gradient(circle at center, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0) 70%);
             overflow-x: hidden; /* Evita el scroll horizontal en el body */
+            user-select: none; /* Deshabilita la selección de texto en toda la página */
+            -webkit-user-select: none; /* Para Safari */
+            -moz-user-select: none; /* Para Firefox */
+            -ms-user-select: none; /* Para IE/Edge */
         }
 
         /* Ajustes de padding para pantallas más grandes */
@@ -80,8 +84,8 @@
         .glass-effect {
             backdrop-filter: blur(35px) saturate(160%); /* Blur y saturación más pronunciados pero elegantes */
             -webkit-backdrop-filter: blur(35px) saturate(160%);
-            background-color: var(--tw-colors-glass-dark); /* Fondo oscuro con transparencia ligeramente menor */
-            border: 1px solid var(--tw-colors-panel-border); /* Borde sutil para definir el vidrio */
+            background-color: var(--tw-colors-glass-main-bg); /* Fondo más claro y translúcido para el efecto de vidrio principal */
+            border: 1px solid var(--tw-colors-panel-border-light); /* Borde sutil y oscuro para paneles de vidrio */
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15), /* Sombra exterior más suave y difusa */
                         inset 0 0 10px rgba(255, 255, 255, 0.05); /* Sombra interior para un brillo sutil */
         }
@@ -136,7 +140,7 @@
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25)); /* Ligeramente más fuerte inicial */
         }
         
-        /* ===== ESTILOS DEL NUEVO DOCK ===== */
+        /* ===== ESTILOS DEL DOCK (NUEVA ESTRUCTURA PARA EFECTO "SALIR") ===== */
         .dock-container {
             position: fixed;
             bottom: 20px;
@@ -144,22 +148,48 @@
             right: 0;
             display: flex;
             justify-content: center;
-            padding: 0 10px;
+            /* El overflow-x: hidden aquí recorta todo el dock si se desborda la pantalla */
+            overflow-x: hidden; 
             z-index: 1000;
         }
 
-        .dock-blur {
+        .dock-wrapper-outer {
+            position: relative; /* Para que el fondo de cristal sea absoluto a este */
             display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 12px 24px;
-            backdrop-filter: blur(20px) saturate(160%);
-            -webkit-backdrop-filter: blur(20px) saturate(160%);
-            background-color: rgba(40, 40, 45, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            align-items: flex-end; /* Alinea los iconos en la parte inferior del wrapper */
+            justify-content: center; /* Centra el wrapper de iconos */
+            padding: 12px 24px 25px 24px; /* Padding para el área del dock, más padding-bottom para que los iconos salgan */
             border-radius: 22px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-            max-width: 90%;
+            max-width: 90%; /* Limita el ancho total del dock */
+            min-width: 200px; /* Asegura un ancho mínimo para el dock */
+            /* NO overflow: hidden aquí para permitir que los iconos salgan */
+        }
+
+        .dock-glass-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            background-color: rgba(40, 40, 45, 0.5); /* Fondo oscuro semitransparente */
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 22px;
+            z-index: 0; /* Asegura que esté detrás de los iconos */
+            overflow: hidden; /* Este sí tiene overflow hidden para recortar el efecto de blur */
+        }
+
+        .dock-icons-wrapper {
+            display: flex;
+            align-items: flex-end; /* Alinea los iconos en la parte inferior del wrapper */
+            gap: 16px;
+            position: relative; /* Para que los iconos puedan tener z-index relativo a este */
+            z-index: 1; /* Asegura que los iconos estén por encima del fondo de cristal */
+            padding: 0; /* Ya tenemos padding en dock-wrapper-outer */
+            transform: translateX(0); /* Base para el scroll manual en móvil */
+            will-change: transform; /* Optimización de rendimiento */
         }
 
         .dock-icon {
@@ -169,30 +199,33 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* Transición para transform y filter, con la misma curva cúbica para fluidez */
             transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.25s ease;
             position: relative;
             cursor: pointer;
-            will-change: transform, filter;
+            will-change: transform, filter, z-index; /* Optimización de rendimiento */
+            z-index: 1; /* Z-index base para los iconos */
         }
 
         .dock-icon svg {
             width: 100%;
             height: 100%;
-            color: white;
+            color: white; /* Color blanco para los iconos del dock */
             filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
             transition: filter 0.25s ease;
         }
 
-        /* ===== ANIMACIONES DEL NUEVO DOCK ===== */
+        /* ===== ANIMACIONES DEL DOCK (DESKTOP) ===== */
         .dock-icon:hover {
             transform: scale(1.6) translateY(-8px); /* Magnificación más pronunciada */
+            z-index: 10; /* Eleva el z-index al hacer hover */
         }
 
         .dock-icon:hover svg {
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
         }
 
-        /* ===== TOOLTIPS DEL NUEVO DOCK ===== */
+        /* ===== TOOLTIPS DEL DOCK ===== */
         .dock-icon::after {
             content: attr(data-tooltip);
             position: absolute;
@@ -210,6 +243,7 @@
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             pointer-events: none;
+            z-index: 11; /* Asegura que el tooltip esté por encima del icono magnificado */
         }
 
         .dock-icon:hover::after {
@@ -217,7 +251,7 @@
             transform: translateY(0);
         }
 
-        /* ===== INDICADOR DE ACTIVO DEL NUEVO DOCK ===== */
+        /* ===== INDICADOR DE ACTIVO DEL DOCK ===== */
         .dock-icon.active::before {
             content: '';
             position: absolute;
@@ -228,60 +262,33 @@
             border-radius: 50%;
         }
 
-        /* ===== EFECTO EN CADENA DEL NUEVO DOCK ===== */
+        /* ===== EFECTO EN CADENA DEL DOCK (DESKTOP) ===== */
         .adjacent-effect {
             transform: scale(1.25) translateY(-5px); /* Ajuste para un efecto adyacente más notorio */
             transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        /* ===== VERSIÓN MÓVIL DEL NUEVO DOCK ===== */
+        /* ===== VERSIÓN MÓVIL DEL DOCK (OPTIMIZACIÓN) ===== */
         @media (max-width: 768px) {
-            .dock-container {
-                justify-content: flex-start;
-                padding: 0 10px;
-                overflow-x: auto;
-                scrollbar-width: none; /* Firefox */
-                -ms-overflow-style: none; /* IE/Edge */
+            .dock-wrapper-outer {
+                max-width: 95%; /* Ajuste para que el dock no sea demasiado ancho en pantallas pequeñas */
+                padding: 8px 16px 20px 16px; /* Padding reducido para móvil, más padding-bottom */
             }
-            
-            .dock-container::-webkit-scrollbar {
-                display: none; /* Chrome/Safari */
+
+            .dock-icons-wrapper {
+                gap: 12px; /* Espacio reducido entre iconos en móvil */
             }
-            
-            .dock-blur {
-                padding: 10px 20px;
-                gap: 14px;
-                max-width: none;
-                width: auto;
-                overflow-x: auto;
-                scroll-snap-type: x proximity;
-            }
-            
+
             .dock-icon {
                 width: 36px; /* Iconos más pequeños en móvil */
                 height: 36px;
                 min-width: 36px;
-                scroll-snap-align: center;
             }
             
-            .dock-icon:hover {
-                transform: scale(1.5) translateY(-5px); /* Magnificación ajustada para móvil */
-            }
-            
-            .adjacent-effect {
-                transform: scale(1.15) translateY(-3px); /* Efecto en cadena aún más sutil en móvil */
-            }
-            
+            /* Ajustar tooltip position for mobile's dynamic scaling */
             .dock-icon::after {
                 font-size: 11px;
-                bottom: 45px; /* Ajuste de posición del tooltip en móvil */
-            }
-        }
-
-        /* Efecto de acercamiento para móviles (nuevo dock) */
-        @media (hover: none) {
-            .dock-icon:active {
-                transform: scale(1.5) translateY(-5px) !important;
+                bottom: 45px; /* Adjusted for mobile's dynamic scale */
             }
         }
     </style>
@@ -292,18 +299,10 @@
     <div class="flex flex-col items-center justify-center flex-grow w-full max-w-4xl rounded-2xl main-panel-shadow glass-effect p-8 my-4 overflow-hidden
                 md:max-w-5xl lg:max-w-6xl xl:max-w-7xl"> <!-- Ajuste de ancho máximo para pantallas grandes -->
         
-        <!-- Contenedor para el logo y título FreeWork -->
-        <div class="flex flex-col items-center justify-center gap-8 mb-8">
-            <!-- Logo y Título FreeWork -->
-            <div class="flex flex-col items-center">
-                <!-- Logo de FreeWork (incrustado como Base64 para asegurar visibilidad) -->
-                <!-- Este logo es un placeholder. Si deseas tu logo específico, súbelo a un servicio de alojamiento público
-                     (ej. Imgur) y reemplaza esta URL con la URL directa de tu imagen. -->
-                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAoACgDASIAAhEBAxEB/8QAGwAAAgMBAQEAAAAAAAAAAAAAAAUDBAYHAggA/8QAJxAAAgIBBAECBwEBAAAAAAAAAQIDBBEABRIhMQYTQVEUIjJhcaH/xAAZAQADAQEBAAAAAAAAAAAAAAAAAQIDBAX/xAAeEQACAgIDAQEBAAAAAAAAAAAAAQIRAyExEkETIf/aAAwDAQACEQMRAD8A9X6T03H03p9bY6i1+2x1lq8s7N4lkkkYkknz+vM8Z/eP+0X+0L+0b+0z+03+07+0/+0D+0H+0L+0P+0T+0X+0Y/0/8AtI/0/9v8A+0r/AE//AJf/ANM/0//N/+07/T/8AP/8A0D/T/DQf/0T/T/R//0z/T/DTP/9P/DQf/1v/DQf/2f/DQf/3f/DQf/4f/DQf/5f/DQf/6f/DQf/7f/DQf/8f/DQf/9v/DQf/+/wD/2Q==" alt="Logo de FreeWork" class="w-24 h-24 md:w-32 md:h-32 mb-4 object-contain">
-                
-                <!-- Título principal -->
-                <h1 class="text-4xl font-bold text-text-light-contrast text-center text-3xl md:text-4xl">FreeWork</h1>
-            </div>
+        <!-- Contenedor para el título FreeWork (sin logo) -->
+        <div class="flex flex-col items-center justify-center gap-4 mb-8">
+            <!-- Título principal -->
+            <h1 class="text-4xl font-bold text-text-dark text-center text-3xl md:text-4xl">FreeWork</h1>
         </div>
 
         <!-- Área de los 6 botones de la consola -->
@@ -346,7 +345,7 @@
             <!-- Botón 6: Configuración -->
             <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Configuración" onclick="navigateTo('Configuración')">
                 <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.09-.72-1.71-.97l-.36-2.69c-.05-.24-.27-.42-.52-.42h-4c-.25 0-.47.18-.52.42l-.36 2.69c-.62.25-1.19.58-1.71.97l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.39 1.09.72 1.71.97l.36 2.69c.05.24.27.42.52.42h4c.25 0 .47-.18.52-.42l.36-2.69c.62-.25 1.19-.58 1.71-.97l2.49 1c.22.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+                    <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.09-.72-1.71-.97l-.36-2.69c-.05-.24-.27-.42-.52-.42h-4c-.25 0-.47.18-.52.42l-.36 2.69c-.62.25-1.19.58-1.71.97l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.39 1.09.72 1.71.97l.36 2.69c.05.24.27.42.52.42h4c.25 0 .47-.18.52-.42l.36-2.69c.62-.25 1.19-.58 1.71-.97l2.49 1c-.22.09-.49 0-.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
                 </svg>
                 <span class="text-color-blanco text-base md:text-lg font-medium text-center">Configuración</span>
             </button>
@@ -363,97 +362,100 @@
 
     <!-- DOCK PRINCIPAL -->
     <div class="dock-container">
-        <nav class="dock-blur" id="macosDock">
-            <!-- Icono Inicio -->
-            <div class="dock-icon active" 
-                 data-tooltip="Inicio"
-                 data-action="page"
-                 data-button-name="Inicio"> <!-- Añadido data-button-name -->
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                </svg>
-            </div>
-            
-            <!-- Icono Configuración -->
-            <div class="dock-icon" 
-                 data-tooltip="Configuración"
-                 data-action="page"
-                 data-button-name="Configuración"> <!-- Añadido data-button-name -->
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12-.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c-.22-.08-.47 0-.59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
-                </svg>
-            </div>
-            
-            <!-- Icono Informes -->
-            <div class="dock-icon" 
-                 data-tooltip="Informes"
-                 data-action="page"
-                 data-button-name="Informes"> <!-- Añadido data-button-name -->
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
-                </svg>
-            </div>
-            
-            <!-- Icono Desplegar -->
-            <div class="dock-icon" 
-                 data-tooltip="Desplegar"
-                 data-action="page"
-                 data-button-name="Desplegar"> <!-- Añadido data-button-name -->
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                </svg>
-            </div>
-            
-            <!-- Icono Smart -->
-            <div class="dock-icon" 
-                 data-tooltip="Smart"
-                 data-action="page"
-                 data-button-name="Smart"> <!-- Añadido data-button-name -->
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm1-11h-2v6h2V8zm0 8h-2v2h2v-2z"/>
-                </svg>
-            </div>
-            
-            <!-- Icono Agenda -->
-            <div class="dock-icon" 
-                 data-tooltip="Agenda"
-                 data-action="page"
-                 data-button-name="Agenda"> <!-- Añadido data-button-name -->
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
-                </svg>
-            </div>
-            
-            <!-- Icono Correo -->
-            <div class="dock-icon" 
-                 data-tooltip="Correo"
-                 data-action="page"
-                 data-button-name="Correo"> <!-- Añadido data-button-name -->
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                </svg>
-            </div>
-            
-            <!-- Icono Mensajes -->
-            <div class="dock-icon" 
-                 data-tooltip="Mensajes"
-                 data-action="page"
-                 data-button-name="Mensajes"> <!-- Añadido data-button-name -->
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
-                </svg>
-            </div>
-            
-            <!-- Icono Perfil -->
-            <div class="dock-icon" 
-                 data-tooltip="Perfil"
-                 data-action="page"
-                 data-button-name="Perfil"> <!-- Añadido data-button-name -->
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                </svg>
-            </div>
-        </nav>
+        <div class="dock-wrapper-outer">
+            <div class="dock-glass-background"></div>
+            <nav class="dock-icons-wrapper" id="macosDock">
+                <!-- Icono Inicio -->
+                <div class="dock-icon active" 
+                     data-tooltip="Inicio"
+                     data-action="page"
+                     data-button-name="Inicio">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                </div>
+                
+                <!-- Icono Configuración -->
+                <div class="dock-icon" 
+                     data-tooltip="Configuración"
+                     data-action="page"
+                     data-button-name="Configuración">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12-.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39-.96c-.22-.08-.47 0-.59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    </svg>
+                </div>
+                
+                <!-- Icono Informes -->
+                <div class="dock-icon" 
+                     data-tooltip="Informes"
+                     data-action="page"
+                     data-button-name="Informes">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
+                </div>
+                
+                <!-- Icono Desplegar -->
+                <div class="dock-icon" 
+                     data-tooltip="Desplegar"
+                     data-action="page"
+                     data-button-name="Desplegar">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                    </svg>
+                </div>
+                
+                <!-- Icono Smart -->
+                <div class="dock-icon" 
+                     data-tooltip="Smart"
+                     data-action="page"
+                     data-button-name="Smart">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm1-11h-2v6h2V8zm0 8h-2v2h2v-2z"/>
+                    </svg>
+                </div>
+                
+                <!-- Icono Agenda -->
+                <div class="dock-icon" 
+                     data-tooltip="Agenda"
+                     data-action="page"
+                     data-button-name="Agenda">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
+                    </svg>
+                </div>
+                
+                <!-- Icono Correo -->
+                <div class="dock-icon" 
+                     data-tooltip="Correo"
+                     data-action="page"
+                     data-button-name="Correo">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                </div>
+                
+                <!-- Icono Mensajes -->
+                <div class="dock-icon" 
+                     data-tooltip="Mensajes"
+                     data-action="page"
+                     data-button-name="Mensajes">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+                    </svg>
+                </div>
+                
+                <!-- Icono Perfil -->
+                <div class="dock-icon" 
+                     data-tooltip="Perfil"
+                     data-action="page"
+                     data-button-name="Perfil">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                    </svg>
+                </div>
+            </nav>
+        </div>
     </div>
 
     <script>
@@ -519,18 +521,136 @@
             });
 
             // Lógica para el nuevo Dock macOS
-            const dock = document.getElementById('macosDock');
-            const icons = dock.querySelectorAll('.dock-icon');
+            const dockIconsWrapper = document.getElementById('macosDock'); // Ahora es el wrapper de iconos
+            const icons = dockIconsWrapper.querySelectorAll('.dock-icon');
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
             
-            // Efecto en cadena al pasar el mouse (solo en desktop)
-            if (!isMobile) {
+            /**
+             * Aplica efectos de magnificación a los iconos del dock en dispositivos móviles
+             * basándose en su proximidad al centro de la vista del dock.
+             */
+            const applyMobileDockEffects = () => {
+                if (!isMobile) return; // Solo aplica en móvil
+
+                const dockWrapperRect = dockIconsWrapper.getBoundingClientRect();
+                // Calcular el centro de la parte visible del dock (viewport)
+                const viewportCenterX = window.innerWidth / 2; 
+
                 icons.forEach(icon => {
-                    icon.addEventListener('mouseenter', () => {
-                        const index = Array.from(icons).indexOf(icon);
-                        console.log(`Mouse ENTER en icono: ${icon.getAttribute('data-tooltip')}`); // Log para depuración
+                    const iconRect = icon.getBoundingClientRect();
+                    // Calcular el centro del icono en relación con el viewport
+                    const iconCenterXInViewport = iconRect.left + (iconRect.width / 2);
+                    const distance = Math.abs(viewportCenterX - iconCenterXInViewport);
+
+                    // Definir el rango de efecto (ej. un porcentaje del ancho del viewport)
+                    const maxDistance = window.innerWidth * 0.35; // El efecto se extiende hasta el 35% del ancho del viewport desde el centro
+                    const normalizedDistance = Math.min(1, distance / maxDistance); // Normaliza la distancia a un valor entre 0 y 1
+
+                    // Calcular la escala: más cerca del centro (normalizedDistance = 0) = escala máxima
+                    // Más lejos (normalizedDistance = 1) = escala mínima
+                    const maxScale = 2.5; // Escala máxima para el icono en el centro (AUMENTADO AÚN MÁS)
+                    const minScale = 1.0; // Escala mínima para iconos fuera del rango de efecto
+                    const scale = maxScale - (normalizedDistance * (maxScale - minScale));
+
+                    // Calcular la elevación: más magnificado = más elevado
+                    const maxElevation = -25; // Elevación máxima para el icono en el centro (AUMENTADO AÚN MÁS)
+                    const minElevation = 0; // Elevación mínima para iconos fuera del rango de efecto
+                    const elevation = maxElevation - (normalizedDistance * (maxElevation - minElevation));
+
+                    icon.style.transform = `scale(${scale}) translateY(${elevation}px)`;
+                    icon.style.zIndex = Math.round(scale * 10); // Asigna un z-index más alto al icono magnificado
+                    
+                    // Ajustar la sombra del icono basada en la escala para que sea más pronunciada en el centro
+                    const shadowOpacity = 0.4 + (1 - normalizedDistance) * 0.5; // Opacidad de 0.4 a 0.9 (AUMENTADO)
+                    const shadowBlur = 6 + (1 - normalizedDistance) * 10; // Blur de 6px a 16px (AUMENTADO)
+                    icon.querySelector('svg').style.filter = `drop-shadow(0 ${shadowBlur/2}px ${shadowBlur}px rgba(0, 0, 0, ${shadowOpacity}))`;
+                });
+            };
+
+            // Manual scrolling variables for mobile dock
+            let isDragging = false;
+            let startPos = 0;
+            let currentTranslate = 0;
+            let prevTranslate = 0;
+
+            function touchStart(event) {
+                isDragging = true;
+                startPos = event.touches[0].clientX;
+                // Get the current transformX value from the element
+                const transformMatrix = window.getComputedStyle(dockIconsWrapper).getPropertyValue('transform');
+                if (transformMatrix && transformMatrix !== 'none') {
+                    prevTranslate = parseFloat(transformMatrix.split(',')[4]); // Extract translateX value
+                } else {
+                    prevTranslate = 0;
+                }
+                // Store initial touch position for delta calculation in touchmove
+                event.target._startX = event.touches[0].clientX;
+                event.target._startY = event.touches[0].clientY;
+            }
+
+            function touchMove(event) {
+                if (!isDragging) return;
+
+                // Only prevent default if the movement is predominantly horizontal
+                const touch = event.touches[0];
+                const deltaX = Math.abs(touch.clientX - (event.target._startX || touch.clientX));
+                const deltaY = Math.abs(touch.clientY - (event.target._startY || touch.clientY));
+                if (deltaX > deltaY) {
+                    event.preventDefault();
+                } else {
+                    // If vertical scroll, let it happen
+                    isDragging = false; // Stop dragging if movement becomes vertical
+                    return;
+                }
+
+                const currentPosition = event.touches[0].clientX;
+                const diff = currentPosition - startPos;
+                currentTranslate = prevTranslate + diff;
+
+                // Clamp the translation to prevent scrolling too far
+                const dockIconsWidth = dockIconsWrapper.scrollWidth; // Actual content width (sum of icons + gaps)
+                const dockContainerWidth = dockIconsWrapper.parentElement.clientWidth; // Visible width of the outer wrapper
+
+                // Calculate the maximum negative translation allowed (when content is scrolled fully left)
+                // This ensures the rightmost icon is visible
+                const minTranslate = Math.min(0, dockContainerWidth - dockIconsWidth);
+                const maxTranslate = 0; // Cannot scroll further right than 0 (leftmost icon visible)
+
+                currentTranslate = Math.max(minTranslate, Math.min(maxTranslate, currentTranslate));
+
+                dockIconsWrapper.style.transform = `translateX(${currentTranslate}px)`;
+                applyMobileDockEffects(); // Apply effects during scroll
+            }
+
+            function touchEnd() {
+                isDragging = false;
+                // Re-apply effects at the end of the drag to ensure final state
+                applyMobileDockEffects();
+            }
+
+            if (isMobile) {
+                // Remove existing listeners if any from previous iterations
+                icons.forEach((oldIcon, index) => {
+                    const newIcon = oldIcon.cloneNode(true);
+                    oldIcon.parentNode.replaceChild(newIcon, oldIcon);
+                    icons[index] = newIcon; // Update the reference in the NodeList
+                });
+
+                // Set up manual scrolling listeners on the dock-icons-wrapper container
+                dockIconsWrapper.addEventListener('touchstart', touchStart, { passive: false });
+                dockIconsWrapper.addEventListener('touchmove', touchMove, { passive: false });
+                dockIconsWrapper.addEventListener('touchend', touchEnd);
+
+                // Initial application of effects
+                applyMobileDockEffects(); // Apply once on load
+                window.addEventListener('resize', applyMobileDockEffects); // Apply on resize
+            } else {
+                // Lógica para escritorio (efecto de hover adyacente)
+                icons.forEach(icon => {
+                    icon.addEventListener('mouseenter', function() {
+                        const index = Array.from(icons).indexOf(this);
+                        console.log(`Mouse ENTER en icono: ${this.getAttribute('data-tooltip')}`);
                         
-                        // Afectar iconos adyacentes con un efecto más notorio pero coordinado
                         if (icons[index - 1]) {
                             icons[index - 1].classList.add('adjacent-effect');
                         }
@@ -539,9 +659,8 @@
                         }
                     });
                     
-                    icon.addEventListener('mouseleave', () => {
-                        console.log(`Mouse LEAVE en icono: ${icon.getAttribute('data-tooltip')}`); // Log para depuración
-                        // Restablecer SOLO los iconos que tienen el efecto adyacente
+                    icon.addEventListener('mouseleave', function() {
+                        console.log(`Mouse LEAVE en icono: ${this.getAttribute('data-tooltip')}`);
                         icons.forEach(i => {
                             if (i.classList.contains('adjacent-effect')) {
                                 i.classList.remove('adjacent-effect');
@@ -554,50 +673,19 @@
             // Acción al hacer clic (para todos los dispositivos)
             icons.forEach(icon => {
                 icon.addEventListener('click', () => {
-                    const buttonName = icon.getAttribute('data-button-name'); // Obtener el nombre del botón del atributo
-                    navigateTo(buttonName); // Usar la función centralizada de navegación
+                    const buttonName = icon.getAttribute('data-button-name');
+                    navigateTo(buttonName);
 
-                    // Efecto de acercamiento en móvil
-                    if (isMobile) {
-                        icon.style.transform = 'scale(1.5) translateY(-5px)'; // Ajustado para el nuevo tamaño
-                        setTimeout(() => {
-                            icon.style.transform = 'scale(1) translateY(0)';
-                        }, 200);
-                    }
-                    
                     // Marcar como activo
                     icons.forEach(i => i.classList.remove('active'));
                     icon.classList.add('active');
+
+                    // Si es móvil, re-aplicar los efectos después de un clic para asegurar el estado visual
+                    if (isMobile) {
+                        applyMobileDockEffects();
+                    }
                 });
             });
-            
-            // Scroll suave para móviles
-            if (isMobile) {
-                dock.addEventListener('touchmove', (e) => {
-                    e.preventDefault(); // Previene el scroll del body mientras se hace scroll en el dock
-                }, { passive: false });
-                
-                let startX, scrollLeft;
-                let isDown = false;
-                
-                dock.addEventListener('touchstart', (e) => {
-                    isDown = true;
-                    startX = e.touches[0].pageX - dock.offsetLeft;
-                    scrollLeft = dock.scrollLeft;
-                });
-                
-                dock.addEventListener('touchmove', (e) => {
-                    if (!isDown) return;
-                    e.preventDefault();
-                    const x = e.touches[0].pageX - dock.offsetLeft;
-                    const walk = (x - startX) * 2;
-                    dock.scrollLeft = scrollLeft - walk;
-                });
-                
-                dock.addEventListener('touchend', () => {
-                    isDown = false;
-                });
-            }
         });
     </script>
 </body>
