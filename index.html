@@ -16,12 +16,12 @@
                     },
                     colors: {
                         'fuchsia-exacto': '#E6007A', /* Color fucsia exacto de la imagen */
-                        'glass-main-bg': 'rgba(255, 255, 255, 0.15)', /* Fondo más claro y translúcido para el efecto de vidrio principal */
+                        'glass-dark': 'rgba(28, 28, 30, 0.75)', /* Fondo oscuro para el efecto de vidrio, más transparente */
                         'text-dark': '#333333', /* Texto oscuro para contraste con fondo blanco */
-                        'text-light-contrast': '#E0E0E0', /* Texto claro para elementos oscuros (botones) */
-                        'panel-border-light': 'rgba(0, 0, 0, 0.08)', /* Borde sutil y oscuro para paneles de vidrio */
-                        'dock-background': 'rgba(40, 40, 45, 0.5)', /* Fondo del dock, oscuro y semitransparente */
-                        'dock-border': 'rgba(255, 255, 255, 0.12)', /* Borde más sutil para el dock */
+                        'text-light-contrast': '#E0E0E0', /* Texto claro para elementos oscuros */
+                        'color-blanco': '#FFFFFF', /* Color blanco explícito para el texto de los botones */
+                        'panel-border': 'rgba(255, 255, 255, 0.1)', /* Borde sutil para paneles de vidrio */
+                        'dock-border': 'rgba(255, 255, 255, 0.18)', /* Borde más sutil para el dock */
                     }
                 }
             }
@@ -43,9 +43,15 @@
             align-items: center;
             justify-content: space-between;
             padding: 0.5rem; /* Padding más pequeño para móviles */
-            /* Degradado radial muy sutil para añadir profundidad al fondo blanco */
-            background-image: radial-gradient(circle at center, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0) 70%);
-            overflow-x: hidden; /* Evita el scroll horizontal en el body */
+            /* Degradado radial más sofisticado para añadir profundidad sutil */
+            background: radial-gradient(circle at 50% 0%, rgba(200, 200, 200, 0.05) 0%, rgba(255, 255, 255, 0) 60%),
+                        radial-gradient(circle at 50% 100%, rgba(200, 200, 200, 0.05) 0%, rgba(255, 255, 255, 0) 60%),
+                        #FFFFFF; /* Fondo blanco base */
+            
+            /* Permitir que los elementos sobresalgan verticalmente */
+            overflow: visible; 
+            overflow-x: hidden; /* Pero evitar el scroll horizontal general del body */
+            
             user-select: none; /* Deshabilita la selección de texto en toda la página */
             -webkit-user-select: none; /* Para Safari */
             -moz-user-select: none; /* Para Firefox */
@@ -80,14 +86,15 @@
             background: rgba(0, 0, 0, 0.3); /* Manija al pasar el ratón */
         }
 
-        /* Efecto de cristal para el contenedor principal */
+        /* Efecto de cristal para el contenedor principal (revertido a la versión anterior) */
         .glass-effect {
-            backdrop-filter: blur(35px) saturate(160%); /* Blur y saturación más pronunciados pero elegantes */
-            -webkit-backdrop-filter: blur(35px) saturate(160%);
-            background-color: var(--tw-colors-glass-main-bg); /* Fondo más claro y translúcido para el efecto de vidrio principal */
-            border: 1px solid var(--tw-colors-panel-border-light); /* Borde sutil y oscuro para paneles de vidrio */
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15), /* Sombra exterior más suave y difusa */
-                        inset 0 0 10px rgba(255, 255, 255, 0.05); /* Sombra interior para un brillo sutil */
+            backdrop-filter: blur(40px) saturate(170%); /* Blur y saturación ligeramente más pronunciados */
+            -webkit-backdrop-filter: blur(40px) saturate(170%);
+            background-color: var(--tw-colors-glass-dark); /* Fondo oscuro con transparencia */
+            border: 1px solid var(--tw-colors-panel-border); /* Borde sutil */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), /* Sombra exterior más fuerte y difusa */
+                        0 0 20px rgba(0, 0, 0, 0.05), /* Sombra más suave para un efecto de halo */
+                        inset 0 0 15px rgba(255, 255, 255, 0.08); /* Sombra interior para un brillo sutil */
         }
 
         /* Animación de pulsación y sombras para los botones (más minimalista) */
@@ -99,7 +106,7 @@
             overflow: hidden;
             background-color: #E6007A; /* Color fucsia exacto aplicado SOLIDO */
             background-image: none; /* Asegurar que no haya degradados */
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); /* Sombra inicial muy suave */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra inicial ligeramente más pronunciada */
             transform: translateZ(0); /* Forzar aceleración de hardware */
         }
 
@@ -110,9 +117,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.15); /* Brillo sutil */
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 70%); /* Brillo radial sutil */
             opacity: 0;
-            transition: opacity 0.15s ease-in-out;
+            transition: opacity 0.2s ease-in-out;
             pointer-events: none;
         }
 
@@ -121,115 +128,104 @@
         }
 
         .button-press-effect:hover {
-            transform: translateY(-1px) scale(1.01); /* Elevación y escala muy sutil */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); /* Sombra ligeramente más pronunciada */
+            transform: translateY(1px) scale(0.97); /* Ligera compresión y hundimiento al presionar */
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4); /* Sombra interior más pronunciada */
         }
 
         .button-press-effect:active {
-            transform: translateY(0) scale(0.98); /* Ligera compresión al presionar */
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3); /* Sombra interior muy suave */
+            transform: translateY(1px) scale(0.97); /* Ligera compresión y hundimiento al presionar */
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4); /* Sombra interior más pronunciada */
+        }
+
+        .button-press-effect span {
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Sombra de texto sutil para profundidad */
         }
 
         /* Sombra más sutil y ambiental para el contenedor principal */
         .main-panel-shadow {
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra exterior muy suave y difusa */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); /* Sombra exterior muy suave y difusa */
         }
 
         /* Sombra para los iconos del dock y botones (más sutil y difusa) */
         .icon-shadow {
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25)); /* Ligeramente más fuerte inicial */
+            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3)); /* Sombra de icono ligeramente más fuerte y difusa */
         }
         
-        /* ===== ESTILOS DEL DOCK (NUEVA ESTRUCTURA PARA EFECTO "SALIR") ===== */
+        /* ===== ESTILOS DEL DOCK (AJUSTADO PARA COINCIDIR CON EL EJEMPLO) ===== */
         .dock-container {
             position: fixed;
-            bottom: 20px;
+            /* Más espacio en la parte inferior para la elevación */
+            bottom: 40px; 
             left: 0;
             right: 0;
             display: flex;
             justify-content: center;
-            /* El overflow-x: hidden aquí recorta todo el dock si se desborda la pantalla */
-            overflow-x: hidden; 
+            padding: 0 10px;
             z-index: 1000;
         }
 
-        .dock-wrapper-outer {
-            position: relative; /* Para que el fondo de cristal sea absoluto a este */
+        .dock-blur {
             display: flex;
-            align-items: flex-end; /* Alinea los iconos en la parte inferior del wrapper */
-            justify-content: center; /* Centra el wrapper de iconos */
-            padding: 12px 24px 25px 24px; /* Padding para el área del dock, más padding-bottom para que los iconos salgan */
-            border-radius: 22px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-            max-width: 90%; /* Limita el ancho total del dock */
-            min-width: 200px; /* Asegura un ancho mínimo para el dock */
-            /* NO overflow: hidden aquí para permitir que los iconos salgan */
-        }
-
-        .dock-glass-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 24px;
             backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%);
-            background-color: rgba(40, 40, 45, 0.5); /* Fondo oscuro semitransparente */
+            background-color: rgba(40, 40, 45, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 22px;
-            z-index: 0; /* Asegura que esté detrás de los iconos */
-            overflow: hidden; /* Este sí tiene overflow hidden para recortar el efecto de blur */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            max-width: 90%;
+            /* Permitir que los íconos sobresalgan */
+            overflow: visible; 
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
         }
 
-        .dock-icons-wrapper {
-            display: flex;
-            align-items: flex-end; /* Alinea los iconos en la parte inferior del wrapper */
-            gap: 16px;
-            position: relative; /* Para que los iconos puedan tener z-index relativo a este */
-            z-index: 1; /* Asegura que los iconos estén por encima del fondo de cristal */
-            padding: 0; /* Ya tenemos padding en dock-wrapper-outer */
-            transform: translateX(0); /* Base para el scroll manual en móvil */
-            will-change: transform; /* Optimización de rendimiento */
+        .dock-blur::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
         }
 
         .dock-icon {
-            width: 40px; /* Iconos más pequeños */
-            height: 40px;
-            min-width: 40px; 
+            width: 50px; /* Tamaño de icono del ejemplo */
+            height: 50px;
+            min-width: 50px; /* Importante para el scroll horizontal */
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Transición para transform y filter, con la misma curva cúbica para fluidez */
-            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.25s ease;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); /* Transición del ejemplo */
+            /* Confirmado: Posicionamiento relativo para transformaciones */
             position: relative;
             cursor: pointer;
-            will-change: transform, filter, z-index; /* Optimización de rendimiento */
-            z-index: 1; /* Z-index base para los iconos */
+            will-change: transform, filter;
+            /* Confirmado: Z-index base */
+            z-index: 1; 
         }
 
         .dock-icon svg {
             width: 100%;
             height: 100%;
-            color: white; /* Color blanco para los iconos del dock */
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
-            transition: filter 0.25s ease;
+            color: white;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2)); /* Sombra inicial del ejemplo */
+            transition: all 0.25s ease;
         }
 
         /* ===== ANIMACIONES DEL DOCK (DESKTOP) ===== */
         .dock-icon:hover {
-            transform: scale(1.6) translateY(-8px); /* Magnificación más pronunciada */
-            z-index: 10; /* Eleva el z-index al hacer hover */
+            transform: scale(1.3) translateY(-20px); /* Elevación más pronunciada */
+            /* Confirmado: Elevar z-index para sobresalir */
+            z-index: 10; 
         }
 
         .dock-icon:hover svg {
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.5)); /* Sombra más grande y difusa */
         }
 
         /* ===== TOOLTIPS DEL DOCK ===== */
         .dock-icon::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: 55px; /* Ajuste de posición para el nuevo tamaño y magnificación */
+            bottom: 30px; /* Posición ajustada para ícono más elevado */
             background: rgba(30, 30, 35, 0.85);
             color: white;
             padding: 5px 10px;
@@ -237,18 +233,17 @@
             font-size: 12px;
             font-weight: 500;
             opacity: 0;
-            transform: translateY(10px);
+            transform: translateY(0px); /* No hay translateY inicial para el tooltip */
             transition: opacity 0.2s ease, transform 0.2s ease;
             white-space: nowrap;
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             pointer-events: none;
-            z-index: 11; /* Asegura que el tooltip esté por encima del icono magnificado */
         }
 
         .dock-icon:hover::after {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(-10px); /* Elevación del tooltip al hacer hover */
         }
 
         /* ===== INDICADOR DE ACTIVO DEL DOCK ===== */
@@ -264,31 +259,66 @@
 
         /* ===== EFECTO EN CADENA DEL DOCK (DESKTOP) ===== */
         .adjacent-effect {
-            transform: scale(1.25) translateY(-5px); /* Ajuste para un efecto adyacente más notorio */
+            transform: scale(1.15) translateY(-10px); /* Efecto adyacente más pronunciado */
             transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         /* ===== VERSIÓN MÓVIL DEL DOCK (OPTIMIZACIÓN) ===== */
         @media (max-width: 768px) {
-            .dock-wrapper-outer {
-                max-width: 95%; /* Ajuste para que el dock no sea demasiado ancho en pantallas pequeñas */
-                padding: 8px 16px 20px 16px; /* Padding reducido para móvil, más padding-bottom */
-            }
-
-            .dock-icons-wrapper {
-                gap: 12px; /* Espacio reducido entre iconos en móvil */
-            }
-
-            .dock-icon {
-                width: 36px; /* Iconos más pequeños en móvil */
-                height: 36px;
-                min-width: 36px;
+            .dock-container {
+                justify-content: flex-start; /* Alineación del ejemplo en móvil */
+                padding: 0 10px;
+                overflow-x: auto; /* El contenedor del dock es el que se desplaza */
+                scrollbar-width: none;
+                -ms-overflow-style: none;
             }
             
-            /* Ajustar tooltip position for mobile's dynamic scaling */
+            .dock-container::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .dock-blur {
+                padding: 10px 20px;
+                gap: 14px;
+                max-width: none;
+                width: auto;
+                /* overflow: visible; ya definido en el estilo base, no cambiar */
+                scroll-snap-type: x proximity; /* Scroll snap del ejemplo */
+            }
+            
+            .dock-icon {
+                width: 42px; /* Tamaño de icono del ejemplo en móvil */
+                height: 42px;
+                min-width: 42px;
+                scroll-snap-align: center;
+            }
+            
+            /* El efecto de hover en móvil se manejará con :active */
+            .dock-icon:hover { /* Mantener el hover para dispositivos que lo soporten en móvil */
+                transform: scale(1.4) translateY(-10px); /* Efecto de hover más pronunciado en móvil */
+            }
+            .dock-icon:hover svg {
+                filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3)); /* Sombra del ejemplo en móvil al hacer hover */
+            }
+
             .dock-icon::after {
                 font-size: 11px;
-                bottom: 45px; /* Adjusted for mobile's dynamic scale */
+                bottom: 20px; /* Posición ajustada para ícono más elevado en móvil */
+            }
+        }
+
+        /* Efecto de acercamiento para móviles (basado en :active) */
+        @media (hover: none) {
+            .dock-icon:active {
+                transform: scale(1.4) translateY(-10px) !important; /* Efecto de pulsación más pronunciado */
+                z-index: 10 !important; /* Asegura que sobresalga al tocar */
+            }
+            .dock-icon:active svg {
+                filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3)) !important; /* Sombra al tocar */
+            }
+            /* Asegurar que el efecto adyacente no interfiera con el :active */
+            .adjacent-effect {
+                transform: none !important; /* Desactivar efecto adyacente en touch para evitar conflictos */
             }
         }
     </style>
@@ -362,113 +392,108 @@
 
     <!-- DOCK PRINCIPAL -->
     <div class="dock-container">
-        <div class="dock-wrapper-outer">
-            <div class="dock-glass-background"></div>
-            <nav class="dock-icons-wrapper" id="macosDock">
-                <!-- Icono Inicio -->
-                <div class="dock-icon active" 
-                     data-tooltip="Inicio"
-                     data-action="page"
-                     data-button-name="Inicio">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                    </svg>
-                </div>
-                
-                <!-- Icono Configuración -->
-                <div class="dock-icon" 
-                     data-tooltip="Configuración"
-                     data-action="page"
-                     data-button-name="Configuración">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12-.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39-.96c-.22-.08-.47 0-.59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
-                    </svg>
-                </div>
-                
-                <!-- Icono Informes -->
-                <div class="dock-icon" 
-                     data-tooltip="Informes"
-                     data-action="page"
-                     data-button-name="Informes">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
-                    </svg>
-                </div>
-                
-                <!-- Icono Desplegar -->
-                <div class="dock-icon" 
-                     data-tooltip="Desplegar"
-                     data-action="page"
-                     data-button-name="Desplegar">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                    </svg>
-                </div>
-                
-                <!-- Icono Smart -->
-                <div class="dock-icon" 
-                     data-tooltip="Smart"
-                     data-action="page"
-                     data-button-name="Smart">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm1-11h-2v6h2V8zm0 8h-2v2h2v-2z"/>
-                    </svg>
-                </div>
-                
-                <!-- Icono Agenda -->
-                <div class="dock-icon" 
-                     data-tooltip="Agenda"
-                     data-action="page"
-                     data-button-name="Agenda">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
-                    </svg>
-                </div>
-                
-                <!-- Icono Correo -->
-                <div class="dock-icon" 
-                     data-tooltip="Correo"
-                     data-action="page"
-                     data-button-name="Correo">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                    </svg>
-                </div>
-                
-                <!-- Icono Mensajes -->
-                <div class="dock-icon" 
-                     data-tooltip="Mensajes"
-                     data-action="page"
-                     data-button-name="Mensajes">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
-                    </svg>
-                </div>
-                
-                <!-- Icono Perfil -->
-                <div class="dock-icon" 
-                     data-tooltip="Perfil"
-                     data-action="page"
-                     data-button-name="Perfil">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                    </svg>
-                </div>
-            </nav>
-        </div>
+        <nav class="dock-blur" id="macosDock">
+            <!-- Icono Inicio -->
+            <div class="dock-icon active" 
+                 data-tooltip="Inicio"
+                 data-action="page"
+                 data-target="index.html">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Configuración -->
+            <div class="dock-icon" 
+                 data-tooltip="Configuración"
+                 data-action="page"
+                 data-target="config.html">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12-.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39-.96c-.22-.08-.47 0-.59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Informes -->
+            <div class="dock-icon" 
+                 data-tooltip="Informes"
+                 data-action="page"
+                 data-target="reports.html">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Desplegar -->
+            <div class="dock-icon" 
+                 data-tooltip="Desplegar"
+                 data-action="page"
+                 data-target="deploy.html">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Smart -->
+            <div class="dock-icon" 
+                 data-tooltip="Smart"
+                 data-action="page"
+                 data-target="smart.html">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm1-11h-2v6h2V8zm0 8h-2v2h2v-2z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Agenda -->
+            <div class="dock-icon" 
+                 data-tooltip="Agenda"
+                 data-action="page"
+                 data-target="calendar.html">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Correo -->
+            <div class="dock-icon" 
+                 data-tooltip="Correo"
+                 data-action="page"
+                 data-target="mail.html">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Mensajes -->
+            <div class="dock-icon" 
+                 data-tooltip="Mensajes"
+                 data-action="page"
+                 data-target="messages.html">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Perfil -->
+            <div class="dock-icon" 
+                 data-tooltip="Perfil"
+                 data-action="page"
+                 data-target="profile.html">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                </svg>
+            </div>
+        </nav>
     </div>
 
+    <!-- SCRIPT MEJORADO -->
     <script>
         // =====================================================================
-        // CONSOLA DE URLS Y COMPORTAMIENTO DE BOTONES
+        // CONSOLA DE URLS Y COMPORTAMIENTO DE BOTONES PRINCIPALES
         // =====================================================================
 
         /**
-         * Objeto para mapear los nombres de los botones a sus URLs de destino.
+         * Objeto para mapear los nombres de los botones principales a sus URLs de destino.
          * Puedes modificar estas URLs según tus necesidades.
-         *
-         * Clave: Nombre del botón (debe coincidir con el 'data-button-name' en HTML o el texto del span).
-         * Valor: La URL a la que el botón debe navegar.
          *
          * NOTA: En este entorno de previsualización, la navegación real está comentada.
          * Solo se mostrará un mensaje en la consola del navegador.
@@ -482,19 +507,12 @@
             "Condiciones Comerciales": "https://www.ejemplo.com/condiciones-comerciales.html",
             "Factibilidad": "https://www.ejemplo.com/factibilidad.html",
             "Configuración": "https://www.ejemplo.com/configuracion.html",
-            "Registro de Venta": "https://www.ejemplo.com/registro-venta.html",
-            "Inicio": "https://www.ejemplo.com/index.html",
-            "Informes": "https://www.ejemplo.com/informes.html",
-            "Desplegar": "https://www.ejemplo.com/desplegar.html",
-            "Smart": "https://www.ejemplo.com/smart.html",
-            "Agenda": "https://www.ejemplo.com/agenda.html",
-            "Correo": "https://www.ejemplo.com/correo.html",
-            "Mensajes": "https://www.ejemplo.com/mensajes.html",
-            "Perfil": "https://www.ejemplo.com/perfil.html"
+            "Registro de Venta": "https://www.ejemplo.com/registro-venta.html"
+            // Las URLs del dock se manejan directamente con data-target en el HTML
         };
 
         /**
-         * Función para manejar la navegación de los botones.
+         * Función para manejar la navegación de los botones principales.
          * Busca la URL en el `urlMappings` y simula la navegación.
          * @param {string} buttonName - El nombre del botón que se está activando.
          */
@@ -509,148 +527,21 @@
             }
         }
 
-        // JavaScript para añadir interactividad a los botones de la consola y al nuevo dock
+        // =====================================================================
+        // LÓGICA DEL DOCK macOS (ADAPTADA DEL CÓDIGO PROPORCIONADO)
+        // =====================================================================
         document.addEventListener('DOMContentLoaded', () => {
-            // Lógica para los botones de la consola principal
-            const consoleButtons = document.querySelectorAll('.grid button');
-            consoleButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const buttonName = button.querySelector('span').textContent;
-                    navigateTo(buttonName);
-                });
-            });
-
-            // Lógica para el nuevo Dock macOS
-            const dockIconsWrapper = document.getElementById('macosDock'); // Ahora es el wrapper de iconos
-            const icons = dockIconsWrapper.querySelectorAll('.dock-icon');
+            const dock = document.getElementById('macosDock');
+            const icons = dock.querySelectorAll('.dock-icon');
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
             
-            /**
-             * Aplica efectos de magnificación a los iconos del dock en dispositivos móviles
-             * basándose en su proximidad al centro de la vista del dock.
-             */
-            const applyMobileDockEffects = () => {
-                if (!isMobile) return; // Solo aplica en móvil
-
-                const dockWrapperRect = dockIconsWrapper.getBoundingClientRect();
-                // Calcular el centro de la parte visible del dock (viewport)
-                const viewportCenterX = window.innerWidth / 2; 
-
+            // Efecto en cadena al pasar el mouse (solo en desktop)
+            if (!isMobile) {
                 icons.forEach(icon => {
-                    const iconRect = icon.getBoundingClientRect();
-                    // Calcular el centro del icono en relación con el viewport
-                    const iconCenterXInViewport = iconRect.left + (iconRect.width / 2);
-                    const distance = Math.abs(viewportCenterX - iconCenterXInViewport);
-
-                    // Definir el rango de efecto (ej. un porcentaje del ancho del viewport)
-                    const maxDistance = window.innerWidth * 0.35; // El efecto se extiende hasta el 35% del ancho del viewport desde el centro
-                    const normalizedDistance = Math.min(1, distance / maxDistance); // Normaliza la distancia a un valor entre 0 y 1
-
-                    // Calcular la escala: más cerca del centro (normalizedDistance = 0) = escala máxima
-                    // Más lejos (normalizedDistance = 1) = escala mínima
-                    const maxScale = 2.5; // Escala máxima para el icono en el centro (AUMENTADO AÚN MÁS)
-                    const minScale = 1.0; // Escala mínima para iconos fuera del rango de efecto
-                    const scale = maxScale - (normalizedDistance * (maxScale - minScale));
-
-                    // Calcular la elevación: más magnificado = más elevado
-                    const maxElevation = -25; // Elevación máxima para el icono en el centro (AUMENTADO AÚN MÁS)
-                    const minElevation = 0; // Elevación mínima para iconos fuera del rango de efecto
-                    const elevation = maxElevation - (normalizedDistance * (maxElevation - minElevation));
-
-                    icon.style.transform = `scale(${scale}) translateY(${elevation}px)`;
-                    icon.style.zIndex = Math.round(scale * 10); // Asigna un z-index más alto al icono magnificado
-                    
-                    // Ajustar la sombra del icono basada en la escala para que sea más pronunciada en el centro
-                    const shadowOpacity = 0.4 + (1 - normalizedDistance) * 0.5; // Opacidad de 0.4 a 0.9 (AUMENTADO)
-                    const shadowBlur = 6 + (1 - normalizedDistance) * 10; // Blur de 6px a 16px (AUMENTADO)
-                    icon.querySelector('svg').style.filter = `drop-shadow(0 ${shadowBlur/2}px ${shadowBlur}px rgba(0, 0, 0, ${shadowOpacity}))`;
-                });
-            };
-
-            // Manual scrolling variables for mobile dock
-            let isDragging = false;
-            let startPos = 0;
-            let currentTranslate = 0;
-            let prevTranslate = 0;
-
-            function touchStart(event) {
-                isDragging = true;
-                startPos = event.touches[0].clientX;
-                // Get the current transformX value from the element
-                const transformMatrix = window.getComputedStyle(dockIconsWrapper).getPropertyValue('transform');
-                if (transformMatrix && transformMatrix !== 'none') {
-                    prevTranslate = parseFloat(transformMatrix.split(',')[4]); // Extract translateX value
-                } else {
-                    prevTranslate = 0;
-                }
-                // Store initial touch position for delta calculation in touchmove
-                event.target._startX = event.touches[0].clientX;
-                event.target._startY = event.touches[0].clientY;
-            }
-
-            function touchMove(event) {
-                if (!isDragging) return;
-
-                // Only prevent default if the movement is predominantly horizontal
-                const touch = event.touches[0];
-                const deltaX = Math.abs(touch.clientX - (event.target._startX || touch.clientX));
-                const deltaY = Math.abs(touch.clientY - (event.target._startY || touch.clientY));
-                if (deltaX > deltaY) {
-                    event.preventDefault();
-                } else {
-                    // If vertical scroll, let it happen
-                    isDragging = false; // Stop dragging if movement becomes vertical
-                    return;
-                }
-
-                const currentPosition = event.touches[0].clientX;
-                const diff = currentPosition - startPos;
-                currentTranslate = prevTranslate + diff;
-
-                // Clamp the translation to prevent scrolling too far
-                const dockIconsWidth = dockIconsWrapper.scrollWidth; // Actual content width (sum of icons + gaps)
-                const dockContainerWidth = dockIconsWrapper.parentElement.clientWidth; // Visible width of the outer wrapper
-
-                // Calculate the maximum negative translation allowed (when content is scrolled fully left)
-                // This ensures the rightmost icon is visible
-                const minTranslate = Math.min(0, dockContainerWidth - dockIconsWidth);
-                const maxTranslate = 0; // Cannot scroll further right than 0 (leftmost icon visible)
-
-                currentTranslate = Math.max(minTranslate, Math.min(maxTranslate, currentTranslate));
-
-                dockIconsWrapper.style.transform = `translateX(${currentTranslate}px)`;
-                applyMobileDockEffects(); // Apply effects during scroll
-            }
-
-            function touchEnd() {
-                isDragging = false;
-                // Re-apply effects at the end of the drag to ensure final state
-                applyMobileDockEffects();
-            }
-
-            if (isMobile) {
-                // Remove existing listeners if any from previous iterations
-                icons.forEach((oldIcon, index) => {
-                    const newIcon = oldIcon.cloneNode(true);
-                    oldIcon.parentNode.replaceChild(newIcon, oldIcon);
-                    icons[index] = newIcon; // Update the reference in the NodeList
-                });
-
-                // Set up manual scrolling listeners on the dock-icons-wrapper container
-                dockIconsWrapper.addEventListener('touchstart', touchStart, { passive: false });
-                dockIconsWrapper.addEventListener('touchmove', touchMove, { passive: false });
-                dockIconsWrapper.addEventListener('touchend', touchEnd);
-
-                // Initial application of effects
-                applyMobileDockEffects(); // Apply once on load
-                window.addEventListener('resize', applyMobileDockEffects); // Apply on resize
-            } else {
-                // Lógica para escritorio (efecto de hover adyacente)
-                icons.forEach(icon => {
-                    icon.addEventListener('mouseenter', function() {
-                        const index = Array.from(icons).indexOf(this);
-                        console.log(`Mouse ENTER en icono: ${this.getAttribute('data-tooltip')}`);
+                    icon.addEventListener('mouseenter', () => {
+                        const index = Array.from(icons).indexOf(icon);
                         
+                        // Afectar iconos adyacentes
                         if (icons[index - 1]) {
                             icons[index - 1].classList.add('adjacent-effect');
                         }
@@ -659,12 +550,11 @@
                         }
                     });
                     
-                    icon.addEventListener('mouseleave', function() {
-                        console.log(`Mouse LEAVE en icono: ${this.getAttribute('data-tooltip')}`);
-                        icons.forEach(i => {
-                            if (i.classList.contains('adjacent-effect')) {
-                                i.classList.remove('adjacent-effect');
-                            }
+                    icon.addEventListener('mouseleave', () => {
+                        icons.forEach(icon => {
+                            icon.classList.remove('adjacent-effect');
+                            // El reset del transform se maneja por CSS con transition
+                            // No es necesario resetear explícitamente aquí para el efecto de hover
                         });
                     });
                 });
@@ -673,19 +563,68 @@
             // Acción al hacer clic (para todos los dispositivos)
             icons.forEach(icon => {
                 icon.addEventListener('click', () => {
-                    const buttonName = icon.getAttribute('data-button-name');
-                    navigateTo(buttonName);
+                    // Si es móvil, aplicar el efecto de acercamiento con JS y luego restaurar
+                    // Esto se hace para simular el :active que no siempre es persistente visualmente
+                    // en todos los navegadores móviles o al soltar rápidamente.
+                    if (isMobile) {
+                        icon.style.transform = 'scale(1.4) translateY(-10px)'; // Aplicar la elevación con JS
+                        icon.style.zIndex = '10'; // Asegurar que sobresale al tocar
+                        icon.querySelector('svg').style.filter = 'drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3))';
 
-                    // Marcar como activo
+                        setTimeout(() => {
+                            // Restaurar el estado original después de un breve retraso
+                            icon.style.transform = 'scale(1) translateY(0)';
+                            icon.style.zIndex = '1';
+                            icon.querySelector('svg').style.filter = 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2))';
+                        }, 200); // Duración del efecto de "pulsación"
+                    }
+                    
+                    // Marcar como activo (el indicador de punto inferior)
                     icons.forEach(i => i.classList.remove('active'));
                     icon.classList.add('active');
-
-                    // Si es móvil, re-aplicar los efectos después de un clic para asegurar el estado visual
-                    if (isMobile) {
-                        applyMobileDockEffects();
+                    
+                    // Ejecutar acción de navegación
+                    const action = icon.getAttribute('data-action');
+                    const target = icon.getAttribute('data-target');
+                    
+                    if (action === 'url') {
+                        window.open(target, '_blank');
+                    } else if (action === 'page') {
+                        console.log(`Simulando navegación a: ${target}`);
+                        // Para habilitar la navegación real en un entorno de producción, descomenta la siguiente línea:
+                        // window.location.href = target;
                     }
                 });
             });
+            
+            // Scroll suave para móviles (basado en el ejemplo proporcionado)
+            if (isMobile) {
+                let startX, scrollLeft;
+                let isDown = false;
+                
+                // Prevenir el scroll vertical del body al interactuar con el dock
+                dock.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                }, { passive: false });
+                
+                dock.addEventListener('touchstart', (e) => {
+                    isDown = true;
+                    startX = e.touches[0].pageX - dock.offsetLeft;
+                    scrollLeft = dock.scrollLeft;
+                }, { passive: false }); // Usar passive: false para permitir preventDefault
+
+                dock.addEventListener('touchmove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault(); // Prevenir el scroll vertical del body
+                    const x = e.touches[0].pageX - dock.offsetLeft;
+                    const walk = (x - startX) * 2; // Ajustar la velocidad de scroll
+                    dock.scrollLeft = scrollLeft - walk;
+                }, { passive: false }); // Usar passive: false
+
+                dock.addEventListener('touchend', () => {
+                    isDown = false;
+                });
+            }
         });
     </script>
 </body>
