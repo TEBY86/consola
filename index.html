@@ -3,253 +3,602 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consola WOM Venta - Experiencia Premium</title>
-    <!-- Font Awesome para una iconografía elegante y moderna -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Enlace al archivo CSS externo -->
-    <link rel="stylesheet" href="style.css">
+    <title>Consola de Control - Estilo Apple</title>
+    <!-- Enlace a Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuración de Tailwind para usar la fuente Inter y colores personalizados -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'fuchsia-exacto': '#E6007A', /* Color fucsia exacto de la imagen */
+                        'glass-dark': 'rgba(28, 28, 30, 0.75)', /* Fondo oscuro para el efecto de vidrio, más transparente */
+                        'text-dark': '#333333', /* Texto oscuro para contraste con fondo blanco */
+                        'text-light-contrast': '#E0E0E0', /* Texto claro para elementos oscuros */
+                        'color-blanco': '#FFFFFF', /* Color blanco explícito para el texto de los botones */
+                        'panel-border': 'rgba(255, 255, 255, 0.1)', /* Borde sutil para paneles de vidrio */
+                        'dock-border': 'rgba(255, 255, 255, 0.18)', /* Borde más sutil para el dock */
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Enlace a Google Fonts para la fuente Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos base para el cuerpo (Mobile-First) */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #FFFFFF; /* Fondo blanco */
+            color: var(--tw-colors-text-dark); /* Color de texto oscuro para el body */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Asegura que el body ocupe al menos el 100% de la altura de la ventana */
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem; /* Padding más pequeño para móviles */
+            /* Degradado radial muy sutil para añadir profundidad al fondo blanco */
+            background-image: radial-gradient(circle at center, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0) 70%);
+            overflow-x: hidden; /* Evita el scroll horizontal en el body */
+        }
+
+        /* Ajustes de padding para pantallas más grandes */
+        @media (min-width: 768px) { /* md breakpoint */
+            body {
+                padding: 1rem; /* Padding estándar para tabletas y PC */
+            }
+        }
+
+        /* Estilos personalizados para la barra de desplazamiento */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.03); /* Pista muy sutil en fondo blanco */
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.15); /* Manija suave */
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.03); /* Borde casi invisible */
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3); /* Manija al pasar el ratón */
+        }
+
+        /* Efecto de cristal para el contenedor principal */
+        .glass-effect {
+            backdrop-filter: blur(35px) saturate(160%); /* Blur y saturación más pronunciados pero elegantes */
+            -webkit-backdrop-filter: blur(35px) saturate(160%);
+            background-color: var(--tw-colors-glass-dark); /* Fondo oscuro con transparencia ligeramente menor */
+            border: 1px solid var(--tw-colors-panel-border); /* Borde sutil para definir el vidrio */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15), /* Sombra exterior más suave y difusa */
+                        inset 0 0 10px rgba(255, 255, 255, 0.05); /* Sombra interior para un brillo sutil */
+        }
+
+        /* Animación de pulsación y sombras para los botones (más minimalista) */
+        .button-press-effect {
+            transition: all 0.15s cubic-bezier(0.2, 0.8, 0.2, 1); /* Transición más corta y elástica */
+            border: none;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+            background-color: #E6007A; /* Color fucsia exacto aplicado SOLIDO */
+            background-image: none; /* Asegurar que no haya degradados */
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); /* Sombra inicial muy suave */
+            transform: translateZ(0); /* Forzar aceleración de hardware */
+        }
+
+        .button-press-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15); /* Brillo sutil */
+            opacity: 0;
+            transition: opacity 0.15s ease-in-out;
+            pointer-events: none;
+        }
+
+        .button-press-effect:hover::before {
+            opacity: 1; /* Brillo sutil al pasar el ratón */
+        }
+
+        .button-press-effect:hover {
+            transform: translateY(-1px) scale(1.01); /* Elevación y escala muy sutil */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); /* Sombra ligeramente más pronunciada */
+        }
+
+        .button-press-effect:active {
+            transform: translateY(0) scale(0.98); /* Ligera compresión al presionar */
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3); /* Sombra interior muy suave */
+        }
+
+        /* Sombra más sutil y ambiental para el contenedor principal */
+        .main-panel-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra exterior muy suave y difusa */
+        }
+
+        /* Sombra para los iconos del dock y botones (más sutil y difusa) */
+        .icon-shadow {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25)); /* Ligeramente más fuerte inicial */
+        }
+        
+        /* ===== ESTILOS DEL NUEVO DOCK ===== */
+        .dock-container {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            padding: 0 10px;
+            z-index: 1000;
+        }
+
+        .dock-blur {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 24px;
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            background-color: rgba(40, 40, 45, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 22px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            max-width: 90%;
+        }
+
+        .dock-icon {
+            width: 40px; /* Iconos más pequeños */
+            height: 40px;
+            min-width: 40px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.25s ease;
+            position: relative;
+            cursor: pointer;
+            will-change: transform, filter;
+        }
+
+        .dock-icon svg {
+            width: 100%;
+            height: 100%;
+            color: white;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+            transition: filter 0.25s ease;
+        }
+
+        /* ===== ANIMACIONES DEL NUEVO DOCK ===== */
+        .dock-icon:hover {
+            transform: scale(1.6) translateY(-8px); /* Magnificación más pronunciada */
+        }
+
+        .dock-icon:hover svg {
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        /* ===== TOOLTIPS DEL NUEVO DOCK ===== */
+        .dock-icon::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 55px; /* Ajuste de posición para el nuevo tamaño y magnificación */
+            background: rgba(30, 30, 35, 0.85);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            white-space: nowrap;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            pointer-events: none;
+        }
+
+        .dock-icon:hover::after {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== INDICADOR DE ACTIVO DEL NUEVO DOCK ===== */
+        .dock-icon.active::before {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+        }
+
+        /* ===== EFECTO EN CADENA DEL NUEVO DOCK ===== */
+        .adjacent-effect {
+            transform: scale(1.25) translateY(-5px); /* Ajuste para un efecto adyacente más notorio */
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* ===== VERSIÓN MÓVIL DEL NUEVO DOCK ===== */
+        @media (max-width: 768px) {
+            .dock-container {
+                justify-content: flex-start;
+                padding: 0 10px;
+                overflow-x: auto;
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none; /* IE/Edge */
+            }
+            
+            .dock-container::-webkit-scrollbar {
+                display: none; /* Chrome/Safari */
+            }
+            
+            .dock-blur {
+                padding: 10px 20px;
+                gap: 14px;
+                max-width: none;
+                width: auto;
+                overflow-x: auto;
+                scroll-snap-type: x proximity;
+            }
+            
+            .dock-icon {
+                width: 36px; /* Iconos más pequeños en móvil */
+                height: 36px;
+                min-width: 36px;
+                scroll-snap-align: center;
+            }
+            
+            .dock-icon:hover {
+                transform: scale(1.5) translateY(-5px); /* Magnificación ajustada para móvil */
+            }
+            
+            .adjacent-effect {
+                transform: scale(1.15) translateY(-3px); /* Efecto en cadena aún más sutil en móvil */
+            }
+            
+            .dock-icon::after {
+                font-size: 11px;
+                bottom: 45px; /* Ajuste de posición del tooltip en móvil */
+            }
+        }
+
+        /* Efecto de acercamiento para móviles (nuevo dock) */
+        @media (hover: none) {
+            .dock-icon:active {
+                transform: scale(1.5) translateY(-5px) !important;
+            }
+        }
+    </style>
 </head>
-<body>
-    <div class="app-frame" role="application" aria-label="Consola WOM Venta">
-        <!-- Barra de Estado Superior: Indicadores esenciales del dispositivo (AHORA OCULTA) -->
-        <div class="status-bar">
-            <div class="left" aria-label="Hora actual">09:00</div>
-            <div class="right">
-                <i class="fas fa-signal" aria-label="Intensidad de señal"></i>
-                <i class="fas fa-wifi" aria-label="Estado de conexión Wi-Fi"></i>
-                <i class="fas fa-battery-full" aria-label="Nivel de batería"></i>
+<body class="flex flex-col min-h-screen items-center justify-between p-4 bg-white text-text-dark">
+
+    <!-- Contenedor principal de la consola -->
+    <div class="flex flex-col items-center justify-center flex-grow w-full max-w-4xl rounded-2xl main-panel-shadow glass-effect p-8 my-4 overflow-hidden
+                md:max-w-5xl lg:max-w-6xl xl:max-w-7xl"> <!-- Ajuste de ancho máximo para pantallas grandes -->
+        
+        <!-- Contenedor para el logo y título FreeWork -->
+        <div class="flex flex-col items-center justify-center gap-8 mb-8">
+            <!-- Logo y Título FreeWork -->
+            <div class="flex flex-col items-center">
+                <!-- Logo de FreeWork (incrustado como Base64 para asegurar visibilidad) -->
+                <!-- Este logo es un placeholder. Si deseas tu logo específico, súbelo a un servicio de alojamiento público
+                     (ej. Imgur) y reemplaza esta URL con la URL directa de tu imagen. -->
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAoACgDASIAAhEBAxEB/8QAGwAAAgMBAQEAAAAAAAAAAAAAAAUDBAYHAggA/8QAJxAAAgIBBAECBwEBAAAAAAAAAQIDBBEABRIhMQYTQVEUIjJhcaH/xAAZAQADAQEBAAAAAAAAAAAAAAAAAQIDBAX/xAAeEQACAgIDAQEBAAAAAAAAAAAAAQIRAyExEkETIf/aAAwDAQACEQMRAD8A9X6T03H03p9bY6i1+2x1lq8s7N4lkkkYkknz+vM8Z/eP+0X+0L+0b+0z+03+07+0/+0D+0H+0L+0P+0T+0X+0Y/0/8AtI/0/9v8A+0r/AE//AJf/ANM/0//N/+07/T/8AP/8A0D/T/DQf/0T/T/R//0z/T/DTP/9P/DQf/1v/DQf/2f/DQf/3f/DQf/4f/DQf/5f/DQf/6f/DQf/7f/DQf/8f/DQf/9v/DQf/+/wD/2Q==" alt="Logo de FreeWork" class="w-24 h-24 md:w-32 md:h-32 mb-4 object-contain">
+                
+                <!-- Título principal -->
+                <h1 class="text-4xl font-bold text-text-light-contrast text-center text-3xl md:text-4xl">FreeWork</h1>
             </div>
         </div>
 
-        <!-- Área de Contenido Principal: Donde residen los módulos de la aplicación -->
-        <div class="app-content" role="main">
-            <header class="header-section">
-                <h2 aria-level="2">HOY</h2>
-                <div class="progress-bar-container" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="Progreso de tareas diarias">
-                    <div class="progress-bar-fill"></div>
-                </div>
-                <p class="question-text">¿Qué quieres hacer hoy?</p>
-            </header>
-
-            <!-- Lista de Módulos: Cada elemento es un punto de interacción clave -->
-            <section class="module-list" aria-label="Módulos de la aplicación">
-                <!-- Módulo 1: Buscador de Direcciones -->
-                <div class="module-item" id="module-direcciones" role="button" tabindex="0" aria-label="Buscador de Direcciones">
-                    <div class="module-item-left">
-                        <div class="icon-container">
-                            <i class="fas fa-map-marked-alt module-icon" aria-hidden="true"></i>
-                        </div>
-                        <span class="module-name">Buscador de Direcciones</span>
-                    </div>
-                    <div class="module-arrow"><i class="fas fa-chevron-right" aria-hidden="true"></i></div>
-                </div>
-
-                <!-- Módulo 2: Calculadora Boleta -->
-                <div class="module-item" id="module-calculadora" role="button" tabindex="0" aria-label="Calculadora Boleta">
-                    <div class="module-item-left">
-                        <div class="icon-container">
-                            <i class="fas fa-calculator module-icon" aria-hidden="true"></i>
-                        </div>
-                        <span class="module-name">Calculadora Boleta</span>
-                    </div>
-                    <div class="module-arrow"><i class="fas fa-chevron-right" aria-hidden="true"></i></div>
-                </div>
-
-                <!-- Módulo 3: Evaluar RUT -->
-                <div class="module-item" id="module-evaluar-rut" role="button" tabindex="0" aria-label="Evaluar RUT">
-                    <div class="module-item-left">
-                        <div class="icon-container">
-                            <i class="fas fa-id-card module-icon" aria-hidden="true"></i>
-                        </div>
-                        <span class="module-name">Evaluar RUT</span>
-                    </div>
-                    <div class="module-arrow"><i class="fas fa-chevron-right" aria-hidden="true"></i></div>
-                </div>
-
-                <!-- Módulo 4: Condiciones Comerciales -->
-                <div class="module-item" id="module-condiciones-comerciales" role="button" tabindex="0" aria-label="Condiciones Comerciales">
-                    <div class="module-item-left">
-                        <div class="icon-container">
-                            <i class="fas fa-file-contract module-icon" aria-hidden="true"></i>
-                        </div>
-                        <span class="module-name">Condiciones Comerciales</span>
-                    </div>
-                    <div class="module-arrow"><i class="fas fa-chevron-right" aria-hidden="true"></i></div>
-                </div>
-
-                <!-- Módulo 5: Factibilidad -->
-                <div class="module-item" id="module-factibilidad" role="button" tabindex="0" aria-label="Factibilidad">
-                    <div class="module-item-left">
-                        <div class="icon-container">
-                            <i class="fas fa-check-circle module-icon" aria-hidden="true"></i>
-                        </div>
-                        <span class="module-name">Factibilidad</span>
-                    </div>
-                    <div class="module-arrow"><i class="fas fa-chevron-right" aria-hidden="true"></i></div>
-                </div>
-            </section>
-
-            <!-- Botón de Acción Principal: "Ingreso de Venta" -->
-            <button class="main-action-button" id="btn-ingreso-venta-main" role="button" aria-label="Ingreso de Venta">
-                Ingreso de Venta
+        <!-- Área de los 6 botones de la consola -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12 w-full max-w-2xl">
+            <!-- Botón 1: Buscador de Direcciones -->
+            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Buscador de Direcciones" onclick="navigateTo('Buscador de Direcciones')">
+                <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                <span class="text-color-blanco text-base md:text-lg font-medium text-center">Buscador de Direcciones</span>
+            </button>
+            <!-- Botón 2: Calculadora de Boleta -->
+            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Calculadora de Boleta" onclick="navigateTo('Calculadora de Boleta')">
+                <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+                <span class="text-color-blanco text-base md:text-lg font-medium text-center">Calculadora de Boleta</span>
+            </button>
+            <!-- Botón 3: Evaluar RUT -->
+            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Evaluar RUT" onclick="navigateTo('Evaluar RUT')">
+                <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M21 2H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm6 14H6v-1.4c0-2.66 5.33-4 8-4s8 1.34 8 4V19z"/>
+                </svg>
+                <span class="text-color-blanco text-base md:text-lg font-medium text-center">Evaluar RUT</span>
+            </button>
+            <!-- Botón 4: Condiciones Comerciales -->
+            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Condiciones Comerciales" onclick="navigateTo('Condiciones Comerciales')">
+                <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+                <span class="text-color-blanco text-base md:text-lg font-medium text-center">Condiciones Comerciales</span>
+            </button>
+            <!-- Botón 5: Factibilidad -->
+            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Factibilidad" onclick="navigateTo('Factibilidad')">
+                <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2c-4.97 0-9 4.03-9 9 0 3.03 1.48 5.73 3.79 7.42L12 22l5.21-3.58C19.52 16.73 21 14.03 21 11c0-4.97-4.03-9-9-9zm0 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
+                </svg>
+                <span class="text-color-blanco text-base md:text-lg font-medium text-center">Factibilidad</span>
+            </button>
+            <!-- Botón 6: Configuración -->
+            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Configuración" onclick="navigateTo('Configuración')">
+                <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.09-.72-1.71-.97l-.36-2.69c-.05-.24-.27-.42-.52-.42h-4c-.25 0-.47.18-.52.42l-.36 2.69c-.62.25-1.19.58-1.71.97l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.39 1.09.72 1.71.97l.36 2.69c.05.24.27.42.52.42h4c.25 0 .47-.18.52-.42l.36-2.69c.62-.25 1.19-.58 1.71-.97l2.49 1c.22.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+                </svg>
+                <span class="text-color-blanco text-base md:text-lg font-medium text-center">Configuración</span>
             </button>
         </div>
 
-        <!-- Barra de Navegación Inferior: Acceso rápido a funciones clave (Carrusel Estilo Dock) -->
-        <nav class="nav-bar" aria-label="Navegación principal">
-            <!-- Ítem de Navegación: Inicio (Acceso General) -->
-            <div class="nav-item" id="nav-home" role="link" tabindex="0" aria-label="Inicio">
-                <i class="fas fa-house-chimney" aria-hidden="true"></i>
-                <span>Inicio</span>
-            </div>
-            <!-- Ítem de Navegación: Contacto (Acceso General - Puede ser para admin o soporte) -->
-            <div class="nav-item" id="nav-contact" role="link" tabindex="0" aria-label="Contactar Administrador">
-                <i class="fas fa-envelope" aria-hidden="true"></i>
-                <span>Contacto</span>
-            </div>
-            <!-- Ítem de Navegación: Añadir Nuevo (Acceso General) -->
-            <div class="nav-item" id="nav-add" role="link" tabindex="0" aria-label="Añadir Nuevo">
-                <i class="fas fa-plus-square" aria-hidden="true"></i>
-                <span>Añadir</span>
-            </div>
-            <!-- Ítem de Navegación: Perfil de Usuario (Acceso Administrador Requerido) -->
-            <div class="nav-item" id="nav-profile" data-admin-required="true" role="link" tabindex="0" aria-label="Perfil de Usuario">
-                <i class="fas fa-circle-user" aria-hidden="true"></i>
-                <span>Perfil</span>
-            </div>
-            <!-- Ítem de Navegación: Panel de Administrador (Acceso Administrador Requerido) -->
-            <div class="nav-item" id="nav-admin" data-admin-required="true" role="link" tabindex="0" aria-label="Panel de Administrador">
-                <i class="fas fa-user-shield" aria-hidden="true"></i>
-                <span>Admin</span>
-            </div>
-            <!-- Ítem de Navegación: Reportes (Acceso Administrador Requerido) -->
-            <div class="nav-item" id="nav-reports" data-admin-required="true" role="link" tabindex="0" aria-label="Reportes">
-                <i class="fas fa-chart-pie" aria-hidden="true"></i>
-                <span>Reportes</span>
-            </div>
-            <!-- Ítem de Navegación: Configuración (Acceso Administrador Requerido) -->
-            <div class="nav-item" id="nav-settings" data-admin-required="true" role="link" tabindex="0" aria-label="Configuración">
-                <i class="fas fa-gear" aria-hidden="true"></i>
-                <span>Configuración</span>
-            </div>
-            <!-- Ítem de Navegación: Mensajes (Acceso Administrador Requerido) -->
-            <div class="nav-item" id="nav-messages" data-admin-required="true" role="link" tabindex="0" aria-label="Mensajes">
-                <i class="fas fa-message" aria-hidden="true"></i>
-                <span>Mensajes</span>
-            </div>
-            <!-- Ítem de Navegación: Calendario (Acceso Administrador Requerido) -->
-            <div class="nav-item" id="nav-calendar" data-admin-required="true" role="link" tabindex="0" aria-label="Calendario">
-                <i class="fas fa-calendar-days" aria-hidden="true"></i>
-                <span>Calendario</span>
-            </div>
-            <!-- Ítem de Navegación: Documentos (Acceso Administrador Requerido) -->
-            <div class="nav-item" id="nav-docs" data-admin-required="true" role="link" tabindex="0" aria-label="Documentos">
-                <i class="fas fa-file-lines" aria-hidden="true"></i>
-                <span>Documentos</span>
-            </div>
-        </nav>
-
-        <!-- Botón Flotante de Despliegue -->
-        <button id="floating-deploy-button" role="button" aria-label="Desplegar herramientas">
-            <i class="fas fa-rocket" aria-hidden="true"></i>
-            DESPLIEGUE
+        <!-- Botón central: Registro de Venta -->
+        <button class="button-press-effect flex flex-col items-center justify-center p-6 md:p-8 rounded-2xl w-full max-w-xs md:max-w-sm mx-auto mt-6 md:mt-8" aria-label="Registro de Venta" onclick="navigateTo('Registro de Venta')">
+            <svg class="w-14 h-14 md:w-16 md:h-16 text-color-blanco mb-2 md:mb-3 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-4 0c0-1.1.9-2 2-2s2 .9 2 2h-4z"/>
+            </svg>
+            <span class="text-color-blanco text-xl md:text-2xl font-semibold">Registro de Venta</span>
         </button>
     </div>
 
-    <!-- Modal de Acceso Inicial: Punto de entrada para usuarios (ESTILO DE LA IMAGEN) -->
-    <div class="modal-overlay" id="initial-access-modal" role="dialog" aria-modal="true" aria-labelledby="initial-modal-title">
-        <div class="modal-content">
-            <!-- Icono de usuario en la parte superior del modal -->
-            <i class="fas fa-user-circle modal-user-icon" aria-hidden="true"></i>
-            <!-- Título y mensaje ocultos para coincidir con la imagen, pero se pueden mostrar si es necesario -->
-            <h3 id="initial-modal-title" style="display: none;">Acceso a Consola WOM Venta</h3>
-            <p class="modal-message" id="initial-modal-message" style="display: none;"></p>
-
-            <!-- Sección 1: Ingreso de Código / Botón de Solicitud -->
-            <div id="initial-access-section">
-                <div class="input-group">
-                    <i class="fas fa-key" aria-hidden="true"></i>
-                    <label for="unique-code">Código Único:</label>
-                    <input type="text" id="unique-code" placeholder="Ingresa tu código" required aria-required="true">
-                </div>
-                <button type="button" id="access-button" role="button">LOGIN</button>
-                <button type="button" id="request-new-code-button" role="button" style="background: none; color: var(--modal-link-color); box-shadow: none; margin-top: 10px; font-size: 1em; font-weight: 500;">Solicitar Nuevo Código</button>
+    <!-- DOCK PRINCIPAL -->
+    <div class="dock-container">
+        <nav class="dock-blur" id="macosDock">
+            <!-- Icono Inicio -->
+            <div class="dock-icon active" 
+                 data-tooltip="Inicio"
+                 data-action="page"
+                 data-button-name="Inicio"> <!-- Añadido data-button-name -->
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
             </div>
-
-            <!-- Sección 2: Detalles de Solicitud (Inicialmente oculta) -->
-            <div id="request-details-section" style="display: none;">
-                <div class="input-group">
-                    <i class="fas fa-user" aria-hidden="true"></i>
-                    <label for="user-name">Nombre:</label>
-                    <input type="text" id="user-name" placeholder="Tu nombre" required aria-required="true">
-                </div>
-                <div class="input-group">
-                    <i class="fas fa-phone" aria-hidden="true"></i>
-                    <label for="user-phone">Teléfono:</label>
-                    <input type="tel" id="user-phone" placeholder="Ej: 56912345678" required aria-required="true">
-                </div>
-
-                <button type="button" id="send-request-button" role="button">Enviar Solicitud por WhatsApp</button>
-                <button type="button" id="back-to-code-entry-button" role="button" style="background: none; color: var(--modal-link-color); box-shadow: none; margin-top: 10px; font-size: 1em; font-weight: 500;">Volver</button>
+            
+            <!-- Icono Configuración -->
+            <div class="dock-icon" 
+                 data-tooltip="Configuración"
+                 data-action="page"
+                 data-button-name="Configuración"> <!-- Añadido data-button-name -->
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12-.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c-.22-.08-.47 0-.59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                </svg>
             </div>
-        </div>
+            
+            <!-- Icono Informes -->
+            <div class="dock-icon" 
+                 data-tooltip="Informes"
+                 data-action="page"
+                 data-button-name="Informes"> <!-- Añadido data-button-name -->
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Desplegar -->
+            <div class="dock-icon" 
+                 data-tooltip="Desplegar"
+                 data-action="page"
+                 data-button-name="Desplegar"> <!-- Añadido data-button-name -->
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Smart -->
+            <div class="dock-icon" 
+                 data-tooltip="Smart"
+                 data-action="page"
+                 data-button-name="Smart"> <!-- Añadido data-button-name -->
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm1-11h-2v6h2V8zm0 8h-2v2h2v-2z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Agenda -->
+            <div class="dock-icon" 
+                 data-tooltip="Agenda"
+                 data-action="page"
+                 data-button-name="Agenda"> <!-- Añadido data-button-name -->
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Correo -->
+            <div class="dock-icon" 
+                 data-tooltip="Correo"
+                 data-action="page"
+                 data-button-name="Correo"> <!-- Añadido data-button-name -->
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Mensajes -->
+            <div class="dock-icon" 
+                 data-tooltip="Mensajes"
+                 data-action="page"
+                 data-button-name="Mensajes"> <!-- Añadido data-button-name -->
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+                </svg>
+            </div>
+            
+            <!-- Icono Perfil -->
+            <div class="dock-icon" 
+                 data-tooltip="Perfil"
+                 data-action="page"
+                 data-button-name="Perfil"> <!-- Añadido data-button-name -->
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                </svg>
+            </div>
+        </nav>
     </div>
 
-    <!-- Modal de Acceso de Administrador (ESTILO DE LA IMAGEN) -->
-    <div class="modal-overlay" id="admin-login-modal" role="dialog" aria-modal="true" aria-labelledby="admin-login-title">
-        <div class="modal-content">
-            <!-- Icono de usuario en la parte superior del modal -->
-            <i class="fas fa-user-circle modal-user-icon" aria-hidden="true"></i>
-            <!-- Título y mensaje ocultos para coincidir con la imagen, pero se pueden mostrar si es necesario -->
-            <h3 id="admin-login-title" style="display: none;">Acceso de Administrador</h3>
-            <p class="modal-message" id="admin-login-message" style="display: none;"></p>
-            <form id="admin-login-form">
-                <!-- Campo de Contraseña (Email ID eliminado según solicitud) -->
-                <div class="input-group">
-                    <i class="fas fa-lock" aria-hidden="true"></i>
-                    <label for="admin-password">Contraseña:</label>
-                    <input type="password" id="admin-password" placeholder="Contraseña" required aria-required="true">
-                </div>
-                <div class="modal-options">
-                    <label>
-                        <input type="checkbox" id="remember-me"> Recordarme
-                    </label>
-                    <a href="#" id="forgot-password-link">¿Olvidaste tu contraseña?</a>
-                </div>
-                <button type="submit" role="button">LOGIN</button>
-            </form>
-        </div>
-    </div>
+    <script>
+        // =====================================================================
+        // CONSOLA DE URLS Y COMPORTAMIENTO DE BOTONES
+        // =====================================================================
 
-    <!-- Modal del Panel de Administración (Mantiene botón de cierre y estilo neumórfico original) -->
-    <div class="modal-overlay" id="admin-panel-modal" role="dialog" aria-modal="true" aria-labelledby="admin-panel-title">
-        <div class="modal-content">
-            <!-- Botón de cierre "X" para el panel de administración -->
-            <button class="modal-close-button" id="admin-panel-close-button" aria-label="Cerrar panel de administración"><i class="fas fa-times" aria-hidden="true"></i></button>
-            <h3 id="admin-panel-title">Panel de Administración</h3>
-            <p class="modal-message">Aquí puedes cambiar el código único de acceso.</p>
-            <p>Código Único Actual: <span class="current-code" id="current-unique-code"></span></p>
-            <form id="update-code-form">
-                <label for="new-unique-code">Nuevo Código Único:</label>
-                <input type="text" id="new-unique-code" placeholder="Ingresa el nuevo código" required aria-required="true">
-                <button type="submit" role="button">Guardar Nuevo Código</button>
-            </form>
-        </div>
-    </div>
+        /**
+         * Objeto para mapear los nombres de los botones a sus URLs de destino.
+         * Puedes modificar estas URLs según tus necesidades.
+         *
+         * Clave: Nombre del botón (debe coincidir con el 'data-button-name' en HTML o el texto del span).
+         * Valor: La URL a la que el botón debe navegar.
+         *
+         * NOTA: En este entorno de previsualización, la navegación real está comentada.
+         * Solo se mostrará un mensaje en la consola del navegador.
+         * Para la navegación real en un entorno de producción, descomenta la línea
+         * `window.location.href = finalTarget;` dentro de la función `navigateTo`.
+         */
+        const urlMappings = {
+            "Buscador de Direcciones": "https://www.google.com/maps",
+            "Calculadora de Boleta": "https://www.ejemplo.com/calculadora-boleta.html",
+            "Evaluar RUT": "https://www.ejemplo.com/evaluar-rut.html",
+            "Condiciones Comerciales": "https://www.ejemplo.com/condiciones-comerciales.html",
+            "Factibilidad": "https://www.ejemplo.com/factibilidad.html",
+            "Configuración": "https://www.ejemplo.com/configuracion.html",
+            "Registro de Venta": "https://www.ejemplo.com/registro-venta.html",
+            "Inicio": "https://www.ejemplo.com/index.html",
+            "Informes": "https://www.ejemplo.com/informes.html",
+            "Desplegar": "https://www.ejemplo.com/desplegar.html",
+            "Smart": "https://www.ejemplo.com/smart.html",
+            "Agenda": "https://www.ejemplo.com/agenda.html",
+            "Correo": "https://www.ejemplo.com/correo.html",
+            "Mensajes": "https://www.ejemplo.com/mensajes.html",
+            "Perfil": "https://www.ejemplo.com/perfil.html"
+        };
 
-    <!-- Modal de Actualización Forzada del Administrador (cuando el código expira) -->
-    <div class="modal-overlay" id="forced-admin-update-modal" role="alertdialog" aria-modal="true" aria-labelledby="forced-update-title" aria-describedby="forced-update-message">
-        <div class="modal-content">
-            <h3 id="forced-update-title">Código de Acceso Expirado</h3>
-            <p class="modal-message" id="forced-update-message">El código de acceso ha expirado. Por favor, contacta al administrador para que actualice el código.</p>
-            <p class="modal-message">Una vez actualizado, podrás volver a solicitar acceso con el nuevo código.</p>
-        </div>
-    </div>
+        /**
+         * Función para manejar la navegación de los botones.
+         * Busca la URL en el `urlMappings` y simula la navegación.
+         * @param {string} buttonName - El nombre del botón que se está activando.
+         */
+        function navigateTo(buttonName) {
+            const targetUrl = urlMappings[buttonName];
+            if (targetUrl) {
+                console.log(`Simulando navegación para "${buttonName}" a: ${targetUrl}`);
+                // Para habilitar la navegación real en un entorno de producción, descomenta la siguiente línea:
+                // window.location.href = targetUrl;
+            } else {
+                console.warn(`URL no definida para el botón: "${buttonName}"`);
+            }
+        }
 
-    <!-- Overlay de carga inicial -->
-    <div id="loading-overlay">Cargando aplicación...</div>
+        // JavaScript para añadir interactividad a los botones de la consola y al nuevo dock
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lógica para los botones de la consola principal
+            const consoleButtons = document.querySelectorAll('.grid button');
+            consoleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const buttonName = button.querySelector('span').textContent;
+                    navigateTo(buttonName);
+                });
+            });
 
-    <!-- Enlace al archivo JavaScript externo -->
-    <script src="script.js" defer></script>
+            // Lógica para el nuevo Dock macOS
+            const dock = document.getElementById('macosDock');
+            const icons = dock.querySelectorAll('.dock-icon');
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            
+            // Efecto en cadena al pasar el mouse (solo en desktop)
+            if (!isMobile) {
+                icons.forEach(icon => {
+                    icon.addEventListener('mouseenter', () => {
+                        const index = Array.from(icons).indexOf(icon);
+                        console.log(`Mouse ENTER en icono: ${icon.getAttribute('data-tooltip')}`); // Log para depuración
+                        
+                        // Afectar iconos adyacentes con un efecto más notorio pero coordinado
+                        if (icons[index - 1]) {
+                            icons[index - 1].classList.add('adjacent-effect');
+                        }
+                        if (icons[index + 1]) {
+                            icons[index + 1].classList.add('adjacent-effect');
+                        }
+                    });
+                    
+                    icon.addEventListener('mouseleave', () => {
+                        console.log(`Mouse LEAVE en icono: ${icon.getAttribute('data-tooltip')}`); // Log para depuración
+                        // Restablecer SOLO los iconos que tienen el efecto adyacente
+                        icons.forEach(i => {
+                            if (i.classList.contains('adjacent-effect')) {
+                                i.classList.remove('adjacent-effect');
+                            }
+                        });
+                    });
+                });
+            }
+            
+            // Acción al hacer clic (para todos los dispositivos)
+            icons.forEach(icon => {
+                icon.addEventListener('click', () => {
+                    const buttonName = icon.getAttribute('data-button-name'); // Obtener el nombre del botón del atributo
+                    navigateTo(buttonName); // Usar la función centralizada de navegación
+
+                    // Efecto de acercamiento en móvil
+                    if (isMobile) {
+                        icon.style.transform = 'scale(1.5) translateY(-5px)'; // Ajustado para el nuevo tamaño
+                        setTimeout(() => {
+                            icon.style.transform = 'scale(1) translateY(0)';
+                        }, 200);
+                    }
+                    
+                    // Marcar como activo
+                    icons.forEach(i => i.classList.remove('active'));
+                    icon.classList.add('active');
+                });
+            });
+            
+            // Scroll suave para móviles
+            if (isMobile) {
+                dock.addEventListener('touchmove', (e) => {
+                    e.preventDefault(); // Previene el scroll del body mientras se hace scroll en el dock
+                }, { passive: false });
+                
+                let startX, scrollLeft;
+                let isDown = false;
+                
+                dock.addEventListener('touchstart', (e) => {
+                    isDown = true;
+                    startX = e.touches[0].pageX - dock.offsetLeft;
+                    scrollLeft = dock.scrollLeft;
+                });
+                
+                dock.addEventListener('touchmove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.touches[0].pageX - dock.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    dock.scrollLeft = scrollLeft - walk;
+                });
+                
+                dock.addEventListener('touchend', () => {
+                    isDown = false;
+                });
+            }
+        });
+    </script>
 </body>
 </html>
