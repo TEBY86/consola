@@ -1201,7 +1201,7 @@
             </div>
 
             <button onclick="window.handleLogin()">Ingresar</button>
-            <button onclick="window.requestKey()" class="secondary">Solicitar clave</button>
+            <!-- El botón "Solicitar clave" ha sido eliminado -->
         </div>
     </div>
 
@@ -1218,18 +1218,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE REGISTRO / SOLICITAR CLAVE -->
-    <div id="registerModal" class="modal-overlay">
-        <div class="modal-content">
-            <h2>Regístrate en FreeWork</h2>
-            <p>Para solicitar una clave, por favor, introduce tus datos. Te enviaremos un código por WhatsApp.</p>
-            <input type="text" id="registerNameInput" placeholder="Tu Nombre Completo">
-            <input type="tel" id="registerPhoneInput" placeholder="Tu Teléfono (ej. +56912345678)">
-            <p id="registerSuccessMessage" class="success-message hidden"></p>
-            <button onclick="window.sendRegistrationRequest()">Enviar Solicitud</button>
-            <button onclick="window.hideModal('registerModal')" class="secondary">Cancelar</button>
-        </div>
-    </div>
+    <!-- El MODAL DE REGISTRO / SOLICITAR CLAVE ha sido eliminado -->
 
     <!-- MODAL DE ACCESO DE ADMINISTRADOR -->
     <div id="adminLoginPromptModal" class="modal-overlay">
@@ -1404,7 +1393,7 @@
 
         // Variables globales para los elementos del DOM
         const loginModal = document.getElementById('loginModal');
-        const registerModal = document.getElementById('registerModal');
+        // const registerModal = document.getElementById('registerModal'); // REMOVED
         const forgotPasswordModal = document.getElementById('forgotPasswordModal'); // Nuevo modal para recuperar clave
         const adminLoginPromptModal = document.getElementById('adminLoginPromptModal'); // Nuevo modal para pedir clave admin
         const adminModal = document.getElementById('adminModal'); // Nuevo modal de consola de administración
@@ -1416,9 +1405,9 @@
         const loginStatusMessage = document.getElementById('loginStatusMessage'); // Renombrado
         const rememberMeCheckbox = document.getElementById('rememberMe');
         
-        const registerNameInput = document.getElementById('registerNameInput');
-        const registerPhoneInput = document.getElementById('registerPhoneInput');
-        const registerSuccessMessage = document.getElementById('registerSuccessMessage');
+        // const registerNameInput = document.getElementById('registerNameInput'); // REMOVED
+        // const registerPhoneInput = document.getElementById('registerPhoneInput'); // REMOVED
+        // const registerSuccessMessage = document.getElementById('registerSuccessMessage'); // REMOVED
 
         const forgotNameInput = document.getElementById('forgotNameInput'); // Input de nombre en recuperar clave
         const forgotPhoneInput = document.getElementById('forgotPhoneInput'); // Input de teléfono en recuperar clave
@@ -1456,7 +1445,7 @@
                     }
                 } else {
                     console.warn("Firebase config (__firebase_config) is not defined or empty. Using a default projectId.");
-                    firebaseConfig = { projectId: 'default-project-id' }; // Provide a default projectId
+                    firebaseConfig = { projectId: 'default-project-id'; }; // Provide a default projectId
                 }
                 
                 // Ensure projectId exists, even if other parts are missing
@@ -1702,7 +1691,7 @@
         window.showModal = function(modalId) {
             // Ocultar todos los modales primero
             loginModal.classList.remove('active');
-            registerModal.classList.remove('active');
+            // registerModal.classList.remove('active'); // REMOVED
             forgotPasswordModal.classList.remove('active'); 
             adminLoginPromptModal.classList.remove('active');
             adminModal.classList.remove('active');
@@ -1714,7 +1703,7 @@
                 modal.classList.add('active');
                 // Limpiar mensajes de error/éxito al mostrar el modal
                 // loginErrorMessage.classList.add('hidden'); // No ocultar, se gestiona con displayLoginMessage
-                registerSuccessMessage.classList.add('hidden');
+                // registerSuccessMessage.classList.add('hidden'); // REMOVED
                 forgotPasswordMessage.classList.add('hidden'); 
                 adminLoginErrorMessage.classList.add('hidden');
                 adminConsoleMessage.classList.add('hidden');
@@ -1837,13 +1826,8 @@
 
         /**
          * Abre el modal de registro cuando se solicita una clave.
+         * REMOVED: window.requestKey = function() { ... }
          */
-        window.requestKey = function() {
-            window.hideModal('loginModal');
-            window.showModal('registerModal');
-            registerNameInput.value = '';
-            registerPhoneInput.value = '';
-        }
 
         // =====================================================================
         // LÓGICA DE RECUPERACIÓN DE CLAVE POR WHATSAPP (PARA USUARIOS NO ADMIN)
@@ -1893,38 +1877,8 @@
 
         // =====================================================================
         // LÓGICA DE REGISTRO / SOLICITAR CLAVE (INICIAL)
+        // REMOVED: window.sendRegistrationRequest = function() { ... }
         // =====================================================================
-
-        /**
-         * Envía la solicitud de registro vía WhatsApp.
-         */
-        window.sendRegistrationRequest = function() {
-            const name = registerNameInput.value.trim();
-            const phone = registerPhoneInput.value.trim();
-            const whatsappNumber = "56927372611"; // Número de WhatsApp fijo para solicitudes de registro
-
-            if (!name || !phone) {
-                registerSuccessMessage.textContent = "Por favor, completa todos los campos.";
-                registerSuccessMessage.style.color = '#ef4444';
-                registerSuccessMessage.classList.remove('hidden');
-                return;
-            }
-
-            const message = encodeURIComponent(`Hola, mi nombre es ${name} y mi número es ${phone}. Me gustaría solicitar una clave de acceso para FreeWork.`);
-            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
-
-            window.open(whatsappUrl, '_blank');
-
-            registerSuccessMessage.textContent = "¡Solicitud enviada! Por favor, espera a que te enviemos tu clave por WhatsApp.";
-            registerSuccessMessage.style.color = '#22c55e';
-            registerSuccessMessage.classList.remove('hidden');
-
-            setTimeout(() => {
-                window.hideModal('registerModal');
-                window.showModal('loginModal');
-                displayLoginMessage("Tu solicitud de registro ha sido enviada.", false);
-            }, 3000);
-        }
 
         // =====================================================================
         // LÓGICA DE ACCESO Y CONSOLA DE ADMINISTRADOR
