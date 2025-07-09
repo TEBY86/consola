@@ -1480,7 +1480,9 @@
                         userId = user.uid;
                         console.log("Usuario autenticado con ID:", userId);
                         // Referencia al documento de configuración de la aplicación
-                        appSettingsRef = doc(db, `artifacts/${appId}/app_settings/config`);
+                        // Se ha modificado la ruta para asegurar que sea accesible para escritura
+                        // en entornos de Canvas, utilizando la estructura de datos públicos.
+                        appSettingsRef = doc(db, `artifacts/${appId}/public/data/app_settings`);
                         
                         // Cargar configuraciones (claves y URLs) desde Firestore
                         await loadAppSettings();
@@ -1608,7 +1610,7 @@
                 console.log("Configuración guardada exitosamente en Firestore.");
                 return true;
             } catch (error) {
-                console.error("Error al guardar la configuración en Firestore:", error);
+                console.error("Error al guardar la configuración en Firestore:", error); // Log the specific error
                 return false;
             }
         }
