@@ -840,6 +840,9 @@
                         inset 0 0 20px rgba(255, 255, 255, 0.05); /* Brillo interior sutil */
             animation: none; /* Eliminar animación de brillo para este modal */
             color: white; /* Asegurar que el texto principal sea blanco */
+            max-width: 500px; /* Aumentar el ancho máximo para el modal de admin */
+            max-height: 90vh; /* Permitir que el modal ocupe más altura en pantallas grandes */
+            overflow-y: auto; /* Habilitar scroll para el contenido del modal si es necesario */
         }
 
         #adminModal .input-with-icon input {
@@ -1329,8 +1332,7 @@
 
             <p id="adminConsoleMessage" class="success-message hidden"></p>
             
-            <!-- Botones "Aceptar Cambios" y "Cerrar" movidos aquí -->
-            <button onclick="window.saveAdminChanges()">Aceptar Cambios</button>
+            <!-- Botón "Cerrar" -->
             <button onclick="window.hideModal('adminModal')" class="secondary">Cerrar</button>
 
             <h3 class="text-color-blanco font-bold text-lg mt-4 mb-2">Conexiones de Botones</h3>
@@ -1492,6 +1494,11 @@
                         // Verificar si hay una sesión recordada o si el login no es requerido
                         checkRememberedLogin();
 
+                        // Añadir listeners para auto-guardado en el modal de administración
+                        adminGeneralKeyInput.addEventListener('input', debounce(saveAppSettings, 500));
+                        adminAdminKeyInput.addEventListener('input', debounce(saveAppSettings, 500));
+                        toggleLoginRequirement.addEventListener('change', saveAppSettings);
+
                     } else {
                         console.log("No hay usuario autenticado.");
                         // Si no hay usuario, y el login es requerido, mostramos el modal de login
@@ -1542,6 +1549,16 @@
                 }
             }
         });
+
+        // Función de debounce para limitar la frecuencia de guardado
+        function debounce(func, delay) {
+            let timeout;
+            return function(...args) {
+                const context = this;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), delay);
+            };
+        }
 
         /**
          * Carga la configuración de la aplicación (claves y mapeos de URL) desde Firestore.
@@ -1597,22 +1614,79 @@
         /**
          * Guarda la configuración actual de la aplicación (claves y mapeos de URL) en Firestore.
          */
-        async function saveAppSettings() {
+        window.saveAppSettings = async function() { // Make it global for easy access from event listeners
             if (!userId) {
                 console.error("No hay usuario autenticado para guardar la configuración.");
                 return false;
             }
             try {
+                // Actualizar las claves y el estado del login en memoria antes de guardar
+                currentKey = adminGeneralKeyInput.value.trim();
+                adminKey = adminAdminKeyInput.value.trim();
+                isLoginRequired = toggleLoginRequirement.checked;
+
+                // Recopilar los mapeos de URL actualizados del DOM
+                const updatedUrlMappings = {};
+                const urlItems = urlMappingsPanel.querySelectorAll('.url-mapping-item');
+                urlItems.forEach(item => {
+                    const buttonName = item.querySelector('label').textContent;
+                    const accessSelect = item.querySelector('select');
+                    
+                    const customUsers = [];
+                    if (accessSelect.value === 'custom') {
+                        const customUserItems = item.querySelectorAll('.custom-user-item');
+                        customUserItems.forEach(userItem => {
+                            const nameSpan = userItem.querySelector('span:first-child');
+                            const codeSpan = userItem.querySelector('span:nth-child(2)');
+                            if (nameSpan && codeSpan) {
+                                customUsers.push({
+                                    name: nameSpan.textContent.replace('Nombre: ', '').trim(),
+                                    code: codeSpan.textContent.replace('Código: ', '').trim()
+                                });
+                            }
+                        });
+                    }
+
+                    const connections = [];
+                    const connectionItems = item.querySelectorAll('.connection-item');
+                    connectionItems.forEach(connItem => {
+                        const labelSpan = connItem.querySelector('span:first-child');
+                        const urlSpan = connItem.querySelector('span:nth-child(2)');
+                        if (labelSpan && urlSpan) {
+                            connections.push({
+                                label: labelSpan.textContent.replace('Etiqueta: ', '').trim(),
+                                url: urlSpan.textContent.replace('URL: ', '').trim()
+                            });
+                        }
+                    });
+                    
+                    updatedUrlMappings[buttonName] = {
+                        connections: connections,
+                        access: accessSelect.value,
+                        customUsers: customUsers
+                    };
+                });
+                urlMappings = updatedUrlMappings; // Actualizar el objeto global
+
                 await setDoc(appSettingsRef, {
                     generalKey: currentKey,
                     adminKey: adminKey,
                     isLoginRequired: isLoginRequired, // Guardar el estado del switch
                     urlMappings: urlMappings
                 });
+                adminConsoleMessage.textContent = "¡Cambios guardados exitosamente!";
+                adminConsoleMessage.style.color = '#22c55e';
+                adminConsoleMessage.classList.remove('hidden');
+                setTimeout(() => {
+                    adminConsoleMessage.classList.add('hidden');
+                }, 2000); // Ocultar mensaje después de 2 segundos
                 console.log("Configuración guardada exitosamente en Firestore.");
                 return true;
             } catch (error) {
                 console.error("Error al guardar la configuración en Firestore:", error); // Log the specific error
+                adminConsoleMessage.textContent = "Error al guardar los cambios. Inténtalo de nuevo.";
+                adminConsoleMessage.style.color = '#ef4444';
+                adminConsoleMessage.classList.remove('hidden');
                 return false;
             }
         }
@@ -1942,86 +2016,6 @@
         };
 
         /**
-         * Guarda los cambios realizados en la consola de administración.
-         */
-        window.saveAdminChanges = async function() {
-            const newGeneralKey = adminGeneralKeyInput.value.trim();
-            const newAdminKey = adminAdminKeyInput.value.trim();
-            const newIsLoginRequired = toggleLoginRequirement.checked; // Obtener el estado del switch
-
-            if (!newGeneralKey || !newAdminKey) {
-                adminConsoleMessage.textContent = "Las claves no pueden estar vacías.";
-                adminConsoleMessage.style.color = '#ef4444';
-                adminConsoleMessage.classList.remove('hidden');
-                return;
-            }
-
-            // Actualizar las claves y el estado del login en memoria
-            currentKey = newGeneralKey;
-            adminKey = newAdminKey;
-            isLoginRequired = newIsLoginRequired;
-
-            // Recopilar los mapeos de URL actualizados del DOM
-            const updatedUrlMappings = {};
-            const urlItems = urlMappingsPanel.querySelectorAll('.url-mapping-item');
-            urlItems.forEach(item => {
-                const buttonName = item.querySelector('label').textContent;
-                const accessSelect = item.querySelector('select');
-                
-                const customUsers = [];
-                if (accessSelect.value === 'custom') {
-                    const customUserItems = item.querySelectorAll('.custom-user-item');
-                    customUserItems.forEach(userItem => {
-                        const nameSpan = userItem.querySelector('span:first-child');
-                        const codeSpan = userItem.querySelector('span:nth-child(2)');
-                        if (nameSpan && codeSpan) {
-                            customUsers.push({
-                                name: nameSpan.textContent.replace('Nombre: ', '').trim(),
-                                code: codeSpan.textContent.replace('Código: ', '').trim()
-                            });
-                        }
-                    });
-                }
-
-                const connections = [];
-                const connectionItems = item.querySelectorAll('.connection-item');
-                connectionItems.forEach(connItem => {
-                    const labelSpan = connItem.querySelector('span:first-child');
-                    const urlSpan = connItem.querySelector('span:nth-child(2)');
-                    if (labelSpan && urlSpan) {
-                        connections.push({
-                            label: labelSpan.textContent.replace('Etiqueta: ', '').trim(),
-                            url: urlSpan.textContent.replace('URL: ', '').trim()
-                        });
-                    }
-                });
-                
-                updatedUrlMappings[buttonName] = {
-                    connections: connections,
-                    access: accessSelect.value,
-                    customUsers: customUsers
-                };
-            });
-            urlMappings = updatedUrlMappings; // Actualizar el objeto global
-
-            const saved = await saveAppSettings(); // Guardar todo en Firestore
-
-            if (saved) {
-                adminConsoleMessage.textContent = "¡Cambios guardados exitosamente!";
-                adminConsoleMessage.style.color = '#22c55e';
-                adminConsoleMessage.classList.remove('hidden');
-                // Opcional: Cerrar el modal de administración después de un tiempo
-                setTimeout(() => {
-                    window.hideModal('adminModal');
-                }, 2000);
-            } else {
-                adminConsoleMessage.textContent = "Error al guardar los cambios. Inténtalo de nuevo.";
-                adminConsoleMessage.style.color = '#ef4444';
-                adminConsoleMessage.classList.remove('hidden');
-            }
-        }
-
-        /**
          * Renderiza dinámicamente el panel para editar las URLs y accesos de los botones.
          */
         function renderUrlMappings() {
@@ -2066,6 +2060,7 @@
                             const indexToRemove = parseInt(e.target.dataset.index);
                             urlMappings[buttonName].connections.splice(indexToRemove, 1);
                             renderConnections(urlMappings[buttonName].connections, sectionElement);
+                            saveAppSettings(); // Auto-guardar al eliminar
                         };
                     });
 
@@ -2080,6 +2075,7 @@
                             newLabelInput.value = '';
                             newUrlInput.value = '';
                             renderConnections(urlMappings[buttonName].connections, sectionElement);
+                            saveAppSettings(); // Auto-guardar al agregar
                         } else {
                             console.error("Error: La etiqueta y la URL de la conexión no pueden estar vacías.");
                             const errorMsg = document.createElement('p');
@@ -2093,6 +2089,11 @@
                             }, 3000);
                         }
                     };
+
+                    // Añadir listeners para auto-guardado en los inputs de conexión
+                    sectionElement.querySelectorAll('.new-connection-label, .new-connection-url').forEach(input => {
+                        input.addEventListener('input', debounce(saveAppSettings, 500));
+                    });
                 };
                 renderConnections(urlMappings[buttonName].connections, connectionListSection);
 
@@ -2153,6 +2154,7 @@
                             const indexToRemove = parseInt(e.target.dataset.index);
                             urlMappings[buttonName].customUsers.splice(indexToRemove, 1);
                             renderCustomUsers(urlMappings[buttonName].customUsers, sectionElement);
+                            saveAppSettings(); // Auto-guardar al eliminar
                         };
                     });
 
@@ -2167,6 +2169,7 @@
                             newNameInput.value = '';
                             newCodeInput.value = '';
                             renderCustomUsers(urlMappings[buttonName].customUsers, sectionElement);
+                            saveAppSettings(); // Auto-guardar al agregar
                         } else {
                             console.error("Error: Introduce un nombre y un código válido de 3 dígitos.");
                             const errorMsg = document.createElement('p');
@@ -2180,6 +2183,11 @@
                             }, 3000);
                         }
                     };
+
+                    // Añadir listeners para auto-guardado en los inputs de usuario personalizado
+                    sectionElement.querySelectorAll('.new-custom-user-name, .new-custom-user-code').forEach(input => {
+                        input.addEventListener('input', debounce(saveAppSettings, 500));
+                    });
                 };
 
                 // Renderizar usuarios personalizados si el acceso es 'custom'
@@ -2195,6 +2203,7 @@
                     } else {
                         customUsersSection.style.display = 'none';
                     }
+                    saveAppSettings(); // Auto-guardar al cambiar el tipo de acceso
                 };
 
                 urlMappingsPanel.appendChild(itemDiv);
