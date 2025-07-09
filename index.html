@@ -1586,7 +1586,25 @@
          * Verifica si hay una sesión recordada en localStorage y la restaura.
          */
         function checkRememberedLogin() {
-            const rememberedLogin = JSON.parse(localStorage.getItem('rememberedLogin'));
+            const storedLogin = localStorage.getItem('rememberedLogin');
+            console.log("Stored login raw:", storedLogin); // Log raw string
+            let rememberedLogin = null;
+            try {
+                if (storedLogin) {
+                    rememberedLogin = JSON.parse(storedLogin);
+                }
+            } catch (e) {
+                console.error("Error parsing rememberedLogin from localStorage:", e);
+                localStorage.removeItem('rememberedLogin'); // Clear corrupted data
+            }
+
+            if (rememberedLogin) {
+                console.log("Parsed rememberedLogin:", rememberedLogin);
+                console.log("Current time:", Date.now());
+                console.log("Expires time:", rememberedLogin.expires);
+                console.log("Is current time < expires time?", Date.now() < rememberedLogin.expires);
+            }
+
             if (rememberedLogin && rememberedLogin.expires && Date.now() < rememberedLogin.expires) {
                 isLoggedIn = true;
                 window.hideModal('loginModal');
@@ -1614,9 +1632,10 @@
                 if (rememberMeCheckbox.checked) {
                     const expires = Date.now() + (24 * 60 * 60 * 1000); // 24 horas desde ahora
                     localStorage.setItem('rememberedLogin', JSON.stringify({ timestamp: Date.now(), expires: expires }));
-                    console.log("Sesión recordada por 24 horas.");
+                    console.log("Sesión guardada en localStorage. Expira en:", new Date(expires).toLocaleString()); // Log human-readable time
                 } else {
                     localStorage.removeItem('rememberedLogin'); // Limpiar si no se marcó "Recordarme"
+                    console.log("Sesión no recordada, datos de localStorage eliminados.");
                 }
 
                 // Limpiar los inputs después del login
