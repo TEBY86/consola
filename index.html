@@ -1445,7 +1445,7 @@
                     }
                 } else {
                     console.warn("Firebase config (__firebase_config) is not defined or empty. Using a default projectId.");
-                    firebaseConfig = { projectId: 'default-project-id'; }; // Provide a default projectId
+                    firebaseConfig = { projectId: 'default-project-id' }; // Provide a default projectId
                 }
                 
                 // Ensure projectId exists, even if other parts are missing
@@ -1471,7 +1471,7 @@
                 onAuthStateChanged(auth, async (user) => {
                     if (user) {
                         userId = user.uid;
-                        console.log("Usuario autenticado con ID:", userId);
+                        console.log("DEBUG: Usuario autenticado con ID:", userId);
                         // Referencia al documento de configuración de la aplicación
                         // Se ha modificado la ruta para asegurar que sea accesible para escritura
                         // en entornos de Canvas, utilizando la estructura de datos públicos.
@@ -1489,7 +1489,7 @@
                         toggleLoginRequirement.addEventListener('change', saveAppSettings);
 
                     } else {
-                        console.log("No hay usuario autenticado.");
+                        console.log("DEBUG: No hay usuario autenticado.");
                         // Si no hay usuario, y el login es requerido, mostramos el modal de login
                         if (isLoginRequired) {
                             window.showModal('loginModal');
@@ -1527,7 +1527,7 @@
 
 
             } catch (error) {
-                console.error("Error al inicializar Firebase o autenticar:", error);
+                console.error("DEBUG: Error al inicializar Firebase o autenticar:", error);
                 // Mostrar el modal de login incluso si Firebase falla, si el login es requerido
                 if (isLoginRequired) {
                     window.showModal('loginModal');
@@ -1588,14 +1588,14 @@
                             }
                         }
                     }
-                    console.log("Configuración cargada desde Firestore:", { generalKey: currentKey, adminKey: adminKey, isLoginRequired: isLoginRequired, urlMappings: urlMappings });
+                    console.log("DEBUG: Configuración cargada desde Firestore:", { generalKey: currentKey, adminKey: adminKey, isLoginRequired: isLoginRequired, urlMappings: urlMappings });
                 } else {
-                    console.log("No hay configuración guardada en Firestore. Usando valores por defecto y guardándolos.");
+                    console.log("DEBUG: No hay configuración guardada en Firestore. Usando valores por defecto y guardándolos.");
                     // Guardar los valores por defecto si no existen
                     await saveAppSettings();
                 }
             } catch (error) {
-                console.error("Error al cargar la configuración de la aplicación:", error);
+                console.error("DEBUG: Error al cargar la configuración de la aplicación:", error);
                 // Si hay un error, se mantienen las claves y mapeos por defecto
             }
         }
@@ -1605,7 +1605,7 @@
          */
         window.saveAppSettings = async function() { // Make it global for easy access from event listeners
             if (!userId) {
-                console.error("No hay usuario autenticado para guardar la configuración.");
+                console.error("DEBUG: No hay usuario autenticado para guardar la configuración.");
                 return false;
             }
             try {
@@ -1669,10 +1669,10 @@
                 setTimeout(() => {
                     adminConsoleMessage.classList.add('hidden');
                 }, 2000); // Ocultar mensaje después de 2 segundos
-                console.log("Configuración guardada exitosamente en Firestore.");
+                console.log("DEBUG: Configuración guardada exitosamente en Firestore.");
                 return true;
             } catch (error) {
-                console.error("Error al guardar la configuración en Firestore:", error); // Log the specific error
+                console.error("DEBUG: Error al guardar la configuración en Firestore:", error); // Log the specific error
                 adminConsoleMessage.textContent = "Error al guardar los cambios. Inténtalo de nuevo.";
                 adminConsoleMessage.style.color = '#ef4444';
                 adminConsoleMessage.classList.remove('hidden');
@@ -1689,6 +1689,7 @@
          * @param {string} modalId - El ID del modal a mostrar.
          */
         window.showModal = function(modalId) {
+            console.log(`DEBUG: Intentando mostrar modal: ${modalId}`);
             // Ocultar todos los modales primero
             loginModal.classList.remove('active');
             // registerModal.classList.remove('active'); // REMOVED
@@ -1701,6 +1702,7 @@
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.add('active');
+                console.log(`DEBUG: Modal ${modalId} ahora tiene clase 'active'.`);
                 // Limpiar mensajes de error/éxito al mostrar el modal
                 // loginErrorMessage.classList.add('hidden'); // No ocultar, se gestiona con displayLoginMessage
                 // registerSuccessMessage.classList.add('hidden'); // REMOVED
@@ -1708,6 +1710,8 @@
                 adminLoginErrorMessage.classList.add('hidden');
                 adminConsoleMessage.classList.add('hidden');
                 customUserLoginErrorMessage.classList.add('hidden'); 
+            } else {
+                console.error(`DEBUG: Error: No se encontró el modal con ID: ${modalId}`);
             }
         }
 
@@ -1716,9 +1720,13 @@
          * @param {string} modalId - El ID del modal a ocultar.
          */
         window.hideModal = function(modalId) {
+            console.log(`DEBUG: Intentando ocultar modal: ${modalId}`);
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.remove('active');
+                console.log(`DEBUG: Modal ${modalId} ahora no tiene clase 'active'.`);
+            } else {
+                console.error(`DEBUG: Error: No se encontró el modal con ID: ${modalId} para ocultar.`);
             }
         }
 
@@ -1731,6 +1739,7 @@
             loginStatusMessage.textContent = message;
             loginStatusMessage.style.color = isError ? '#ef4444' : '#22c55e'; // Rojo para error, verde para info/éxito
             loginStatusMessage.classList.remove('hidden');
+            console.log(`DEBUG: Mensaje de login: ${message} (Error: ${isError})`);
         }
 
         /**
@@ -1752,6 +1761,7 @@
          * Verifica si hay una sesión recordada en localStorage y la restaura.
          */
         function checkRememberedLogin() {
+            console.log("DEBUG: checkRememberedLogin() ejecutado.");
             if (!isLoginRequired) {
                 isLoggedIn = true;
                 window.hideModal('loginModal'); // Asegurarse de que el modal de login esté oculto
@@ -1797,6 +1807,7 @@
          * Maneja el intento de inicio de sesión con la clave general.
          */
         window.handleLogin = function() {
+            console.log("DEBUG: handleLogin() ejecutado.");
             const enteredUsername = loginUsernameInput.value.trim();
             const enteredKey = loginKeyInput.value.trim();
             
@@ -1824,11 +1835,6 @@
             }
         }
 
-        /**
-         * Abre el modal de registro cuando se solicita una clave.
-         * REMOVED: window.requestKey = function() { ... }
-         */
-
         // =====================================================================
         // LÓGICA DE RECUPERACIÓN DE CLAVE POR WHATSAPP (PARA USUARIOS NO ADMIN)
         // =====================================================================
@@ -1837,6 +1843,7 @@
          * Abre el modal para que un usuario solicite la recuperación de su clave.
          */
         window.openForgotPasswordModal = function() {
+            console.log("DEBUG: openForgotPasswordModal() ejecutado.");
             window.hideModal('loginModal');
             window.showModal('forgotPasswordModal');
             forgotNameInput.value = '';
@@ -1848,6 +1855,7 @@
          * Envía la solicitud de recuperación de clave vía WhatsApp a los administradores.
          */
         window.sendForgotPasswordRequest = function() {
+            console.log("DEBUG: sendForgotPasswordRequest() ejecutado.");
             const name = forgotNameInput.value.trim();
             const phone = forgotPhoneInput.value.trim();
             const whatsappNumber = "56927372611"; // Número de WhatsApp fijo para solicitudes de recuperación
@@ -1856,6 +1864,7 @@
                 forgotPasswordMessage.textContent = "Por favor, completa todos los campos.";
                 forgotPasswordMessage.style.color = '#ef4444';
                 forgotPasswordMessage.classList.remove('hidden');
+                console.log("DEBUG: Error en recuperación de clave: campos vacíos.");
                 return;
             }
 
@@ -1867,6 +1876,7 @@
             forgotPasswordMessage.textContent = "¡Solicitud enviada! Por favor, espera a que te contactemos por WhatsApp.";
             forgotPasswordMessage.style.color = '#22c55e';
             forgotPasswordMessage.classList.remove('hidden');
+            console.log("DEBUG: Solicitud de recuperación de clave enviada.");
 
             setTimeout(() => {
                 window.hideModal('forgotPasswordModal');
@@ -1876,11 +1886,6 @@
         }
 
         // =====================================================================
-        // LÓGICA DE REGISTRO / SOLICITAR CLAVE (INICIAL)
-        // REMOVED: window.sendRegistrationRequest = function() { ... }
-        // =====================================================================
-
-        // =====================================================================
         // LÓGICA DE ACCESO Y CONSOLA DE ADMINISTRADOR
         // =====================================================================
 
@@ -1888,6 +1893,7 @@
          * Abre el modal de solicitud de clave de administrador para acceder a la consola.
          */
         window.openAdminLoginModal = function() {
+            console.log("DEBUG: openAdminLoginModal() ejecutado. Preparando para abrir prompt de admin.");
             adminLoginForConsole = true; // Set flag for console access
             window.showModal('adminLoginPromptModal');
             adminKeyPromptInput.value = ''; // Limpiar input
@@ -1900,6 +1906,7 @@
          * @param {string} targetUrl - La URL a la que se intentaba navegar.
          */
         window.promptAdminAccess = function(buttonName, targetUrl) {
+            console.log(`DEBUG: promptAdminAccess() ejecutado para botón: ${buttonName}.`);
             adminLoginForConsole = false; // Set flag for navigation access
             pendingNavigationButtonName = buttonName;
             pendingNavigationTargetUrl = targetUrl;
@@ -1912,10 +1919,16 @@
          * Maneja el intento de inicio de sesión para el administrador.
          */
         window.handleAdminLoginPrompt = function() {
+            console.log("DEBUG: handleAdminLoginPrompt() ejecutado.");
             const enteredAdminKey = adminKeyPromptInput.value.trim();
+            console.log(`DEBUG: Clave de administrador ingresada: ${enteredAdminKey}`);
+            console.log(`DEBUG: Clave de administrador esperada: ${adminKey}`);
+
             if (enteredAdminKey === adminKey) {
+                console.log("DEBUG: Clave de administrador correcta.");
                 window.hideModal('adminLoginPromptModal');
                 if (adminLoginForConsole) {
+                    console.log("DEBUG: Acceso de administrador para la consola. Abriendo adminModal.");
                     // Abrir consola de administración
                     window.showModal('adminModal');
                     adminGeneralKeyInput.value = currentKey;
@@ -1924,9 +1937,10 @@
                     renderUrlMappings(); // Renderizar el panel de URLs
                     adminConsoleMessage.classList.add('hidden'); // Ocultar mensajes previos
                 } else {
+                    console.log("DEBUG: Acceso de administrador para navegación. Manejando conexiones del botón.");
                     // Realizar navegación pendiente
                     if (pendingNavigationButtonName) { // targetUrl ya no es tan relevante aquí, se usará de connections
-                        console.log(`Admin access granted for ${pendingNavigationButtonName}.`);
+                        console.log(`DEBUG: Admin access granted for ${pendingNavigationButtonName}.`);
                         handleButtonConnections(pendingNavigationButtonName, null, ['Inicio', 'Configuración', 'Informes', 'Desplegar', 'Smart', 'Agenda', 'Correo', 'Mensajes', 'Perfil'].includes(pendingNavigationButtonName));
                         pendingNavigationButtonName = null; // Limpiar navegación pendiente
                         pendingNavigationTargetUrl = null;
@@ -1935,6 +1949,7 @@
             } else {
                 adminLoginErrorMessage.textContent = "Clave de administrador incorrecta.";
                 adminLoginErrorMessage.classList.remove('hidden');
+                console.log("DEBUG: Clave de administrador incorrecta.");
             }
         }
 
@@ -1942,12 +1957,14 @@
          * Maneja el intento de inicio de sesión para acceso personalizado.
          */
         window.handleCustomUserLogin = function() {
+            console.log("DEBUG: handleCustomUserLogin() ejecutado.");
             const enteredName = customUserNameInput.value.trim();
             const enteredCode = customUserCodeInput.value.trim();
 
             if (!enteredName || enteredCode.length !== 3) {
                 customUserLoginErrorMessage.textContent = "Por favor, introduce un nombre y un código de 3 dígitos.";
                 customUserLoginErrorMessage.classList.remove('hidden');
+                console.log("DEBUG: Error en acceso personalizado: campos vacíos o código inválido.");
                 return;
             }
 
@@ -1956,7 +1973,7 @@
 
             if (foundUser) {
                 window.hideModal('customUserLoginModal');
-                console.log(`Acceso personalizado concedido para ${enteredName}.`);
+                console.log(`DEBUG: Acceso personalizado concedido para ${enteredName}.`);
                 // Si el acceso personalizado es exitoso, ahora manejamos las conexiones
                 handleButtonConnections(pendingNavigationButtonName, null, ['Inicio', 'Configuración', 'Informes', 'Desplegar', 'Smart', 'Agenda', 'Correo', 'Mensajes', 'Perfil'].includes(pendingNavigationButtonName));
                 pendingNavigationButtonName = null;
@@ -1966,6 +1983,7 @@
             } else {
                 customUserLoginErrorMessage.textContent = "Nombre o código incorrecto.";
                 customUserLoginErrorMessage.classList.remove('hidden');
+                console.log("DEBUG: Nombre o código personalizado incorrecto.");
             }
         };
 
@@ -1973,6 +1991,7 @@
          * Renderiza dinámicamente el panel para editar las URLs y accesos de los botones.
          */
         function renderUrlMappings() {
+            console.log("DEBUG: renderUrlMappings() ejecutado.");
             urlMappingsPanel.innerHTML = ''; // Limpiar contenido previo
             for (const buttonName in urlMappings) {
                 const itemDiv = document.createElement('div');
@@ -2015,6 +2034,7 @@
                             urlMappings[buttonName].connections.splice(indexToRemove, 1);
                             renderConnections(urlMappings[buttonName].connections, sectionElement);
                             saveAppSettings(); // Auto-guardar al eliminar
+                            console.log(`DEBUG: Conexión eliminada para ${buttonName}.`);
                         };
                     });
 
@@ -2030,8 +2050,9 @@
                             newUrlInput.value = '';
                             renderConnections(urlMappings[buttonName].connections, sectionElement);
                             saveAppSettings(); // Auto-guardar al agregar
+                            console.log(`DEBUG: Conexión agregada para ${buttonName}.`);
                         } else {
-                            console.error("Error: La etiqueta y la URL de la conexión no pueden estar vacías.");
+                            console.error("DEBUG: Error: La etiqueta y la URL de la conexión no pueden estar vacías.");
                             const errorMsg = document.createElement('p');
                             errorMsg.textContent = "Error: La etiqueta y la URL no pueden estar vacías.";
                             errorMsg.style.color = '#ef4444';
@@ -2109,6 +2130,7 @@
                             urlMappings[buttonName].customUsers.splice(indexToRemove, 1);
                             renderCustomUsers(urlMappings[buttonName].customUsers, sectionElement);
                             saveAppSettings(); // Auto-guardar al eliminar
+                            console.log(`DEBUG: Usuario personalizado eliminado para ${buttonName}.`);
                         };
                     });
 
@@ -2124,8 +2146,9 @@
                             newCodeInput.value = '';
                             renderCustomUsers(urlMappings[buttonName].customUsers, sectionElement);
                             saveAppSettings(); // Auto-guardar al agregar
+                            console.log(`DEBUG: Usuario personalizado agregado para ${buttonName}.`);
                         } else {
-                            console.error("Error: Introduce un nombre y un código válido de 3 dígitos.");
+                            console.error("DEBUG: Error: Introduce un nombre y un código válido de 3 dígitos.");
                             const errorMsg = document.createElement('p');
                             errorMsg.textContent = "Error: Introduce un nombre y un código válido de 3 dígitos.";
                             errorMsg.style.color = '#ef4444';
@@ -2158,6 +2181,7 @@
                         customUsersSection.style.display = 'none';
                     }
                     saveAppSettings(); // Auto-guardar al cambiar el tipo de acceso
+                    console.log(`DEBUG: Tipo de acceso cambiado a ${accessSelect.value} para ${buttonName}.`);
                 };
 
                 urlMappingsPanel.appendChild(itemDiv);
@@ -2171,6 +2195,7 @@
          * @param {boolean} isDockIcon - Si la navegación es de un icono del dock.
          */
         window.showConnectionSelectionModal = function(buttonName, connections, isDockIcon) {
+            console.log(`DEBUG: showConnectionSelectionModal() ejecutado para botón: ${buttonName}.`);
             currentButtonNameSpan.textContent = buttonName;
             connectionButtonsContainer.innerHTML = ''; // Limpiar botones anteriores
 
@@ -2179,6 +2204,7 @@
                 noConnectionsMessage.textContent = "No hay conexiones configuradas para este botón.";
                 noConnectionsMessage.style.color = '#ef4444';
                 connectionButtonsContainer.appendChild(noConnectionsMessage);
+                console.log(`DEBUG: No hay conexiones configuradas para ${buttonName}.`);
                 return;
             }
 
@@ -2190,8 +2216,10 @@
                     window.hideModal('selectConnectionModal');
                     if (isDockIcon) {
                         window.open(conn.url, '_blank');
+                        console.log(`DEBUG: Abriendo conexión del dock en nueva pestaña: ${conn.url}`);
                     } else {
                         window.location.href = conn.url;
+                        console.log(`DEBUG: Navegando a conexión: ${conn.url}`);
                     }
                 };
                 connectionButtonsContainer.appendChild(button);
@@ -2207,9 +2235,10 @@
          * @param {boolean} isDockIcon - Si la navegación es de un icono del dock.
          */
         function handleButtonConnections(buttonName, targetUrl, isDockIcon = false) {
+            console.log(`DEBUG: handleButtonConnections() ejecutado para botón: ${buttonName}.`);
             const buttonConfig = urlMappings[buttonName];
             if (!buttonConfig || !buttonConfig.connections || buttonConfig.connections.length === 0) {
-                console.warn(`No hay conexiones configuradas para el botón: ${buttonName}`);
+                console.warn(`DEBUG: No hay conexiones configuradas para el botón: ${buttonName}`);
                 // Mostrar un mensaje al usuario si no hay conexiones
                 if (isDockIcon) {
                     window.showInfoMessage(`No hay conexiones configuradas para "${buttonName}".`);
@@ -2221,7 +2250,7 @@
 
             if (buttonConfig.connections.length === 1) {
                 const finalUrl = buttonConfig.connections[0].url;
-                console.log(`Navigating to "${buttonConfig.connections[0].label}" for "${buttonName}": ${finalUrl}`);
+                console.log(`DEBUG: Navegando a "${buttonConfig.connections[0].label}" para "${buttonName}": ${finalUrl}`);
                 if (isDockIcon) {
                     window.open(finalUrl, '_blank');
                 } else {
@@ -2229,6 +2258,7 @@
                 }
             } else {
                 // Si hay múltiples conexiones, mostrar el modal de selección
+                console.log(`DEBUG: Múltiples conexiones para ${buttonName}. Abriendo modal de selección.`);
                 window.showConnectionSelectionModal(buttonName, buttonConfig.connections, isDockIcon);
             }
         }
@@ -2243,26 +2273,31 @@
          * @param {string} buttonName - El nombre del botón.
          */
         window.checkAccessAndNavigate = function(buttonName) {
+            console.log(`DEBUG: checkAccessAndNavigate() ejecutado para botón: ${buttonName}.`);
             const buttonConfig = urlMappings[buttonName];
             if (!buttonConfig) {
-                console.warn(`Configuración no encontrada para el botón: ${buttonName}`);
+                console.warn(`DEBUG: Configuración no encontrada para el botón: ${buttonName}`);
                 return;
             }
 
             if (!isLoggedIn) {
+                console.log("DEBUG: Usuario no loggeado. Mostrando modal de login.");
                 window.showModal('loginModal');
                 displayLoginMessage("Por favor, inicia sesión para acceder a las funcionalidades de FreeWork.", true);
                 return;
             }
 
             if (buttonConfig.access === 'admin') {
+                console.log(`DEBUG: Acceso requerido: Admin para ${buttonName}. Solicitando clave de admin.`);
                 window.promptAdminAccess(buttonName, null); // targetUrl ya no es tan relevante aquí, se usará de connections
             } else if (buttonConfig.access === 'custom') {
+                console.log(`DEBUG: Acceso requerido: Personalizado para ${buttonName}. Solicitando credenciales personalizadas.`);
                 pendingNavigationButtonName = buttonName;
                 pendingNavigationTargetUrl = null; // targetUrl ya no es tan relevante aquí
                 window.showModal('customUserLoginModal'); // Pide nombre y código personalizado
             }
             else { // access === 'general'
+                console.log(`DEBUG: Acceso general para ${buttonName}. Manejando conexiones.`);
                 handleButtonConnections(buttonName, null, false); // Maneja las conexiones
             }
         }
@@ -2273,25 +2308,30 @@
          * @param {string} defaultTarget - La URL por defecto del icono (usada si no está en urlMappings).
          */
         window.checkAccessAndNavigateDock = function(iconName, defaultTarget) {
+            console.log(`DEBUG: checkAccessAndNavigateDock() ejecutado para icono: ${iconName}.`);
             const iconConfig = urlMappings[iconName];
             // defaultTarget se usará solo si no hay ninguna conexión configurada en Firestore
             const targetUrl = (iconConfig && iconConfig.connections && iconConfig.connections.length > 0) ? iconConfig.connections[0].url : defaultTarget;
             const accessType = (iconConfig && iconConfig.access) ? iconConfig.access : 'general'; // Default to general
 
             if (!isLoggedIn) {
+                console.log("DEBUG: Usuario no loggeado. Mostrando modal de login para dock.");
                 window.showModal('loginModal');
                 displayLoginMessage("Por favor, inicia sesión para usar el dock de FreeWork.", true);
                 return;
             }
 
             if (accessType === 'admin') {
+                console.log(`DEBUG: Acceso requerido: Admin para dock ${iconName}. Solicitando clave de admin.`);
                 window.promptAdminAccess(iconName, null); // targetUrl ya no es tan relevante aquí
             } else if (accessType === 'custom') {
+                console.log(`DEBUG: Acceso requerido: Personalizado para dock ${iconName}. Solicitando credenciales personalizadas.`);
                 pendingNavigationButtonName = iconName;
                 pendingNavigationTargetUrl = null; // targetUrl ya no es tan relevante aquí
                 window.showModal('customUserLoginModal'); // Pide nombre y código personalizado
             }
             else { // access === 'general'
+                console.log(`DEBUG: Acceso general para dock ${iconName}. Manejando conexiones.`);
                 handleButtonConnections(iconName, null, true); // Maneja las conexiones
             }
         }
@@ -2300,6 +2340,7 @@
         // LÓGICA DEL DOCK macOS (ADAPTADA DEL CÓDIGO PROPORCIONADO)
         // =====================================================================
         document.addEventListener('DOMContentLoaded', () => {
+            console.log("DEBUG: DOMContentLoaded para lógica del Dock.");
             const dock = document.getElementById('macosDock');
             const icons = dock.querySelectorAll('.dock-icon');
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
