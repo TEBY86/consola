@@ -827,6 +827,91 @@
         #selectConnectionModal .connection-choice-button:hover {
             background-color: rgba(255, 255, 255, 0.2);
         }
+
+        /* --- NUEVOS ESTILOS PARA EL MODAL DE ADMINISTRACIÓN --- */
+        #adminModal .modal-content {
+            background-color: rgba(40, 40, 45, 0.95); /* Fondo oscuro casi opaco */
+            backdrop-filter: blur(25px) saturate(150%); /* Desenfoque más suave */
+            -webkit-backdrop-filter: blur(25px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Borde más definido */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), /* Sombra más pronunciada */
+                        inset 0 0 20px rgba(255, 255, 255, 0.05); /* Brillo interior sutil */
+            animation: none; /* Eliminar animación de brillo para este modal */
+            color: white; /* Asegurar que el texto principal sea blanco */
+        }
+
+        #adminModal .input-with-icon input {
+            background-color: rgba(255, 255, 255, 0.08); /* Fondo de input más sólido y claro */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Borde más visible */
+            color: white; /* Texto del input blanco */
+        }
+
+        #adminModal .input-with-icon input::placeholder {
+            color: rgba(255, 255, 255, 0.7); /* Placeholder más visible */
+        }
+
+        #adminModal .input-with-icon input:focus {
+            border-color: var(--tw-colors-fuchsia-exacto); /* Mantener el fucsia al enfocar */
+            background-color: rgba(255, 255, 255, 0.15); /* Más claro al enfocar */
+        }
+
+        #adminModal .url-mappings-panel,
+        #adminModal .custom-users-section,
+        #adminModal .connection-list-section {
+            background-color: rgba(255, 255, 255, 0.05); /* Fondo más claro y distinto para paneles anidados */
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Borde más definido */
+        }
+
+        #adminModal .url-mapping-item label {
+            color: white; /* Labels blancos */
+        }
+
+        #adminModal .url-mapping-item input[type="text"],
+        #adminModal .url-mapping-item select,
+        #adminModal .add-custom-user-inputs input,
+        #adminModal .add-connection-inputs input {
+            background-color: rgba(255, 255, 255, 0.1); /* Inputs dentro de paneles anidados */
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white; /* Texto de inputs en paneles blancos */
+        }
+
+        #adminModal .url-mapping-item input[type="text"]::placeholder,
+        #adminModal .add-custom-user-inputs input::placeholder,
+        #adminModal .add-connection-inputs input::placeholder {
+            color: rgba(255, 255, 255, 0.6); /* Placeholder en paneles */
+        }
+
+        #adminModal .url-mapping-item select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E"); /* Icono de flecha hacia abajo blanco */
+        }
+
+        #adminModal .url-mapping-item select option {
+            background-color: #333; /* Fondo oscuro para las opciones */
+            color: white; /* Texto blanco para las opciones */
+        }
+
+        #adminModal .url-mapping-item input[type="text"]:focus,
+        #adminModal .url-mapping-item select:focus,
+        #adminModal .add-custom-user-inputs input:focus,
+        #adminModal .add-connection-inputs input:focus {
+            border-color: var(--tw-colors-fuchsia-exacto);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        #adminModal .custom-user-item,
+        #adminModal .connection-item {
+            color: white; /* Texto más visible en los items */
+        }
+
+        #adminModal .modal-header-icon {
+            color: var(--tw-colors-fuchsia-exacto); /* Mantener color fucsia para el icono */
+        }
+
+        #adminModal h2,
+        #adminModal p,
+        #adminModal h3 {
+            color: white; /* Asegurar que el texto sea blanco */
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen items-center justify-between p-4 bg-white text-text-dark">
@@ -927,7 +1012,7 @@
                  onclick="window.openAdminLoginModal()">
                 <!-- Icono de engranaje (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12-.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39-.96c-.22-.08-.47 0-.59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12-.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l-.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39-.96c-.22-.08-.47 0-.59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
                 </svg>
             </div>
             
@@ -1025,8 +1110,8 @@
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <h2>Ingresar</h2>
-            <p>Por favor, introduce tus credenciales para acceder.</p>
+            <h2>Bienvenido a FreeWork</h2>
+            <p id="loginStatusMessage" class="success-message">Por favor, introduce tus credenciales para acceder.</p>
             
             <!-- Campo de Usuario -->
             <div class="input-with-icon">
@@ -1056,7 +1141,6 @@
                 <a href="#" onclick="window.openForgotPasswordModal()">¿Olvidaste tu clave?</a>
             </div>
 
-            <p id="loginErrorMessage" class="error-message hidden"></p>
             <button onclick="window.handleLogin()">Ingresar</button>
             <button onclick="window.requestKey()" class="secondary">Solicitar clave</button>
         </div>
@@ -1065,7 +1149,7 @@
     <!-- MODAL DE RECUPERAR CLAVE -->
     <div id="forgotPasswordModal" class="modal-overlay">
         <div class="modal-content">
-            <h2>Recuperar Clave</h2>
+            <h2>Recuperar Clave de FreeWork</h2>
             <p>Introduce tu nombre y teléfono. Te enviaremos tu clave por WhatsApp.</p>
             <input type="text" id="forgotNameInput" placeholder="Tu Nombre Completo">
             <input type="tel" id="forgotPhoneInput" placeholder="Tu Teléfono (ej. +56912345678)">
@@ -1078,7 +1162,7 @@
     <!-- MODAL DE REGISTRO / SOLICITAR CLAVE -->
     <div id="registerModal" class="modal-overlay">
         <div class="modal-content">
-            <h2>Regístrate</h2>
+            <h2>Regístrate en FreeWork</h2>
             <p>Para solicitar una clave, por favor, introduce tus datos. Te enviaremos un código por WhatsApp.</p>
             <input type="text" id="registerNameInput" placeholder="Tu Nombre Completo">
             <input type="tel" id="registerPhoneInput" placeholder="Tu Teléfono (ej. +56912345678)">
@@ -1097,7 +1181,7 @@
                 <path d="M7 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2"></path>
                 <path d="M17 17H19a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path>
             </svg>
-            <h2>Acceso de Administrador</h2>
+            <h2>Acceso de Administrador de FreeWork</h2>
             <p>Introduce la clave de administrador para acceder a la configuración.</p>
             <div class="input-with-icon">
                 <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1121,7 +1205,7 @@
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <h2>Acceso Personalizado</h2>
+            <h2>Acceso Personalizado a FreeWork</h2>
             <p>Introduce tu nombre y código para acceder.</p>
             <div class="input-with-icon">
                 <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1151,11 +1235,11 @@
             <svg class="modal-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.09-.72-1.71-.97l-.36-2.69c-.05-.24-.27-.42-.52-.42h-4c-.25 0-.47.18-.52.42l-.36 2.69c-.62.25-1.19.58-1.71.97l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12-.22.39.3.61.22l2.49-1c.52.39 1.09.72 1.71.97l.36 2.69c.05.24.27.42.52.42h4c.25 0 .47-.18.52-.42l.36-2.69c.62-.25 1.19-.58 1.71-.97l2.49 1c-.22.09-.49 0-.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
             </svg>
-            <h2>Consola de Administración</h2>
+            <h2>Consola de Administración de FreeWork</h2>
             <p>Gestiona las claves y las conexiones de los botones.</p>
             
             <!-- Clave General -->
-            <label for="adminGeneralKeyInput" class="block text-left text-light-contrast font-bold mb-1">Clave General:</label>
+            <label for="adminGeneralKeyInput" class="block text-left font-bold mb-1">Clave General:</label>
             <div class="input-with-icon">
                 <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
@@ -1167,7 +1251,7 @@
             </div>
 
             <!-- Clave de Administrador -->
-            <label for="adminAdminKeyInput" class="block text-left text-light-contrast font-bold mb-1">Clave de Administrador:</label>
+            <label for="adminAdminKeyInput" class="block text-left font-bold mb-1">Clave de Administrador:</label>
             <div class="input-with-icon">
                 <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
@@ -1259,7 +1343,7 @@
         
         const loginUsernameInput = document.getElementById('loginUsernameInput');
         const loginKeyInput = document.getElementById('loginKeyInput');
-        const loginErrorMessage = document.getElementById('loginErrorMessage');
+        const loginStatusMessage = document.getElementById('loginStatusMessage'); // Renombrado
         const rememberMeCheckbox = document.getElementById('rememberMe');
         
         const registerNameInput = document.getElementById('registerNameInput');
@@ -1315,13 +1399,14 @@
                         // Cargar configuraciones (claves y URLs) desde Firestore
                         await loadAppSettings();
                         
-                        // Mostrar el modal de login al inicio
-                        window.showModal('loginModal');
+                        // Verificar si hay una sesión recordada
+                        checkRememberedLogin();
 
                     } else {
                         console.log("No hay usuario autenticado.");
-                        // Si no hay usuario, aún mostramos el modal de login
+                        // Si no hay usuario, siempre mostramos el modal de login
                         window.showModal('loginModal');
+                        displayLoginMessage("Bienvenido a FreeWork. Por favor, inicia sesión.", false); // Mensaje de bienvenida inicial
                     }
                 });
 
@@ -1353,6 +1438,7 @@
                 console.error("Error al inicializar Firebase o autenticar:", error);
                 // Mostrar el modal de login incluso si Firebase falla
                 window.showModal('loginModal');
+                displayLoginMessage("Bienvenido a FreeWork. Por favor, inicia sesión.", false); // Mensaje de bienvenida inicial
             }
         });
 
@@ -1450,7 +1536,7 @@
             if (modal) {
                 modal.classList.add('active');
                 // Limpiar mensajes de error/éxito al mostrar el modal
-                loginErrorMessage.classList.add('hidden');
+                // loginErrorMessage.classList.add('hidden'); // No ocultar, se gestiona con displayLoginMessage
                 registerSuccessMessage.classList.add('hidden');
                 forgotPasswordMessage.classList.add('hidden'); 
                 adminLoginErrorMessage.classList.add('hidden');
@@ -1471,21 +1557,47 @@
         }
 
         /**
+         * Muestra un mensaje de estado en el modal de login.
+         * @param {string} message - El mensaje a mostrar.
+         * @param {boolean} isError - Si el mensaje es un error (true) o información/éxito (false).
+         */
+        function displayLoginMessage(message, isError) {
+            loginStatusMessage.textContent = message;
+            loginStatusMessage.style.color = isError ? '#ef4444' : '#22c55e'; // Rojo para error, verde para info/éxito
+            loginStatusMessage.classList.remove('hidden');
+        }
+
+        /**
          * Muestra un mensaje de información temporal en el modal de login.
          * @param {string} message - El mensaje a mostrar.
          */
         window.showInfoMessage = function(message) {
-            loginErrorMessage.textContent = message;
-            loginErrorMessage.style.color = '#22c55e'; // Green for info
-            loginErrorMessage.classList.remove('hidden');
+            displayLoginMessage(message, false); // Siempre verde para info
             setTimeout(() => {
-                loginErrorMessage.classList.add('hidden');
+                loginStatusMessage.classList.add('hidden');
             }, 3000); // Hide after 3 seconds
         }
 
         // =====================================================================
         // LÓGICA DE INICIO DE SESIÓN (CLAVE GENERAL)
         // =====================================================================
+
+        /**
+         * Verifica si hay una sesión recordada en localStorage y la restaura.
+         */
+        function checkRememberedLogin() {
+            const rememberedLogin = JSON.parse(localStorage.getItem('rememberedLogin'));
+            if (rememberedLogin && rememberedLogin.expires && Date.now() < rememberedLogin.expires) {
+                isLoggedIn = true;
+                window.hideModal('loginModal');
+                console.log("Sesión recordada y activa.");
+            } else {
+                isLoggedIn = false;
+                localStorage.removeItem('rememberedLogin'); // Limpiar datos caducados o inválidos
+                window.showModal('loginModal');
+                displayLoginMessage("Bienvenido a FreeWork. Por favor, inicia sesión.", false); // Mensaje de bienvenida inicial
+            }
+        }
 
         /**
          * Maneja el intento de inicio de sesión con la clave general.
@@ -1498,13 +1610,21 @@
                 isLoggedIn = true; // Establecer estado de sesión
                 window.hideModal('loginModal');
                 console.log("Inicio de sesión exitoso con clave general.");
+
+                if (rememberMeCheckbox.checked) {
+                    const expires = Date.now() + (24 * 60 * 60 * 1000); // 24 horas desde ahora
+                    localStorage.setItem('rememberedLogin', JSON.stringify({ timestamp: Date.now(), expires: expires }));
+                    console.log("Sesión recordada por 24 horas.");
+                } else {
+                    localStorage.removeItem('rememberedLogin'); // Limpiar si no se marcó "Recordarme"
+                }
+
                 // Limpiar los inputs después del login
                 loginUsernameInput.value = '';
                 loginKeyInput.value = '';
                 rememberMeCheckbox.checked = false;
             } else {
-                loginErrorMessage.textContent = "Clave incorrecta. Inténtalo de nuevo.";
-                loginErrorMessage.classList.remove('hidden');
+                displayLoginMessage("Clave incorrecta. Inténtalo de nuevo.", true);
             }
         }
 
@@ -1560,6 +1680,7 @@
             setTimeout(() => {
                 window.hideModal('forgotPasswordModal');
                 window.showModal('loginModal');
+                displayLoginMessage("Tu solicitud de clave ha sido enviada.", false);
             }, 3000);
         }
 
@@ -1594,6 +1715,7 @@
             setTimeout(() => {
                 window.hideModal('registerModal');
                 window.showModal('loginModal');
+                displayLoginMessage("Tu solicitud de registro ha sido enviada.", false);
             }, 3000);
         }
 
@@ -1641,15 +1763,9 @@
                     adminConsoleMessage.classList.add('hidden'); // Ocultar mensajes previos
                 } else {
                     // Realizar navegación pendiente
-                    if (pendingNavigationButtonName && pendingNavigationTargetUrl) {
-                        console.log(`Admin access granted. Navigating to ${pendingNavigationButtonName}: ${pendingNavigationTargetUrl}`);
-                        // Determinar si es un botón principal o un icono del dock para la lógica de navegación
-                        const isDockIcon = ['Inicio', 'Configuración', 'Informes', 'Desplegar', 'Smart', 'Agenda', 'Correo', 'Mensajes', 'Perfil'].includes(pendingNavigationButtonName);
-                        if (isDockIcon) {
-                            window.open(pendingNavigationTargetUrl, '_blank'); // Navegación real
-                        } else {
-                            window.location.href = pendingNavigationTargetUrl; // Navegación real
-                        }
+                    if (pendingNavigationButtonName) { // targetUrl ya no es tan relevante aquí, se usará de connections
+                        console.log(`Admin access granted for ${pendingNavigationButtonName}.`);
+                        handleButtonConnections(pendingNavigationButtonName, null, ['Inicio', 'Configuración', 'Informes', 'Desplegar', 'Smart', 'Agenda', 'Correo', 'Mensajes', 'Perfil'].includes(pendingNavigationButtonName));
                         pendingNavigationButtonName = null; // Limpiar navegación pendiente
                         pendingNavigationTargetUrl = null;
                     }
@@ -1680,7 +1796,7 @@
                 window.hideModal('customUserLoginModal');
                 console.log(`Acceso personalizado concedido para ${enteredName}.`);
                 // Si el acceso personalizado es exitoso, ahora manejamos las conexiones
-                handleButtonConnections(pendingNavigationButtonName, pendingNavigationTargetUrl);
+                handleButtonConnections(pendingNavigationButtonName, null, ['Inicio', 'Configuración', 'Informes', 'Desplegar', 'Smart', 'Agenda', 'Correo', 'Mensajes', 'Perfil'].includes(pendingNavigationButtonName));
                 pendingNavigationButtonName = null;
                 pendingNavigationTargetUrl = null;
                 customUserNameInput.value = '';
@@ -1916,9 +2032,7 @@
                             newCodeInput.value = '';
                             renderCustomUsers(urlMappings[buttonName].customUsers, sectionElement);
                         } else {
-                            // Replace alert with a message in the console or a temporary message in the UI
                             console.error("Error: Introduce un nombre y un código válido de 3 dígitos.");
-                            // For a more user-friendly approach, you could add a temporary message element in the customUsersSection
                             const errorMsg = document.createElement('p');
                             errorMsg.textContent = "Error: Introduce un nombre y un código válido de 3 dígitos.";
                             errorMsg.style.color = '#ef4444';
@@ -2001,8 +2115,7 @@
                 if (isDockIcon) {
                     window.showInfoMessage(`No hay conexiones configuradas para "${buttonName}".`);
                 } else {
-                    loginErrorMessage.textContent = `No hay conexiones configuradas para "${buttonName}".`;
-                    loginErrorMessage.classList.remove('hidden');
+                    displayLoginMessage(`No hay conexiones configuradas para "${buttonName}".`, true);
                 }
                 return;
             }
@@ -2039,8 +2152,7 @@
 
             if (!isLoggedIn) {
                 window.showModal('loginModal');
-                loginErrorMessage.textContent = "Por favor, inicia sesión para acceder a las funcionalidades.";
-                loginErrorMessage.classList.remove('hidden');
+                displayLoginMessage("Por favor, inicia sesión para acceder a las funcionalidades de FreeWork.", true);
                 return;
             }
 
@@ -2069,8 +2181,7 @@
 
             if (!isLoggedIn) {
                 window.showModal('loginModal');
-                loginErrorMessage.textContent = "Por favor, inicia sesión para usar el dock.";
-                loginErrorMessage.classList.remove('hidden');
+                displayLoginMessage("Por favor, inicia sesión para usar el dock de FreeWork.", true);
                 return;
             }
 
@@ -2153,4 +2264,4 @@
         });
     </script>
 </body>
-</html
+</html>
