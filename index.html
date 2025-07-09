@@ -912,6 +912,60 @@
         #adminModal h3 {
             color: white; /* Asegurar que el texto sea blanco */
         }
+
+        /* Estilos para el switch (toggle) */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #E6007A; /* Fuchsia cuando está encendido */
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #E6007A;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen items-center justify-between p-4 bg-white text-text-dark">
@@ -1012,7 +1066,7 @@
                  onclick="window.openAdminLoginModal()">
                 <!-- Icono de engranaje (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12-.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l-.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39-.96c-.22-.08-.47 0-.59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12-.22.37-.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41-.48.41h3.84c.24 0 .44-.17.47-.41l-.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39-.96c-.22-.08-.47 0-.59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
                 </svg>
             </div>
             
@@ -1261,6 +1315,16 @@
                 </svg>
                 <input type="password" id="adminAdminKeyInput" placeholder="Nueva Clave de Administrador">
             </div>
+
+            <!-- Switch para activar/desactivar el ingreso con clave -->
+            <div class="flex items-center justify-between w-full mt-4 mb-4">
+                <label for="toggleLoginRequirement" class="font-bold text-white">Requerir clave de ingreso:</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggleLoginRequirement">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
             <p id="adminConsoleMessage" class="success-message hidden"></p>
             
             <h3 class="text-color-blanco font-bold text-lg mt-4 mb-2">Conexiones de Botones</h3>
@@ -1303,6 +1367,7 @@
         let currentKey = "1234"; // Clave general por defecto
         let adminKey = "superadmin"; // Clave de administrador por defecto
         let isLoggedIn = false; // Estado de sesión del usuario general
+        let isLoginRequired = true; // Nuevo: Controla si el login es necesario, por defecto true
 
         // Mapeo de URLs por defecto para los botones principales
         // Ahora cada entrada tiene un array 'connections'
@@ -1363,6 +1428,7 @@
 
         const adminGeneralKeyInput = document.getElementById('adminGeneralKeyInput'); // Input de clave general en admin console
         const adminAdminKeyInput = document.getElementById('adminAdminKeyInput'); // Input de clave admin en admin console
+        const toggleLoginRequirement = document.getElementById('toggleLoginRequirement'); // Nuevo: Switch para requerir clave
         const adminConsoleMessage = document.getElementById('adminConsoleMessage');
         const urlMappingsPanel = document.getElementById('urlMappingsPanel'); // Panel para URLs editables
 
@@ -1374,7 +1440,26 @@
             try {
                 // Variables globales proporcionadas por el entorno de Canvas
                 const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-                const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+                let firebaseConfig = {};
+                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                    try {
+                        firebaseConfig = JSON.parse(__firebase_config);
+                    } catch (e) {
+                        console.error("Error parsing __firebase_config:", e);
+                        // Fallback to a minimal config if parsing fails
+                        firebaseConfig = { projectId: 'default-project-id' };
+                    }
+                } else {
+                    console.warn("Firebase config (__firebase_config) is not defined or empty. Using a default projectId.");
+                    firebaseConfig = { projectId: 'default-project-id' }; // Provide a default projectId
+                }
+                
+                // Ensure projectId exists, even if other parts are missing
+                if (!firebaseConfig.projectId) {
+                    console.warn("Firebase config is missing 'projectId'. Using a default projectId.");
+                    firebaseConfig.projectId = 'default-project-id';
+                }
+
                 const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
                 app = initializeApp(firebaseConfig);
@@ -1399,14 +1484,20 @@
                         // Cargar configuraciones (claves y URLs) desde Firestore
                         await loadAppSettings();
                         
-                        // Verificar si hay una sesión recordada
+                        // Verificar si hay una sesión recordada o si el login no es requerido
                         checkRememberedLogin();
 
                     } else {
                         console.log("No hay usuario autenticado.");
-                        // Si no hay usuario, siempre mostramos el modal de login
-                        window.showModal('loginModal');
-                        displayLoginMessage("Bienvenido a FreeWork. Por favor, inicia sesión.", false); // Mensaje de bienvenida inicial
+                        // Si no hay usuario, y el login es requerido, mostramos el modal de login
+                        if (isLoginRequired) {
+                            window.showModal('loginModal');
+                            displayLoginMessage("Bienvenido a FreeWork. Por favor, inicia sesión.", false); // Mensaje de bienvenida inicial
+                        } else {
+                            // Si el login no es requerido, se considera loggeado
+                            isLoggedIn = true;
+                            console.log("DEBUG: Login no requerido. Acceso concedido automáticamente.");
+                        }
                     }
                 });
 
@@ -1436,9 +1527,14 @@
 
             } catch (error) {
                 console.error("Error al inicializar Firebase o autenticar:", error);
-                // Mostrar el modal de login incluso si Firebase falla
-                window.showModal('loginModal');
-                displayLoginMessage("Bienvenido a FreeWork. Por favor, inicia sesión.", false); // Mensaje de bienvenida inicial
+                // Mostrar el modal de login incluso si Firebase falla, si el login es requerido
+                if (isLoginRequired) {
+                    window.showModal('loginModal');
+                    displayLoginMessage("Bienvenido a FreeWork. Por favor, inicia sesión.", false); // Mensaje de bienvenida inicial
+                } else {
+                    isLoggedIn = true;
+                    console.log("DEBUG: Error de Firebase, pero login no requerido. Acceso concedido automáticamente.");
+                }
             }
         });
 
@@ -1452,6 +1548,7 @@
                     const data = settingsSnap.data();
                     currentKey = data.generalKey || "1234";
                     adminKey = data.adminKey || "superadmin";
+                    isLoginRequired = (typeof data.isLoginRequired === 'boolean') ? data.isLoginRequired : true; // Cargar el estado del switch
                     
                     // Cargar urlMappings y asegurar que cada entrada tenga la propiedad 'access' y 'customUsers'
                     // y que 'connections' sea un array
@@ -1480,7 +1577,7 @@
                             }
                         }
                     }
-                    console.log("Configuración cargada desde Firestore:", { generalKey: currentKey, adminKey: adminKey, urlMappings: urlMappings });
+                    console.log("Configuración cargada desde Firestore:", { generalKey: currentKey, adminKey: adminKey, isLoginRequired: isLoginRequired, urlMappings: urlMappings });
                 } else {
                     console.log("No hay configuración guardada en Firestore. Usando valores por defecto y guardándolos.");
                     // Guardar los valores por defecto si no existen
@@ -1504,6 +1601,7 @@
                 await setDoc(appSettingsRef, {
                     generalKey: currentKey,
                     adminKey: adminKey,
+                    isLoginRequired: isLoginRequired, // Guardar el estado del switch
                     urlMappings: urlMappings
                 });
                 console.log("Configuración guardada exitosamente en Firestore.");
@@ -1586,34 +1684,44 @@
          * Verifica si hay una sesión recordada en localStorage y la restaura.
          */
         function checkRememberedLogin() {
+            if (!isLoginRequired) {
+                isLoggedIn = true;
+                window.hideModal('loginModal'); // Asegurarse de que el modal de login esté oculto
+                console.log("DEBUG: Login no requerido. Acceso concedido automáticamente.");
+                return; // Salir de la función si el login no es requerido
+            }
+
             const storedLogin = localStorage.getItem('rememberedLogin');
-            console.log("Stored login raw:", storedLogin); // Log raw string
+            console.log("DEBUG: Stored login raw:", storedLogin); // Log raw string
             let rememberedLogin = null;
             try {
                 if (storedLogin) {
                     rememberedLogin = JSON.parse(storedLogin);
                 }
             } catch (e) {
-                console.error("Error parsing rememberedLogin from localStorage:", e);
+                console.error("DEBUG: Error parsing rememberedLogin from localStorage:", e);
                 localStorage.removeItem('rememberedLogin'); // Clear corrupted data
             }
 
             if (rememberedLogin) {
-                console.log("Parsed rememberedLogin:", rememberedLogin);
-                console.log("Current time:", Date.now());
-                console.log("Expires time:", rememberedLogin.expires);
-                console.log("Is current time < expires time?", Date.now() < rememberedLogin.expires);
+                console.log("DEBUG: Parsed rememberedLogin:", rememberedLogin);
+                const currentTime = Date.now();
+                const expiresTime = rememberedLogin.expires;
+                console.log("DEBUG: Current time (ms):", currentTime, " (", new Date(currentTime).toLocaleString(), ")");
+                console.log("DEBUG: Expires time (ms):", expiresTime, " (", new Date(expiresTime).toLocaleString(), ")");
+                console.log("DEBUG: Is current time < expires time?", currentTime < expiresTime);
             }
 
             if (rememberedLogin && rememberedLogin.expires && Date.now() < rememberedLogin.expires) {
                 isLoggedIn = true;
                 window.hideModal('loginModal');
-                console.log("Sesión recordada y activa.");
+                console.log("DEBUG: Sesión recordada y activa. isLoggedIn:", isLoggedIn);
             } else {
                 isLoggedIn = false;
                 localStorage.removeItem('rememberedLogin'); // Limpiar datos caducados o inválidos
                 window.showModal('loginModal');
                 displayLoginMessage("Bienvenido a FreeWork. Por favor, inicia sesión.", false); // Mensaje de bienvenida inicial
+                console.log("DEBUG: Sesión no recordada o caducada. isLoggedIn:", isLoggedIn);
             }
         }
 
@@ -1627,15 +1735,15 @@
             if (enteredKey === currentKey) {
                 isLoggedIn = true; // Establecer estado de sesión
                 window.hideModal('loginModal');
-                console.log("Inicio de sesión exitoso con clave general.");
+                console.log("DEBUG: Inicio de sesión exitoso con clave general. isLoggedIn:", isLoggedIn);
 
                 if (rememberMeCheckbox.checked) {
                     const expires = Date.now() + (24 * 60 * 60 * 1000); // 24 horas desde ahora
                     localStorage.setItem('rememberedLogin', JSON.stringify({ timestamp: Date.now(), expires: expires }));
-                    console.log("Sesión guardada en localStorage. Expira en:", new Date(expires).toLocaleString()); // Log human-readable time
+                    console.log("DEBUG: Sesión guardada en localStorage. Expira en:", new Date(expires).toLocaleString(), "Timestamp:", Date.now(), "Expires:", expires);
                 } else {
                     localStorage.removeItem('rememberedLogin'); // Limpiar si no se marcó "Recordarme"
-                    console.log("Sesión no recordada, datos de localStorage eliminados.");
+                    console.log("DEBUG: Sesión no recordada, datos de localStorage eliminados.");
                 }
 
                 // Limpiar los inputs después del login
@@ -1644,6 +1752,7 @@
                 rememberMeCheckbox.checked = false;
             } else {
                 displayLoginMessage("Clave incorrecta. Inténtalo de nuevo.", true);
+                console.log("DEBUG: Clave incorrecta. isLoggedIn:", isLoggedIn);
             }
         }
 
@@ -1778,6 +1887,7 @@
                     window.showModal('adminModal');
                     adminGeneralKeyInput.value = currentKey;
                     adminAdminKeyInput.value = adminKey;
+                    toggleLoginRequirement.checked = isLoginRequired; // Sincronizar el estado del switch
                     renderUrlMappings(); // Renderizar el panel de URLs
                     adminConsoleMessage.classList.add('hidden'); // Ocultar mensajes previos
                 } else {
@@ -1832,6 +1942,7 @@
         window.saveAdminChanges = async function() {
             const newGeneralKey = adminGeneralKeyInput.value.trim();
             const newAdminKey = adminAdminKeyInput.value.trim();
+            const newIsLoginRequired = toggleLoginRequirement.checked; // Obtener el estado del switch
 
             if (!newGeneralKey || !newAdminKey) {
                 adminConsoleMessage.textContent = "Las claves no pueden estar vacías.";
@@ -1840,9 +1951,10 @@
                 return;
             }
 
-            // Actualizar las claves en memoria
+            // Actualizar las claves y el estado del login en memoria
             currentKey = newGeneralKey;
             adminKey = newAdminKey;
+            isLoginRequired = newIsLoginRequired;
 
             // Recopilar los mapeos de URL actualizados del DOM
             const updatedUrlMappings = {};
