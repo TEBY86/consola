@@ -4,81 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consola de Control - Estilo Apple</title>
-    <!-- Enlace a Tailwind CSS CDN -->
+    <!-- Enlace a Tailwind CSS CDN para estilos rápidos y responsivos -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configuración de Tailwind para usar la fuente Inter y colores personalizados -->
+    <!-- Configuración personalizada de Tailwind CSS para la fuente y colores -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        inter: ['Inter', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'], // Define la fuente Inter
                     },
                     colors: {
-                        'fuchsia-exacto': '#E6007A', /* Color fucsia exacto de la imagen */
-                        'glass-dark': 'rgba(28, 28, 30, 0.75)', /* Fondo oscuro para el efecto de vidrio, más transparente */
-                        'text-dark': '#333333', /* Texto oscuro para contraste con fondo blanco */
-                        'text-light-contrast': '#E0E0E0', /* Texto claro para elementos oscuros */
-                        'color-blanco': '#FFFFFF', /* Color blanco explícito para el texto de los botones */
-                        'panel-border': 'rgba(255, 255, 255, 0.1)', /* Borde sutil para paneles de vidrio */
-                        'dock-border': 'rgba(255, 255, 255, 0.18)', /* Borde más sutil para el dock */
+                        'fuchsia-exacto': '#E6007A', // Color fucsia principal de la marca
+                        'glass-dark': 'rgba(28, 28, 30, 0.75)', // Fondo oscuro semitransparente para el efecto de cristal
+                        'text-dark': '#333333', // Color de texto oscuro para fondos claros
+                        'text-light-contrast': '#E0E0E0', // Color de texto claro para elementos oscuros
+                        'color-blanco': '#FFFFFF', // Blanco puro para texto y elementos
+                        'panel-border': 'rgba(255, 255, 255, 0.1)', // Borde sutil para paneles de cristal
+                        'dock-border': 'rgba(255, 255, 255, 0.18)', // Borde más pronunciado para el dock
+                        'overlay-dark': 'rgba(0, 0, 0, 0.9)', /* Fondo oscuro para el overlay, AÚN MÁS OPACo */
                     }
                 }
             }
         }
     </script>
-    <!-- Enlace a Google Fonts para la fuente Inter -->
+    <!-- Enlace a Google Fonts para importar la fuente Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos base para el cuerpo (Mobile-First) */
+        /* Estilos base para el cuerpo de la página (Mobile-First para responsividad) */
         body {
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            background-color: #FFFFFF; /* Fondo blanco */
-            color: var(--tw-colors-text-dark); /* Color de texto oscuro para el body */
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh; /* Asegura que el body ocupe al menos el 100% de la altura de la ventana */
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.5rem; /* Padding más pequeño para móviles */
-            /* Degradado radial más sofisticado para añadir profundidad sutil */
-            background: radial-gradient(circle at 50% 0%, rgba(200, 200, 200, 0.05) 0%, rgba(255, 255, 255, 0) 60%),
-                        radial-gradient(circle at 50% 100%, rgba(200, 200, 200, 0.05) 0%, rgba(255, 255, 255, 0) 60%),
-                        #FFFFFF; /* Fondo blanco base */
-            
-            /* Permitir que los elementos sobresalgan verticalmente */
-            overflow: visible; 
-            overflow-x: hidden; /* Pero evitar el scroll horizontal general del body */
-            
-            user-select: none; /* Deshabilita la selección de texto en toda la página */
+            font-family: 'Inter', sans-serif; /* Aplica la fuente Inter */
+            -webkit-font-smoothing: antialiased; /* Suavizado de fuente para WebKit */
+            -moz-osx-font-smoothing: grayscale; /* Suavizado de fuente para Firefox */
+            background-color: #FFFFFF; /* Fondo blanco puro y limpio */
+            background-image: none; /* Asegura que no haya degradados ni imágenes de fondo */
+            color: var(--tw-colors-text-dark); /* Color de texto oscuro por defecto */
+            display: flex; /* Usa flexbox para centrar y organizar el contenido */
+            flex-direction: column; /* Apila los elementos verticalmente */
+            min-height: 100vh; /* Asegura que el cuerpo ocupe al menos el 100% de la altura de la ventana */
+            align-items: center; /* Centra los elementos horizontalmente */
+            justify-content: flex-start; /* Alinea los elementos al inicio del contenedor flex */
+            padding: 0.5rem; /* Padding más pequeño para dispositivos móviles */
+            overflow-x: hidden; /* Evita el scroll horizontal general del body */
+            overflow-y: auto; /* Permite el scroll vertical en el body si el contenido es demasiado largo */
+            user-select: none; /* Deshabilita la selección de texto en toda la página para una experiencia más de aplicación */
             -webkit-user-select: none; /* Para Safari */
             -moz-user-select: none; /* Para Firefox */
             -ms-user-select: none; /* Para IE/Edge */
         }
 
-        /* Ajustes de padding para pantallas más grandes */
-        @media (min-width: 768px) { /* md breakpoint */
+        /* Ajustes de padding para pantallas medianas y grandes */
+        @media (min-width: 768px) { /* md breakpoint de Tailwind */
             body {
                 padding: 1rem; /* Padding estándar para tabletas y PC */
             }
         }
 
-        /* Estilos personalizados para la barra de desplazamiento */
+        /* Estilos personalizados para la barra de desplazamiento (webkit) */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 8px; /* Ancho de la barra de desplazamiento vertical */
+            height: 8px; /* Altura de la barra de desplazamiento horizontal */
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.03); /* Pista muy sutil en fondo blanco */
-            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.03); /* Pista de la barra de desplazamiento muy sutil */
+            border-radius: 10px; /* Bordes redondeados para la pista */
         }
 
         ::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.15); /* Manija suave */
-            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.15); /* Manija de la barra de desplazamiento suave */
+            border-radius: 10px; /* Bordes redondeados para la manija */
             border: 2px solid rgba(255, 255, 255, 0.03); /* Borde casi invisible */
         }
 
@@ -86,30 +81,32 @@
             background: rgba(0, 0, 0, 0.3); /* Manija al pasar el ratón */
         }
 
-        /* Efecto de cristal para el contenedor principal (revertido a la versión anterior) */
+        /* Efecto de cristal (Glassmorphism) para el contenedor principal */
         .glass-effect {
-            backdrop-filter: blur(40px) saturate(170%); /* Blur y saturación ligeramente más pronunciados */
-            -webkit-backdrop-filter: blur(40px) saturate(170%);
-            background-color: var(--tw-colors-glass-dark); /* Fondo oscuro con transparencia */
+            backdrop-filter: blur(40px) saturate(170%); /* Desenfoque y saturación para el efecto de cristal */
+            -webkit-backdrop-filter: blur(40px) saturate(170%); /* Prefijo para WebKit */
+            background-color: rgba(220, 220, 220, 0.7); /* Fondo gris claro con transparencia, ligeramente más opaco para contraste */
             border: 1px solid var(--tw-colors-panel-border); /* Borde sutil */
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), /* Sombra exterior más fuerte y difusa */
-                        0 0 20px rgba(0, 0, 0, 0.05), /* Sombra más suave para un efecto de halo */
-                        inset 0 0 15px rgba(255, 255, 255, 0.08); /* Sombra interior para un brillo sutil */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), /* Sombra exterior más suave y difusa */
+                        0 0 15px rgba(0, 0, 0, 0.03), /* Sombra muy sutil para un halo */
+                        inset 0 0 10px rgba(255, 255, 255, 0.05); /* Sombra interior para un brillo sutil */
+            overflow-y: auto; /* Permite el scroll vertical dentro del panel de cristal */
         }
 
-        /* Animación de pulsación y sombras para los botones (más minimalista) */
+        /* Animación de pulsación y sombras para los botones principales */
         .button-press-effect {
-            transition: all 0.15s cubic-bezier(0.2, 0.8, 0.2, 1); /* Transición más corta y elástica */
-            border: none;
-            outline: none;
-            position: relative;
-            overflow: hidden;
-            background-color: #E6007A; /* Color fucsia exacto aplicado SOLIDO */
-            background-image: none; /* Asegurar que no haya degradados */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra inicial ligeramente más pronunciada */
-            transform: translateZ(0); /* Forzar aceleración de hardware */
+            transition: all 0.15s cubic-bezier(0.2, 0.8, 0.2, 1); /* Transición elástica y rápida */
+            border: none; /* Sin borde */
+            outline: none; /* Sin contorno al enfocar */
+            position: relative; /* Para el pseudo-elemento de brillo */
+            overflow: hidden; /* Oculta el brillo que se extiende fuera del botón */
+            background-color: #E6007A; /* Color fucsia sólido */
+            background-image: none; /* Asegura que no haya degradados */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); /* Sombra inicial ligeramente más pronunciada y suave */
+            transform: translateZ(0); /* Fuerza la aceleración de hardware */
         }
 
+        /* Pseudo-elemento para el efecto de brillo radial al pasar el ratón */
         .button-press-effect::before {
             content: '';
             position: absolute;
@@ -117,290 +114,806 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 70%); /* Brillo radial sutil */
-            opacity: 0;
-            transition: opacity 0.2s ease-in-out;
-            pointer-events: none;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%); /* Brillo radial más sutil */
+            opacity: 0; /* Oculto por defecto */
+            transition: opacity 0.2s ease-in-out; /* Transición para el brillo */
+            pointer-events: none; /* No interfiere con los eventos del ratón en el botón */
         }
 
+        /* Muestra el brillo al pasar el ratón */
         .button-press-effect:hover::before {
-            opacity: 1; /* Brillo sutil al pasar el ratón */
+            opacity: 1;
         }
 
-        .button-press-effect:hover {
-            transform: translateY(1px) scale(0.97); /* Ligera compresión y hundimiento al presionar */
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4); /* Sombra interior más pronunciada */
-        }
-
+        /* Efecto al pasar el ratón y al hacer clic en los botones */
+        .button-press-effect:hover,
         .button-press-effect:active {
-            transform: translateY(1px) scale(0.97); /* Ligera compresión y hundimiento al presionar */
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4); /* Sombra interior más pronunciada */
+            transform: translateY(1px) scale(0.97); /* Ligera compresión y hundimiento */
+            box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.5); /* Sombra interior más pronunciada al presionar */
         }
 
+        /* Sombra de texto sutil para los botones */
         .button-press-effect span {
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Sombra de texto sutil para profundidad */
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         /* Sombra más sutil y ambiental para el contenedor principal */
         .main-panel-shadow {
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); /* Sombra exterior muy suave y difusa */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra exterior muy suave y difusa */
         }
 
         /* Sombra para los iconos del dock y botones (más sutil y difusa) */
         .icon-shadow {
-            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3)); /* Sombra de icono ligeramente más fuerte y difusa */
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.25)); /* Sombra de icono ligeramente más suave */
         }
         
-        /* ===== ESTILOS DEL DOCK (AJUSTADO PARA COINCIDIR CON EL EJEMPLO) ===== */
+        /* ===== ESTILOS DEL DOCK ===== */
         .dock-container {
-            position: fixed;
-            /* Más espacio en la parte inferior para la elevación */
-            bottom: 40px; 
+            position: fixed; /* Fija el dock en la parte inferior de la pantalla */
+            bottom: 40px; /* Elevación del dock desde la parte inferior */
             left: 0;
             right: 0;
             display: flex;
-            justify-content: center;
-            padding: 0 10px;
-            z-index: 1000;
+            justify-content: center; /* Centra el dock horizontalmente */
+            padding: 0 10px; /* Padding horizontal para evitar que toque los bordes */
+            z-index: 1000; /* Asegura que el dock esté por encima de otros elementos */
         }
 
         .dock-blur {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 12px 24px;
-            backdrop-filter: blur(20px) saturate(160%);
+            gap: 16px; /* Espacio entre los iconos */
+            padding: 12px 24px; /* Padding interno del dock */
+            backdrop-filter: blur(20px) saturate(160%); /* Efecto de cristal para el dock */
             -webkit-backdrop-filter: blur(20px) saturate(160%);
-            background-color: rgba(40, 40, 45, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 22px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-            max-width: 90%;
-            /* Permitir que los íconos sobresalgan */
-            overflow: visible; 
-            /* === CAMBIO CLAVE: Asegurar que los íconos no se envuelvan para el scroll horizontal === */
-            white-space: nowrap;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
+            background-color: rgba(60, 60, 65, 0.7); /* Fondo gris oscuro con transparencia, más "socuco" */
+            border: 1px solid rgba(255, 255, 255, 0.12); /* Borde sutil */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25); /* Sombra suave y difusa para el dock, ligeramente más fuerte */
+            border-radius: 22px; /* Bordes redondeados */
+            max-width: 90%; /* Ancho máximo del dock */
+            overflow: visible; /* Permite que los íconos escalados sobresalgan */
+            white-space: nowrap; /* Evita que los íconos se envuelvan en varias líneas */
+            scrollbar-width: none; /* Oculta la barra de desplazamiento en Firefox */
+            -ms-overflow-style: none; /* Oculta la barra de desplazamiento en IE/Edge */
         }
 
+        /* Oculta la barra de desplazamiento en navegadores WebKit (Chrome/Safari) */
         .dock-blur::-webkit-scrollbar {
-            display: none; /* Chrome/Safari */
+            display: none;
         }
 
         .dock-icon {
-            width: 50px; /* Tamaño de icono del ejemplo */
+            width: 50px; /* Tamaño base de los iconos del dock */
             height: 50px;
-            min-width: 50px; /* Importante para el scroll horizontal */
+            min-width: 50px; /* Asegura que los iconos no se reduzcan en tamaño */
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); /* Transición del ejemplo */
-            /* Confirmado: Posicionamiento relativo para transformaciones */
-            position: relative;
-            cursor: pointer;
-            will-change: transform, filter;
-            /* Confirmado: Z-index base */
-            z-index: 1; 
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); /* Transición suave para los efectos */
+            position: relative; /* Necesario para las transformaciones y tooltips */
+            cursor: pointer; /* Cambia el cursor a una mano al pasar por encima */
+            will-change: transform, filter; /* Optimización de rendimiento para animaciones */
+            z-index: 1; /* Z-index base para los iconos */
         }
 
         .dock-icon svg {
             width: 100%;
             height: 100%;
-            color: white;
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2)); /* Sombra inicial del ejemplo */
-            transition: all 0.25s ease;
+            color: white; /* Color de los iconos SVG */
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)); /* Sombra inicial más sutil para los iconos */
+            transition: all 0.25s ease; /* Transición para la sombra del icono */
         }
 
-        /* ===== ANIMACIONES DEL DOCK (DESKTOP) ===== */
+        /* ===== ANIMACIONES DEL DOCK (ESCRITORIO) ===== */
         .dock-icon:hover {
-            transform: scale(1.3) translateY(-20px); /* Elevación más pronunciada */
-            /* Confirmado: Elevar z-index para sobresalir */
-            z-index: 10; 
+            transform: scale(1.3) translateY(-20px); /* Escala y eleva el icono al pasar el ratón */
+            z-index: 10; /* Eleva el z-index para que el icono sobresalga */
         }
 
         .dock-icon:hover svg {
-            filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.5)); /* Sombra más grande y difusa */
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4)); /* Sombra más grande y difusa al pasar el ratón */
         }
 
         /* ===== TOOLTIPS DEL DOCK ===== */
         .dock-icon::after {
-            content: attr(data-tooltip);
+            content: attr(data-tooltip); /* Muestra el texto del atributo data-tooltip */
             position: absolute;
-            bottom: 30px; /* Posición ajustada para ícono más elevado */
-            background: rgba(30, 30, 35, 0.85);
+            bottom: 32px; /* Posición del tooltip por encima del icono elevado, ajustado */
+            background: rgba(30, 30, 35, 0.8); /* Fondo oscuro para el tooltip, ligeramente más translúcido */
             color: white;
             padding: 5px 10px;
             border-radius: 5px;
             font-size: 12px;
             font-weight: 500;
-            opacity: 0;
-            transform: translateY(0px); /* No hay translateY inicial para el tooltip */
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            white-space: nowrap;
-            backdrop-filter: blur(5px);
+            opacity: 0; /* Oculto por defecto */
+            transform: translateY(0px); /* Sin transformación inicial */
+            transition: opacity 0.2s ease, transform 0.2s ease; /* Transición para mostrar/ocultar */
+            white-space: nowrap; /* Evita que el texto del tooltip se envuelva */
+            backdrop-filter: blur(5px); /* Desenfoque para el tooltip */
             -webkit-backdrop-filter: blur(5px);
-            pointer-events: none;
+            pointer-events: none; /* No interfiere con los eventos del ratón */
         }
 
+        /* Muestra y eleva el tooltip al pasar el ratón */
         .dock-icon:hover::after {
             opacity: 1;
-            transform: translateY(-10px); /* Elevación del tooltip al hacer hover */
+            transform: translateY(-8px); /* Elevación más sutil del tooltip */
         }
 
         /* ===== INDICADOR DE ACTIVO DEL DOCK ===== */
         .dock-icon.active::before {
             content: '';
             position: absolute;
-            bottom: -6px;
+            bottom: -6px; /* Posición del punto indicador */
             width: 4px;
             height: 4px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9); /* Color del punto indicador */
+            border-radius: 50%; /* Forma circular */
         }
 
-        /* ===== EFECTO EN CADENA DEL DOCK (DESKTOP) ===== */
+        /* ===== EFECTO EN CADENA DEL DOCK (ESCRITORIO) ===== */
         .adjacent-effect {
-            transform: scale(1.15) translateY(-10px); /* Efecto adyacente más pronunciado */
+            transform: scale(1.15) translateY(-10px); /* Escala y eleva iconos adyacentes */
             transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         /* ===== VERSIÓN MÓVIL DEL DOCK (OPTIMIZACIÓN) ===== */
         @media (max-width: 768px) {
+            /* Añade padding inferior al body para dejar espacio al dock */
+            body {
+                padding-bottom: 200px; /* Espacio muy generoso para el dock y la separación */
+            }
+
             .dock-container {
-                justify-content: flex-start; /* Alineación del ejemplo en móvil */
+                justify-content: center; /* Centra el dock en móvil */
                 padding: 0 10px;
-                /* === CAMBIO CLAVE: Habilitar scroll horizontal en el contenedor del dock === */
-                overflow-x: auto; 
-                scrollbar-width: none;
-                -ms-overflow-style: none;
+                scrollbar-width: none; /* Oculta la barra de desplazamiento en Firefox */
+                -ms-overflow-style: none; /* Oculta la barra de desplazamiento en IE/Edge */
             }
             
             .dock-container::-webkit-scrollbar {
-                display: none;
+                display: none; /* Oculta la barra de desplazamiento en WebKit */
             }
             
             .dock-blur {
                 padding: 10px 20px;
                 gap: 14px;
-                max-width: none;
+                max-width: none; /* Permite que el dock ocupe todo el ancho disponible */
                 width: auto;
-                /* overflow: visible; ya definido en el estilo base, no cambiar */
-                scroll-snap-type: x proximity; /* Scroll snap del ejemplo */
+                overflow: visible; /* Permite que los iconos sobresalgan */
+                overflow-x: auto; /* Habilita el scroll horizontal en el dock para móviles */
+                white-space: nowrap; /* Mantiene los iconos en una sola línea */
+                scroll-snap-type: x proximity; /* Facilita el desplazamiento por iconos */
+                scrollbar-width: none; /* Oculta la barra de desplazamiento en Firefox */
+                -ms-overflow-style: none; /* Oculta la barra de desplazamiento en IE/Edge */
+            }
+
+            .dock-blur::-webkit-scrollbar {
+                display: none; /* Oculta la barra de desplazamiento en WebKit */
             }
             
             .dock-icon {
-                width: 42px; /* Tamaño de icono del ejemplo en móvil */
+                width: 42px; /* Tamaño de icono más pequeño para móviles */
                 height: 42px;
                 min-width: 42px;
-                scroll-snap-align: center;
+                scroll-snap-align: center; /* Alinea los iconos al centro al desplazarse */
             }
             
             /* El efecto de hover en móvil se manejará con :active */
-            .dock-icon:hover { /* Mantener el hover para dispositivos que lo soporten en móvil */
-                transform: scale(1.3) translateY(-20px); /* === CAMBIO CLAVE: Elevación más pronunciada en móvil (igual que desktop hover) === */
+            .dock-icon:hover { 
+                transform: scale(1.3) translateY(-20px); 
             }
             .dock-icon:hover svg {
-                filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.5)); /* === CAMBIO CLAVE: Sombra más grande y difusa en móvil (igual que desktop hover) === */
+                filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.5)); 
             }
 
             .dock-icon::after {
-                font-size: 11px;
-                bottom: 30px; /* === CAMBIO CLAVE: Posición ajustada para ícono más elevado en móvil === */
+                font-size: 11px; /* Tamaño de fuente más pequeño para tooltips en móvil */
+                bottom: 30px; 
             }
         }
 
         /* Efecto de acercamiento para móviles (basado en :active) */
-        @media (hover: none) {
+        @media (hover: none) { /* Se aplica solo a dispositivos que no soportan hover (típicamente táctiles) */
             .dock-icon:active {
-                transform: scale(1.3) translateY(-20px) !important; /* === CAMBIO CLAVE: Efecto de pulsación más pronunciado (igual que desktop hover) === */
-                z-index: 10 !important; /* Asegura que sobresalga al tocar */
+                transform: scale(1.3) translateY(-20px) !important; /* Fuerza el efecto de escala y elevación al tocar */
+                z-index: 10 !important; /* Fuerza el z-index */
             }
             .dock-icon:active svg {
-                filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.5)) !important; /* === CAMBIO CLAVE: Sombra al tocar (igual que desktop hover) === */
+                filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.5)) !important; /* Fuerza la sombra */
             }
-            /* Asegurar que el efecto adyacente no interfiera con el :active */
+            /* Asegura que el efecto adyacente no interfiera con el :active en móviles */
             .adjacent-effect {
-                transform: none !important; /* Desactivar efecto adyacente en touch para evitar conflictos */
+                transform: none !important; 
             }
+        }
+
+        /* Ajustes específicos para el botón de Registro de Venta */
+        .registro-venta-button {
+            /* Por defecto, ocupa el ancho completo de la cuadrícula en pantallas pequeñas */
+            width: 100%;
+            /* Padding para hacerlo largo y angosto */
+            padding: 0.75rem 1.5rem; /* Vertical más pequeño, horizontal estándar */
+        }
+
+        .registro-venta-button svg {
+            width: 2.5rem; /* Icono más pequeño para el diseño "angosto" */
+            height: 2.5rem;
+            margin-bottom: 0.5rem; /* Ajuste de margen para el icono */
+        }
+
+        .registro-venta-button span {
+            font-size: 0.9rem; /* Texto más pequeño para mejor ajuste en el diseño "angosto" */
+        }
+
+        /* Ajustes para pantallas medianas (sm) y grandes (md/lg) */
+        @media (min-width: 640px) { /* sm breakpoint de Tailwind */
+            .registro-venta-button {
+                padding: 1rem 2rem; /* Aumenta el padding para pantallas más grandes */
+            }
+            .registro-venta-button svg {
+                width: 3rem; /* Icono un poco más grande */
+                height: 3rem;
+            }
+            .registro-venta-button span {
+                font-size: 1.125rem; /* Texto un poco más grande */
+            }
+        }
+
+        @media (min-width: 768px) { /* md breakpoint de Tailwind */
+            .registro-venta-button {
+                padding: 1.25rem 2.5rem; /* Padding más generoso para desktop */
+            }
+            .registro-venta-button svg {
+                width: 3.5rem; /* Icono de tamaño completo para desktop */
+                height: 3.5rem;
+            }
+            .registro-venta-button span {
+                font-size: 1.25rem; /* Texto de tamaño completo para desktop */
+            }
+        }
+
+        /* Estilos para el overlay del modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--tw-colors-overlay-dark); /* Fondo oscuro semitransparente, AÚN MÁS OPACo */
+            backdrop-filter: blur(10px); /* Desenfoque del fondo ligeramente más fuerte */
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001; /* Por encima del dock */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Estilos base para los modales de cristal */
+        .modal-content {
+            background-color: rgba(230, 0, 122, 0.3); /* Fondo fucsia semitransparente para efecto cristal, MÁS COLOR */
+            backdrop-filter: blur(30px) saturate(180%); /* Efecto de cristal más pronunciado */
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Borde más visible y claro */
+            border-radius: 18px; /* Bordes redondeados */
+            /* Sombra para el efecto de rayo brillante */
+            box-shadow: 0 0 25px rgba(230, 0, 122, 0.6), /* Resplandor fucsia más intenso */
+                        0 15px 40px rgba(230, 0, 122, 0.25), /* Sombra fucsia más grande y profunda */
+                        inset 0 0 15px rgba(255, 255, 255, 0.08); /* Brillo interior */
+            padding: 2.5rem; /* Padding interno generoso */
+            width: 90%; /* Ancho responsivo */
+            max-width: 400px; /* Ancho máximo para desktop */
+            color: var(--tw-colors-color-blanco); /* Texto blanco para el contenido del modal */
+            text-align: center;
+            transform: translateY(-20px); /* Empieza ligeramente arriba */
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            animation: pulse-glow 2s infinite alternate; /* Animación de rayo brillante */
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0); /* Se desliza a su posición */
+            opacity: 1;
+        }
+
+        /* Keyframes para la animación de pulsación del rayo brillante */
+        @keyframes pulse-glow {
+            from {
+                box-shadow: 0 0 15px rgba(230, 0, 122, 0.4), /* Sombra inicial más suave */
+                            0 15px 40px rgba(230, 0, 122, 0.25),
+                            inset 0 0 15px rgba(255, 255, 255, 0.08);
+            }
+            to {
+                box-shadow: 0 0 35px rgba(230, 0, 122, 0.8), /* Sombra más brillante y extendida */
+                            0 15px 40px rgba(230, 0, 122, 0.35),
+                            inset 0 0 20px rgba(255, 255, 255, 0.12);
+            }
+        }
+
+
+        /* Estilos para el icono grande en la parte superior del modal */
+        .modal-header-icon {
+            width: 60px; /* Tamaño del icono */
+            height: 60px;
+            color: var(--tw-colors-fuchsia-exacto); /* Color corporativo */
+            margin-bottom: 1.5rem; /* Espacio debajo del icono */
+        }
+
+        /* Contenedor para input con icono */
+        .input-with-icon {
+            position: relative;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem; /* Espacio a la izquierda para el icono */
+            border-radius: 10px;
+            border: 1px solid rgba(230, 0, 122, 0.5); /* Borde fucsia semitransparente */
+            background-color: rgba(0, 0, 0, 0.2); /* Fondo oscuro semitransparente */
+            outline: none;
+            color: var(--tw-colors-color-blanco); /* Texto blanco para input */
+            font-size: 1rem;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .input-with-icon input::placeholder {
+            color: rgba(255, 255, 255, 0.6); /* Color del placeholder, ligeramente más claro */
+        }
+
+        .input-with-icon input:focus {
+            border-color: var(--tw-colors-fuchsia-exacto);
+            background-color: rgba(0, 0, 0, 0.3); /* Ligeramente más opaco al enfocar */
+        }
+
+        .input-with-icon .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--tw-colors-fuchsia-exacto); /* Color del icono como los botones */
+        }
+
+        /* Estilos para el checkbox de "Remember me" */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Alinea el checkbox a la izquierda y el link a la derecha */
+            width: 100%;
+            margin-bottom: 1.5rem; /* Espacio debajo del checkbox */
+            font-size: 0.9rem;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            appearance: none; /* Oculta el checkbox nativo */
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1px solid rgba(230, 0, 122, 0.5); /* Borde fucsia para el checkbox */
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.2); /* Fondo oscuro semitransparente */
+            cursor: pointer;
+            position: relative;
+            margin-right: 0.5rem;
+            flex-shrink: 0; /* Evita que el checkbox se encoja */
+        }
+
+        .checkbox-container input[type="checkbox"]:checked {
+            background-color: var(--tw-colors-fuchsia-exacto); /* Color fucsia cuando está marcado */
+            border-color: var(--tw-colors-fuchsia-exacto);
+        }
+
+        .checkbox-container input[type="checkbox"]:checked::before {
+            content: '\2713'; /* Símbolo de checkmark unicode */
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--tw-colors-color-blanco);
+            font-size: 12px;
+            line-height: 1;
+        }
+
+        .checkbox-container label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.8); /* Texto blanco suave para labels */
+            font-weight: bold; /* Negrita para labels */
+        }
+
+        .checkbox-container a {
+            color: var(--tw-colors-fuchsia-exacto); /* Color fucsia para el enlace */
+            text-decoration: none;
+            font-weight: bold; /* Negrita para el enlace */
+            transition: color 0.2s ease;
+        }
+
+        .checkbox-container a:hover {
+            color: rgba(230, 0, 122, 0.8); /* Fucsia ligeramente más oscuro al pasar el ratón */
+            text-decoration: underline;
+        }
+
+
+        /* Estilos para botones dentro de los modales */
+        .modal-content button {
+            @apply button-press-effect; /* Reutiliza el efecto de botón principal */
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            margin-top: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--tw-colors-color-blanco);
+            border-radius: 12px;
+            background-color: var(--tw-colors-fuchsia-exacto);
+            box-shadow: 0 6px 12px rgba(230, 0, 122, 0.4); /* Sombra fucsia para el botón */
+        }
+
+        .modal-content button.secondary {
+            background-color: rgba(255, 255, 255, 0.1); /* Botón secundario más suave */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .modal-content button.secondary:hover,
+        .modal-content button.secondary:active {
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--tw-colors-color-blanco); /* Título blanco */
+        }
+        .modal-content p {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.8); /* Párrafo blanco suave */
+        }
+        .error-message {
+            color: #ef4444; /* Rojo de error de Tailwind (más fuerte) */
+            font-size: 0.85rem;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        .success-message {
+            color: #22c55e; /* Verde de éxito de Tailwind (más fuerte) */
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Estilos específicos para el panel de URLs en la consola de administración */
+        .url-mappings-panel {
+            background-color: rgba(0, 0, 0, 0.15); /* Fondo ligeramente más oscuro para el panel */
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            max-height: 250px; /* Altura máxima para permitir scroll */
+            overflow-y: auto; /* Habilitar scroll */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .url-mapping-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Separador sutil */
+        }
+
+        .url-mapping-item:last-child {
+            border-bottom: none; /* Eliminar borde del último elemento */
+        }
+
+        .url-mapping-item label {
+            font-weight: bold; /* Negrita para labels */
+            color: rgba(255, 255, 255, 0.8); /* Blanco suave para labels */
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .url-mapping-item input[type="text"] {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(230, 0, 122, 0.3); /* Borde fucsia sutil */
+            background-color: rgba(0, 0, 0, 0.1); /* Fondo de input más transparente */
+            outline: none;
+            color: var(--tw-colors-color-blanco);
+            font-size: 0.85rem;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .url-mapping-item input[type="text"]:focus {
+            border-color: var(--tw-colors-fuchsia-exacto);
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .url-mapping-item select {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(230, 0, 122, 0.3);
+            background-color: rgba(0, 0, 0, 0.1);
+            color: var(--tw-colors-color-blanco);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            appearance: none; /* Elimina el estilo nativo del select */
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E"); /* Icono de flecha hacia abajo */
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+        }
+
+        .url-mapping-item select:focus {
+            border-color: var(--tw-colors-fuchsia-exacto);
+            background-color: rgba(0, 0, 0, 0.2);
+            outline: none;
+        }
+
+        .url-mapping-item select option {
+            background-color: #333; /* Fondo oscuro para las opciones */
+            color: var(--tw-colors-color-blanco);
+        }
+
+        /* Estilos para la sección de usuarios personalizados */
+        .custom-users-section {
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .custom-user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .custom-user-item:last-child {
+            border-bottom: none;
+        }
+
+        .custom-user-item button {
+            background-color: #ef4444; /* Rojo para eliminar */
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            width: auto; /* Ancho automático para el botón */
+            margin-top: 0; /* Eliminar margen superior del botón general */
+            box-shadow: none; /* Eliminar sombra del botón general */
+        }
+
+        .custom-user-item button:hover {
+            background-color: #dc2626;
+        }
+
+        .add-custom-user-inputs {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .add-custom-user-inputs input {
+            flex-grow: 1;
+            padding: 0.4rem 0.6rem;
+            font-size: 0.8rem;
+            border-radius: 6px;
+        }
+
+        .add-custom-user-inputs button {
+            width: auto;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            margin-top: 0;
+            box-shadow: none;
+        }
+
+        /* Estilos para la sección de conexiones múltiples */
+        .connection-list-section {
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            max-height: 150px; /* Para permitir scroll si hay muchas conexiones */
+            overflow-y: auto;
+        }
+
+        .connection-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            word-break: break-all; /* Para que las URLs largas no desborden */
+        }
+
+        .connection-item:last-child {
+            border-bottom: none;
+        }
+
+        .connection-item span {
+            flex-grow: 1;
+            margin-right: 0.5rem;
+        }
+
+        .connection-item button {
+            background-color: #ef4444; /* Rojo para eliminar */
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            width: auto; /* Ancho automático para el botón */
+            margin-top: 0; /* Eliminar margen superior del botón general */
+            box-shadow: none; /* Eliminar sombra del botón general */
+            flex-shrink: 0; /* Evita que el botón se encoja */
+        }
+
+        .connection-item button:hover {
+            background-color: #dc2626;
+        }
+
+        .add-connection-inputs {
+            display: flex;
+            flex-direction: column; /* Apila los inputs verticalmente */
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .add-connection-inputs input {
+            flex-grow: 1;
+            padding: 0.4rem 0.6rem;
+            font-size: 0.8rem;
+            border-radius: 6px;
+        }
+
+        .add-connection-inputs button {
+            width: auto;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            margin-top: 0;
+            box-shadow: none;
+        }
+
+        /* Estilos para el modal de selección de conexión */
+        #selectConnectionModal .modal-content {
+            max-width: 450px;
+        }
+
+        #selectConnectionModal .connection-choice-button {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+            width: 100%;
+            box-shadow: none; /* Eliminar sombra del botón general */
+        }
+
+        #selectConnectionModal .connection-choice-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
 <body class="flex flex-col min-h-screen items-center justify-between p-4 bg-white text-text-dark">
 
-    <!-- Contenedor principal de la consola -->
-    <div class="flex flex-col items-center justify-center flex-grow w-full max-w-4xl rounded-2xl main-panel-shadow glass-effect p-8 my-4 overflow-hidden
-                md:max-w-5xl lg:max-w-6xl xl:max-w-7xl"> <!-- Ajuste de ancho máximo para pantallas grandes -->
+    <!-- Contenedor principal de la consola con efecto de cristal -->
+    <div class="flex flex-col items-center justify-center flex-grow w-full max-w-4xl rounded-2xl main-panel-shadow glass-effect p-8 my-4">
         
-        <!-- Contenedor para el título FreeWork (sin logo) -->
+        <!-- Contenedor para el título FreeWork -->
         <div class="flex flex-col items-center justify-center gap-4 mb-8">
-            <!-- Título principal -->
+            <!-- Título principal de la aplicación -->
             <h1 class="text-4xl font-bold text-text-dark text-center text-3xl md:text-4xl">FreeWork</h1>
         </div>
 
-        <!-- Área de los 6 botones de la consola -->
+        <!-- Área de los 6 botones de la consola, organizados en una cuadrícula responsiva -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12 w-full max-w-2xl">
             <!-- Botón 1: Buscador de Direcciones -->
-            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Buscador de Direcciones" onclick="navigateTo('Buscador de Direcciones')">
+            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Buscador de Direcciones" onclick="window.checkAccessAndNavigate('Buscador de Direcciones')">
+                <!-- Icono de mapa/ubicación (SVG) -->
                 <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
                 <span class="text-color-blanco text-base md:text-lg font-medium text-center">Buscador de Direcciones</span>
             </button>
             <!-- Botón 2: Calculadora de Boleta -->
-            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Calculadora de Boleta" onclick="navigateTo('Calculadora de Boleta')">
+            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Calculadora de Boleta" onclick="window.checkAccessAndNavigate('Calculadora de Boleta')">
+                <!-- Icono de documento/factura (SVG) -->
                 <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2z"/>
                 </svg>
                 <span class="text-color-blanco text-base md:text-lg font-medium text-center">Calculadora de Boleta</span>
             </button>
             <!-- Botón 3: Evaluar RUT -->
-            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Evaluar RUT" onclick="navigateTo('Evaluar RUT')">
+            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Evaluar RUT" onclick="window.checkAccessAndNavigate('Evaluar RUT')">
+                <!-- Icono de usuario/persona (SVG) -->
                 <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M21 2H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm6 14H6v-1.4c0-2.66 5.33-4 8-4s8 1.34 8 4V19z"/>
                 </svg>
                 <span class="text-color-blanco text-base md:text-lg font-medium text-center">Evaluar RUT</span>
             </button>
             <!-- Botón 4: Condiciones Comerciales -->
-            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Condiciones Comerciales" onclick="navigateTo('Condiciones Comerciales')">
+            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Condiciones Comerciales" onclick="window.checkAccessAndNavigate('Condiciones Comerciales')">
+                <!-- Icono de documento/página (SVG) -->
                 <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
                 </svg>
                 <span class="text-color-blanco text-base md:text-lg font-medium text-center">Condiciones Comerciales</span>
             </button>
             <!-- Botón 5: Factibilidad -->
-            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Factibilidad" onclick="navigateTo('Factibilidad')">
+            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Factibilidad" onclick="window.checkAccessAndNavigate('Factibilidad')">
+                <!-- Icono de ubicación/pin (SVG) -->
                 <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2c-4.97 0-9 4.03-9 9 0 3.03 1.48 5.73 3.79 7.42L12 22l5.21-3.58C19.52 16.73 21 14.03 21 11c0-4.97-4.03-9-9-9zm0 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
                 </svg>
                 <span class="text-color-blanco text-base md:text-lg font-medium text-center">Factibilidad</span>
             </button>
             <!-- Botón 6: Configuración -->
-            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Configuración" onclick="navigateTo('Configuración')">
+            <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Configuración" onclick="window.openAdminLoginModal()">
+                <!-- Icono de engranaje (SVG) -->
                 <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.09-.72-1.71-.97l-.36-2.69c-.05-.24-.27-.42-.52-.42h-4c-.25 0-.47.18-.52.42l-.36 2.69c-.62.25-1.19.58-1.71.97l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.39 1.09.72 1.71.97l.36 2.69c.05.24.27.42.52.42h4c.25 0 .47-.18.52-.42l.36-2.69c.62-.25 1.19-.58 1.71-.97l2.49 1c-.22.09-.49 0-.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+                    <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.09-.72-1.71-.97l-.36-2.69c-.05-.24-.27-.42-.52-.42h-4c-.25 0-.47.18-.52.42l-.36 2.69c-.62.25-1.19.58-1.71.97l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12-.22.39.3.61.22l2.49-1c.52.39 1.09.72 1.71.97l.36 2.69c.05.24.27.42.52.42h4c.25 0 .47-.18.52-.42l.36-2.69c.62-.25 1.19-.58 1.71-.97l2.49 1c-.22.09-.49 0-.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
                 </svg>
                 <span class="text-color-blanco text-base md:text-lg font-medium text-center">Configuración</span>
             </button>
-        </div>
 
-        <!-- Botón central: Registro de Venta -->
-        <button class="button-press-effect flex flex-col items-center justify-center p-6 md:p-8 rounded-2xl w-full max-w-xs md:max-w-sm mx-auto mt-6 md:mt-8" aria-label="Registro de Venta" onclick="navigateTo('Registro de Venta')">
-            <svg class="w-14 h-14 md:w-16 md:h-16 text-color-blanco mb-2 md:mb-3 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-4 0c0-1.1.9-2 2-2s2 .9 2 2h-4z"/>
-            </svg>
-            <span class="text-color-blanco text-xl md:text-2xl font-semibold">Registro de Venta</span>
-        </button>
+            <!-- Botón central: Registro de Venta (más grande y prominente) -->
+            <button class="button-press-effect flex flex-col items-center justify-center rounded-2xl w-full mx-auto mt-6 col-span-full
+                           registro-venta-button"
+                    aria-label="Registro de Venta" onclick="window.checkAccessAndNavigate('Registro de Venta')">
+                <!-- Icono de carrito de compras/caja (SVG) -->
+                <svg class="text-color-blanco icon-shadow" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-4 0c0-1.1.9-2 2-2s2 .9 2 2h-4z"/>
+                </svg>
+                <span class="font-semibold text-color-blanco">Registro de Venta</span>
+            </button>
+        </div>
     </div>
 
-    <!-- DOCK PRINCIPAL -->
+    <!-- DOCK PRINCIPAL (barra de aplicaciones estilo macOS) -->
     <div class="dock-container">
         <nav class="dock-blur" id="macosDock">
             <!-- Icono Inicio -->
             <div class="dock-icon active" 
                  data-tooltip="Inicio"
                  data-action="page"
-                 data-target="index.html">
+                 data-target="index.html"
+                 onclick="window.checkAccessAndNavigateDock('Inicio', 'index.html')">
+                <!-- Icono de casa (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
@@ -410,7 +923,9 @@
             <div class="dock-icon" 
                  data-tooltip="Configuración"
                  data-action="page"
-                 data-target="config.html">
+                 data-target="config.html"
+                 onclick="window.openAdminLoginModal()">
+                <!-- Icono de engranaje (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12-.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39-.96c-.22-.08-.47 0-.59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
                 </svg>
@@ -420,7 +935,9 @@
             <div class="dock-icon" 
                  data-tooltip="Informes"
                  data-action="page"
-                 data-target="reports.html">
+                 data-target="reports.html"
+                 onclick="window.checkAccessAndNavigateDock('Informes', 'reports.html')">
+                <!-- Icono de gráfico de barras (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
                 </svg>
@@ -430,7 +947,9 @@
             <div class="dock-icon" 
                  data-tooltip="Desplegar"
                  data-action="page"
-                 data-target="deploy.html">
+                 data-target="deploy.html"
+                 onclick="window.checkAccessAndNavigateDock('Desplegar', 'deploy.html')">
+                <!-- Icono de flecha hacia arriba (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                 </svg>
@@ -440,7 +959,9 @@
             <div class="dock-icon" 
                  data-tooltip="Smart"
                  data-action="page"
-                 data-target="smart.html">
+                 data-target="smart.html"
+                 onclick="window.checkAccessAndNavigateDock('Smart', 'smart.html')">
+                <!-- Icono de bombilla/inteligencia (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm1-11h-2v6h2V8zm0 8h-2v2h2v-2z"/>
                 </svg>
@@ -450,7 +971,9 @@
             <div class="dock-icon" 
                  data-tooltip="Agenda"
                  data-action="page"
-                 data-target="calendar.html">
+                 data-target="calendar.html"
+                 onclick="window.checkAccessAndNavigateDock('Agenda', 'calendar.html')">
+                <!-- Icono de calendario (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
                 </svg>
@@ -460,7 +983,9 @@
             <div class="dock-icon" 
                  data-tooltip="Correo"
                  data-action="page"
-                 data-target="mail.html">
+                 data-target="mail.html"
+                 onclick="window.checkAccessAndNavigateDock('Correo', 'mail.html')">
+                <!-- Icono de sobre/correo (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                 </svg>
@@ -470,7 +995,9 @@
             <div class="dock-icon" 
                  data-tooltip="Mensajes"
                  data-action="page"
-                 data-target="messages.html">
+                 data-target="messages.html"
+                 onclick="window.checkAccessAndNavigateDock('Mensajes', 'messages.html')">
+                <!-- Icono de burbuja de chat (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
                 </svg>
@@ -480,7 +1007,9 @@
             <div class="dock-icon" 
                  data-tooltip="Perfil"
                  data-action="page"
-                 data-target="profile.html">
+                 data-target="profile.html"
+                 onclick="window.checkAccessAndNavigateDock('Perfil', 'profile.html')">
+                <!-- Icono de perfil de usuario (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                 </svg>
@@ -488,45 +1017,1072 @@
         </nav>
     </div>
 
-    <!-- SCRIPT MEJORADO -->
-    <script>
+    <!-- MODAL DE INICIO DE SESIÓN -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-content">
+            <!-- Icono grande en la parte superior del modal -->
+            <svg class="modal-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <h2>Ingresar</h2>
+            <p>Por favor, introduce tus credenciales para acceder.</p>
+            
+            <!-- Campo de Usuario -->
+            <div class="input-with-icon">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <input type="text" id="loginUsernameInput" placeholder="Nombre de Usuario">
+            </div>
+
+            <!-- Campo de Clave -->
+            <div class="input-with-icon">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                    <path d="M17 17V9a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v8"></path>
+                    <path d="M7 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2"></path>
+                    <path d="M17 17H19a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path>
+                </svg>
+                <input type="password" id="loginKeyInput" placeholder="Clave de acceso">
+            </div>
+
+            <div class="checkbox-container">
+                <label for="rememberMe">
+                    <input type="checkbox" id="rememberMe">
+                    Recordarme
+                </label>
+                <a href="#" onclick="window.openForgotPasswordModal()">¿Olvidaste tu clave?</a>
+            </div>
+
+            <p id="loginErrorMessage" class="error-message hidden"></p>
+            <button onclick="window.handleLogin()">Ingresar</button>
+            <button onclick="window.requestKey()" class="secondary">Solicitar clave</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE RECUPERAR CLAVE -->
+    <div id="forgotPasswordModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Recuperar Clave</h2>
+            <p>Introduce tu nombre y teléfono. Te enviaremos tu clave por WhatsApp.</p>
+            <input type="text" id="forgotNameInput" placeholder="Tu Nombre Completo">
+            <input type="tel" id="forgotPhoneInput" placeholder="Tu Teléfono (ej. +56912345678)">
+            <p id="forgotPasswordMessage" class="success-message hidden"></p>
+            <button onclick="window.sendForgotPasswordRequest()">Enviar Solicitud</button>
+            <button onclick="window.hideModal('forgotPasswordModal')" class="secondary">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE REGISTRO / SOLICITAR CLAVE -->
+    <div id="registerModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Regístrate</h2>
+            <p>Para solicitar una clave, por favor, introduce tus datos. Te enviaremos un código por WhatsApp.</p>
+            <input type="text" id="registerNameInput" placeholder="Tu Nombre Completo">
+            <input type="tel" id="registerPhoneInput" placeholder="Tu Teléfono (ej. +56912345678)">
+            <p id="registerSuccessMessage" class="success-message hidden"></p>
+            <button onclick="window.sendRegistrationRequest()">Enviar Solicitud</button>
+            <button onclick="window.hideModal('registerModal')" class="secondary">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE ACCESO DE ADMINISTRADOR -->
+    <div id="adminLoginPromptModal" class="modal-overlay">
+        <div class="modal-content">
+            <svg class="modal-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                <path d="M17 17V9a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v8"></path>
+                <path d="M7 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2"></path>
+                <path d="M17 17H19a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path>
+            </svg>
+            <h2>Acceso de Administrador</h2>
+            <p>Introduce la clave de administrador para acceder a la configuración.</p>
+            <div class="input-with-icon">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                    <path d="M17 17V9a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v8"></path>
+                    <path d="M7 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2"></path>
+                    <path d="M17 17H19a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path>
+                </svg>
+                <input type="password" id="adminKeyPromptInput" placeholder="Clave de Administrador">
+            </div>
+            <p id="adminLoginErrorMessage" class="error-message hidden"></p>
+            <button onclick="window.handleAdminLoginPrompt()">Acceder</button>
+            <button onclick="window.hideModal('adminLoginPromptModal')" class="secondary">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE ACCESO PERSONALIZADO -->
+    <div id="customUserLoginModal" class="modal-overlay">
+        <div class="modal-content">
+            <svg class="modal-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <h2>Acceso Personalizado</h2>
+            <p>Introduce tu nombre y código para acceder.</p>
+            <div class="input-with-icon">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <input type="text" id="customUserNameInput" placeholder="Tu Nombre">
+            </div>
+            <div class="input-with-icon">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                    <path d="M17 17V9a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v8"></path>
+                    <path d="M7 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2"></path>
+                    <path d="M17 17H19a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path>
+                </svg>
+                <input type="password" id="customUserCodeInput" placeholder="Código de 3 dígitos" maxlength="3">
+            </div>
+            <p id="customUserLoginErrorMessage" class="error-message hidden"></p>
+            <button onclick="window.handleCustomUserLogin()">Ingresar</button>
+            <button onclick="window.hideModal('customUserLoginModal')" class="secondary">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONSOLA DE ADMINISTRACIÓN -->
+    <div id="adminModal" class="modal-overlay">
+        <div class="modal-content">
+            <svg class="modal-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.09-.72-1.71-.97l-.36-2.69c-.05-.24-.27-.42-.52-.42h-4c-.25 0-.47.18-.52.42l-.36 2.69c-.62.25-1.19.58-1.71.97l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12-.22.39.3.61.22l2.49-1c.52.39 1.09.72 1.71.97l.36 2.69c.05.24.27.42.52.42h4c.25 0 .47-.18.52-.42l.36-2.69c.62-.25 1.19-.58 1.71-.97l2.49 1c-.22.09-.49 0-.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+            </svg>
+            <h2>Consola de Administración</h2>
+            <p>Gestiona las claves y las conexiones de los botones.</p>
+            
+            <!-- Clave General -->
+            <label for="adminGeneralKeyInput" class="block text-left text-light-contrast font-bold mb-1">Clave General:</label>
+            <div class="input-with-icon">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                    <path d="M17 17V9a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v8"></path>
+                    <path d="M7 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2"></path>
+                    <path d="M17 17H19a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path>
+                </svg>
+                <input type="password" id="adminGeneralKeyInput" placeholder="Nueva Clave General">
+            </div>
+
+            <!-- Clave de Administrador -->
+            <label for="adminAdminKeyInput" class="block text-left text-light-contrast font-bold mb-1">Clave de Administrador:</label>
+            <div class="input-with-icon">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 17a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                    <path d="M17 17V9a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v8"></path>
+                    <path d="M7 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2"></path>
+                    <path d="M17 17H19a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path>
+                </svg>
+                <input type="password" id="adminAdminKeyInput" placeholder="Nueva Clave de Administrador">
+            </div>
+            <p id="adminConsoleMessage" class="success-message hidden"></p>
+            
+            <h3 class="text-color-blanco font-bold text-lg mt-4 mb-2">Conexiones de Botones</h3>
+            <div id="urlMappingsPanel" class="url-mappings-panel">
+                <!-- Las conexiones de los botones se cargarán aquí dinámicamente -->
+            </div>
+
+            <button onclick="window.saveAdminChanges()">Aceptar Cambios</button>
+            <button onclick="window.hideModal('adminModal')" class="secondary">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE SELECCIÓN DE CONEXIÓN (NUEVO) -->
+    <div id="selectConnectionModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Seleccionar Conexión</h2>
+            <p id="selectConnectionMessage">Elige la conexión para <span id="currentButtonName"></span>:</p>
+            <div id="connectionButtonsContainer" class="flex flex-col gap-2 mt-4">
+                <!-- Los botones de conexión se cargarán aquí dinámicamente -->
+            </div>
+            <button onclick="window.hideModal('selectConnectionModal')" class="secondary mt-4">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- SCRIPT MEJORADO PARA LA FUNCIONALIDAD DE LA CONSOLA Y EL DOCK -->
+    <script type="module">
+        // Importar módulos de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
         // =====================================================================
-        // CONSOLA DE URLS Y COMPORTAMIENTO DE BOTONES PRINCIPALES
+        // CONFIGURACIÓN E INICIALIZACIÓN DE FIREBASE
+        // =====================================================================
+        let app;
+        let db;
+        let auth;
+        let userId;
+        let appSettingsRef; // Referencia al documento de configuración de la app
+        let currentKey = "1234"; // Clave general por defecto
+        let adminKey = "superadmin"; // Clave de administrador por defecto
+        let isLoggedIn = false; // Estado de sesión del usuario general
+
+        // Mapeo de URLs por defecto para los botones principales
+        // Ahora cada entrada tiene un array 'connections'
+        let urlMappings = {
+            "Buscador de Direcciones": { connections: [{ label: "Google Maps", url: "https://www.google.com/maps" }], access: "general", customUsers: [] },
+            "Calculadora de Boleta": { connections: [{ label: "Calculadora Demo", url: "https://www.ejemplo.com/calculadora-boleta.html" }], access: "general", customUsers: [] },
+            "Evaluar RUT": { connections: [{ label: "Evaluador Demo", url: "https://www.ejemplo.com/evaluar-rut.html" }], access: "general", customUsers: [] },
+            "Condiciones Comerciales": { connections: [{ label: "Condiciones Demo", url: "https://www.ejemplo.com/condiciones-comerciales.html" }], access: "general", customUsers: [] },
+            "Factibilidad": { connections: [{ label: "Factibilidad Demo", url: "https://www.ejemplo.com/factibilidad.html" }], access: "general", customUsers: [] },
+            "Registro de Venta": { connections: [{ label: "Registro Demo", url: "https://www.ejemplo.com/registro-venta.html" }], access: "general", customUsers: [] },
+            "Inicio": { connections: [{ label: "Página Principal (index.html)", url: "index.html" }], access: "general", customUsers: [] },
+            "Configuración": { connections: [{ label: "Consola Admin", url: "config.html" }], access: "admin", customUsers: [] }, 
+            "Informes": { connections: [{ label: "Informes Demo", url: "reports.html" }], access: "general", customUsers: [] },
+            "Desplegar": { connections: [{ label: "Despliegue Demo", url: "deploy.html" }], access: "general", customUsers: [] },
+            "Smart": { connections: [{ label: "Smart Demo", url: "smart.html" }], access: "general", customUsers: [] },
+            "Agenda": { connections: [{ label: "Agenda Demo", url: "calendar.html" }], access: "general", customUsers: [] },
+            "Correo": { connections: [{ label: "Correo Demo", url: "mail.html" }], access: "general", customUsers: [] },
+            "Mensajes": { connections: [{ label: "Mensajes Demo", url: "messages.html" }], access: "general", customUsers: [] },
+            "Perfil": { connections: [{ label: "Perfil Demo", url: "profile.html" }], access: "general", customUsers: [] }
+        };
+
+        // Global variables to store the pending navigation details for admin access
+        let pendingNavigationButtonName = null;
+        let pendingNavigationTargetUrl = null;
+        let adminLoginForConsole = false; // Flag to distinguish admin login for console vs. navigation
+
+        // Números de teléfono para recuperación de clave (se pueden configurar desde el panel de admin si se desea)
+        const recoveryPhoneNumbers = ["56927372611", "56912345678"]; // Example numbers
+
+        // Variables globales para los elementos del DOM
+        const loginModal = document.getElementById('loginModal');
+        const registerModal = document.getElementById('registerModal');
+        const forgotPasswordModal = document.getElementById('forgotPasswordModal'); // Nuevo modal para recuperar clave
+        const adminLoginPromptModal = document.getElementById('adminLoginPromptModal'); // Nuevo modal para pedir clave admin
+        const adminModal = document.getElementById('adminModal'); // Nuevo modal de consola de administración
+        const customUserLoginModal = document.getElementById('customUserLoginModal'); // Nuevo modal para acceso personalizado
+        const selectConnectionModal = document.getElementById('selectConnectionModal'); // Nuevo modal para seleccionar conexión
+        
+        const loginUsernameInput = document.getElementById('loginUsernameInput');
+        const loginKeyInput = document.getElementById('loginKeyInput');
+        const loginErrorMessage = document.getElementById('loginErrorMessage');
+        const rememberMeCheckbox = document.getElementById('rememberMe');
+        
+        const registerNameInput = document.getElementById('registerNameInput');
+        const registerPhoneInput = document.getElementById('registerPhoneInput');
+        const registerSuccessMessage = document.getElementById('registerSuccessMessage');
+
+        const forgotNameInput = document.getElementById('forgotNameInput'); // Input de nombre en recuperar clave
+        const forgotPhoneInput = document.getElementById('forgotPhoneInput'); // Input de teléfono en recuperar clave
+        const forgotPasswordMessage = document.getElementById('forgotPasswordMessage'); // Mensaje en recuperar clave
+        
+        const adminKeyPromptInput = document.getElementById('adminKeyPromptInput'); // Input de clave admin en el prompt
+        const adminLoginErrorMessage = document.getElementById('adminLoginErrorMessage');
+        
+        const customUserNameInput = document.getElementById('customUserNameInput'); // Input de nombre en acceso personalizado
+        const customUserCodeInput = document.getElementById('customUserCodeInput'); // Input de código en acceso personalizado
+        const customUserLoginErrorMessage = document.getElementById('customUserLoginErrorMessage'); // Mensaje de error en acceso personalizado
+
+        const adminGeneralKeyInput = document.getElementById('adminGeneralKeyInput'); // Input de clave general en admin console
+        const adminAdminKeyInput = document.getElementById('adminAdminKeyInput'); // Input de clave admin en admin console
+        const adminConsoleMessage = document.getElementById('adminConsoleMessage');
+        const urlMappingsPanel = document.getElementById('urlMappingsPanel'); // Panel para URLs editables
+
+        const currentButtonNameSpan = document.getElementById('currentButtonName'); // Span para el nombre del botón en el modal de selección
+        const connectionButtonsContainer = document.getElementById('connectionButtonsContainer'); // Contenedor de botones en el modal de selección
+
+        // Inicializar Firebase al cargar el DOM
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Variables globales proporcionadas por el entorno de Canvas
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+                const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+                const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                // Autenticar al usuario
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                // Listener para el estado de autenticación
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        console.log("Usuario autenticado con ID:", userId);
+                        // Referencia al documento de configuración de la aplicación
+                        appSettingsRef = doc(db, `artifacts/${appId}/app_settings/config`);
+                        
+                        // Cargar configuraciones (claves y URLs) desde Firestore
+                        await loadAppSettings();
+                        
+                        // Mostrar el modal de login al inicio
+                        window.showModal('loginModal');
+
+                    } else {
+                        console.log("No hay usuario autenticado.");
+                        // Si no hay usuario, aún mostramos el modal de login
+                        window.showModal('loginModal');
+                    }
+                });
+
+                // Añadir listeners para cerrar modales al hacer clic fuera
+                // Solo para modales que no son de autenticación crítica
+                adminLoginPromptModal.addEventListener('click', (event) => {
+                    if (event.target === adminLoginPromptModal) {
+                        window.hideModal('adminLoginPromptModal');
+                    }
+                });
+                adminModal.addEventListener('click', (event) => {
+                    if (event.target === adminModal) {
+                        window.hideModal('adminModal');
+                    }
+                });
+                customUserLoginModal.addEventListener('click', (event) => {
+                    if (event.target === customUserLoginModal) {
+                        window.hideModal('customUserLoginModal');
+                    }
+                });
+                selectConnectionModal.addEventListener('click', (event) => {
+                    if (event.target === selectConnectionModal) {
+                        window.hideModal('selectConnectionModal');
+                    }
+                });
+
+
+            } catch (error) {
+                console.error("Error al inicializar Firebase o autenticar:", error);
+                // Mostrar el modal de login incluso si Firebase falla
+                window.showModal('loginModal');
+            }
+        });
+
+        /**
+         * Carga la configuración de la aplicación (claves y mapeos de URL) desde Firestore.
+         */
+        async function loadAppSettings() {
+            try {
+                const settingsSnap = await getDoc(appSettingsRef);
+                if (settingsSnap.exists()) {
+                    const data = settingsSnap.data();
+                    currentKey = data.generalKey || "1234";
+                    adminKey = data.adminKey || "superadmin";
+                    
+                    // Cargar urlMappings y asegurar que cada entrada tenga la propiedad 'access' y 'customUsers'
+                    // y que 'connections' sea un array
+                    if (data.urlMappings) {
+                        for (const key in urlMappings) { // Iterar sobre las claves por defecto para asegurar que todas estén presentes
+                            if (data.urlMappings.hasOwnProperty(key)) {
+                                const storedItem = data.urlMappings[key];
+                                let connectionsArray = [];
+
+                                if (storedItem.connections && Array.isArray(storedItem.connections)) {
+                                    connectionsArray = storedItem.connections;
+                                } else if (storedItem.url) { // Formato antiguo con una sola 'url'
+                                    connectionsArray = [{ label: "Enlace Principal", url: storedItem.url }];
+                                } else {
+                                    connectionsArray = []; // Si no hay conexiones ni URL, inicializar vacío
+                                }
+
+                                urlMappings[key] = {
+                                    connections: connectionsArray,
+                                    access: storedItem.access || "general",
+                                    customUsers: storedItem.customUsers || []
+                                };
+                            } else {
+                                // Si una clave existe en el default pero no en Firestore, añadirla con acceso por defecto
+                                urlMappings[key] = urlMappings[key] || { connections: [], access: "general", customUsers: [] };
+                            }
+                        }
+                    }
+                    console.log("Configuración cargada desde Firestore:", { generalKey: currentKey, adminKey: adminKey, urlMappings: urlMappings });
+                } else {
+                    console.log("No hay configuración guardada en Firestore. Usando valores por defecto y guardándolos.");
+                    // Guardar los valores por defecto si no existen
+                    await saveAppSettings();
+                }
+            } catch (error) {
+                console.error("Error al cargar la configuración de la aplicación:", error);
+                // Si hay un error, se mantienen las claves y mapeos por defecto
+            }
+        }
+
+        /**
+         * Guarda la configuración actual de la aplicación (claves y mapeos de URL) en Firestore.
+         */
+        async function saveAppSettings() {
+            if (!userId) {
+                console.error("No hay usuario autenticado para guardar la configuración.");
+                return false;
+            }
+            try {
+                await setDoc(appSettingsRef, {
+                    generalKey: currentKey,
+                    adminKey: adminKey,
+                    urlMappings: urlMappings
+                });
+                console.log("Configuración guardada exitosamente en Firestore.");
+                return true;
+            } catch (error) {
+                console.error("Error al guardar la configuración en Firestore:", error);
+                return false;
+            }
+        }
+
+        // =====================================================================
+        // FUNCIONALIDAD DE MODALES
         // =====================================================================
 
         /**
-         * Objeto para mapear los nombres de los botones principales a sus URLs de destino.
-         * Puedes modificar estas URLs según tus necesidades.
-         *
-         * NOTA: En este entorno de previsualización, la navegación real está comentada.
-         * Solo se mostrará un mensaje en la consola del navegador.
-         * Para la navegación real en un entorno de producción, descomenta la línea
-         * `window.location.href = finalTarget;` dentro de la función `navigateTo`.
+         * Muestra un modal específico y el overlay.
+         * @param {string} modalId - El ID del modal a mostrar.
          */
-        const urlMappings = {
-            "Buscador de Direcciones": "https://www.google.com/maps",
-            "Calculadora de Boleta": "https://www.ejemplo.com/calculadora-boleta.html",
-            "Evaluar RUT": "https://www.ejemplo.com/evaluar-rut.html",
-            "Condiciones Comerciales": "https://www.ejemplo.com/condiciones-comerciales.html",
-            "Factibilidad": "https://www.ejemplo.com/factibilidad.html",
-            "Configuración": "https://www.ejemplo.com/configuracion.html",
-            "Registro de Venta": "https://www.ejemplo.com/registro-venta.html"
-            // Las URLs del dock se manejan directamente con data-target en el HTML
+        window.showModal = function(modalId) {
+            // Ocultar todos los modales primero
+            loginModal.classList.remove('active');
+            registerModal.classList.remove('active');
+            forgotPasswordModal.classList.remove('active'); 
+            adminLoginPromptModal.classList.remove('active');
+            adminModal.classList.remove('active');
+            customUserLoginModal.classList.remove('active'); 
+            selectConnectionModal.classList.remove('active'); // Ocultar el modal de selección de conexión
+
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                // Limpiar mensajes de error/éxito al mostrar el modal
+                loginErrorMessage.classList.add('hidden');
+                registerSuccessMessage.classList.add('hidden');
+                forgotPasswordMessage.classList.add('hidden'); 
+                adminLoginErrorMessage.classList.add('hidden');
+                adminConsoleMessage.classList.add('hidden');
+                customUserLoginErrorMessage.classList.add('hidden'); 
+            }
+        }
+
+        /**
+         * Oculta un modal específico y el overlay.
+         * @param {string} modalId - El ID del modal a ocultar.
+         */
+        window.hideModal = function(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        /**
+         * Muestra un mensaje de información temporal en el modal de login.
+         * @param {string} message - El mensaje a mostrar.
+         */
+        window.showInfoMessage = function(message) {
+            loginErrorMessage.textContent = message;
+            loginErrorMessage.style.color = '#22c55e'; // Green for info
+            loginErrorMessage.classList.remove('hidden');
+            setTimeout(() => {
+                loginErrorMessage.classList.add('hidden');
+            }, 3000); // Hide after 3 seconds
+        }
+
+        // =====================================================================
+        // LÓGICA DE INICIO DE SESIÓN (CLAVE GENERAL)
+        // =====================================================================
+
+        /**
+         * Maneja el intento de inicio de sesión con la clave general.
+         */
+        window.handleLogin = function() {
+            const enteredUsername = loginUsernameInput.value.trim();
+            const enteredKey = loginKeyInput.value.trim();
+            
+            if (enteredKey === currentKey) {
+                isLoggedIn = true; // Establecer estado de sesión
+                window.hideModal('loginModal');
+                console.log("Inicio de sesión exitoso con clave general.");
+                // Limpiar los inputs después del login
+                loginUsernameInput.value = '';
+                loginKeyInput.value = '';
+                rememberMeCheckbox.checked = false;
+            } else {
+                loginErrorMessage.textContent = "Clave incorrecta. Inténtalo de nuevo.";
+                loginErrorMessage.classList.remove('hidden');
+            }
+        }
+
+        /**
+         * Abre el modal de registro cuando se solicita una clave.
+         */
+        window.requestKey = function() {
+            window.hideModal('loginModal');
+            window.showModal('registerModal');
+            registerNameInput.value = '';
+            registerPhoneInput.value = '';
+        }
+
+        // =====================================================================
+        // LÓGICA DE RECUPERACIÓN DE CLAVE POR WHATSAPP (PARA USUARIOS NO ADMIN)
+        // =====================================================================
+
+        /**
+         * Abre el modal para que un usuario solicite la recuperación de su clave.
+         */
+        window.openForgotPasswordModal = function() {
+            window.hideModal('loginModal');
+            window.showModal('forgotPasswordModal');
+            forgotNameInput.value = '';
+            forgotPhoneInput.value = '';
+            forgotPasswordMessage.classList.add('hidden');
+        }
+
+        /**
+         * Envía la solicitud de recuperación de clave vía WhatsApp a los administradores.
+         */
+        window.sendForgotPasswordRequest = function() {
+            const name = forgotNameInput.value.trim();
+            const phone = forgotPhoneInput.value.trim();
+            const whatsappNumber = "56927372611"; // Número de WhatsApp fijo para solicitudes de recuperación
+
+            if (!name || !phone) {
+                forgotPasswordMessage.textContent = "Por favor, completa todos los campos.";
+                forgotPasswordMessage.style.color = '#ef4444';
+                forgotPasswordMessage.classList.remove('hidden');
+                return;
+            }
+
+            const message = encodeURIComponent(`Hola, soy ${name} (${phone}) y he olvidado mi clave para FreeWork. Por favor, ayúdame a recuperarla.`);
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+
+            window.open(whatsappUrl, '_blank');
+
+            forgotPasswordMessage.textContent = "¡Solicitud enviada! Por favor, espera a que te contactemos por WhatsApp.";
+            forgotPasswordMessage.style.color = '#22c55e';
+            forgotPasswordMessage.classList.remove('hidden');
+
+            setTimeout(() => {
+                window.hideModal('forgotPasswordModal');
+                window.showModal('loginModal');
+            }, 3000);
+        }
+
+        // =====================================================================
+        // LÓGICA DE REGISTRO / SOLICITAR CLAVE (INICIAL)
+        // =====================================================================
+
+        /**
+         * Envía la solicitud de registro vía WhatsApp.
+         */
+        window.sendRegistrationRequest = function() {
+            const name = registerNameInput.value.trim();
+            const phone = registerPhoneInput.value.trim();
+            const whatsappNumber = "56927372611"; // Número de WhatsApp fijo para solicitudes de registro
+
+            if (!name || !phone) {
+                registerSuccessMessage.textContent = "Por favor, completa todos los campos.";
+                registerSuccessMessage.style.color = '#ef4444';
+                registerSuccessMessage.classList.remove('hidden');
+                return;
+            }
+
+            const message = encodeURIComponent(`Hola, mi nombre es ${name} y mi número es ${phone}. Me gustaría solicitar una clave de acceso para FreeWork.`);
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+
+            window.open(whatsappUrl, '_blank');
+
+            registerSuccessMessage.textContent = "¡Solicitud enviada! Por favor, espera a que te enviemos tu clave por WhatsApp.";
+            registerSuccessMessage.style.color = '#22c55e';
+            registerSuccessMessage.classList.remove('hidden');
+
+            setTimeout(() => {
+                window.hideModal('registerModal');
+                window.showModal('loginModal');
+            }, 3000);
+        }
+
+        // =====================================================================
+        // LÓGICA DE ACCESO Y CONSOLA DE ADMINISTRADOR
+        // =====================================================================
+
+        /**
+         * Abre el modal de solicitud de clave de administrador para acceder a la consola.
+         */
+        window.openAdminLoginModal = function() {
+            adminLoginForConsole = true; // Set flag for console access
+            window.showModal('adminLoginPromptModal');
+            adminKeyPromptInput.value = ''; // Limpiar input
+            adminLoginErrorMessage.classList.add('hidden');
+        }
+
+        /**
+         * Abre el modal de solicitud de clave de administrador para una navegación restringida.
+         * @param {string} buttonName - El nombre del botón que activó la solicitud.
+         * @param {string} targetUrl - La URL a la que se intentaba navegar.
+         */
+        window.promptAdminAccess = function(buttonName, targetUrl) {
+            adminLoginForConsole = false; // Set flag for navigation access
+            pendingNavigationButtonName = buttonName;
+            pendingNavigationTargetUrl = targetUrl;
+            window.showModal('adminLoginPromptModal');
+            adminKeyPromptInput.value = '';
+            adminLoginErrorMessage.classList.add('hidden');
         };
 
         /**
-         * Función para manejar la navegación de los botones principales.
-         * Busca la URL en el `urlMappings` y simula la navegación.
-         * @param {string} buttonName - El nombre del botón que se está activando.
+         * Maneja el intento de inicio de sesión para el administrador.
          */
-        function navigateTo(buttonName) {
-            const targetUrl = urlMappings[buttonName];
-            if (targetUrl) {
-                console.log(`Simulando navegación para "${buttonName}" a: ${targetUrl}`);
-                // Para habilitar la navegación real en un entorno de producción, descomenta la siguiente línea:
-                // window.location.href = targetUrl;
+        window.handleAdminLoginPrompt = function() {
+            const enteredAdminKey = adminKeyPromptInput.value.trim();
+            if (enteredAdminKey === adminKey) {
+                window.hideModal('adminLoginPromptModal');
+                if (adminLoginForConsole) {
+                    // Abrir consola de administración
+                    window.showModal('adminModal');
+                    adminGeneralKeyInput.value = currentKey;
+                    adminAdminKeyInput.value = adminKey;
+                    renderUrlMappings(); // Renderizar el panel de URLs
+                    adminConsoleMessage.classList.add('hidden'); // Ocultar mensajes previos
+                } else {
+                    // Realizar navegación pendiente
+                    if (pendingNavigationButtonName && pendingNavigationTargetUrl) {
+                        console.log(`Admin access granted. Navigating to ${pendingNavigationButtonName}: ${pendingNavigationTargetUrl}`);
+                        // Determinar si es un botón principal o un icono del dock para la lógica de navegación
+                        const isDockIcon = ['Inicio', 'Configuración', 'Informes', 'Desplegar', 'Smart', 'Agenda', 'Correo', 'Mensajes', 'Perfil'].includes(pendingNavigationButtonName);
+                        if (isDockIcon) {
+                            window.open(pendingNavigationTargetUrl, '_blank'); // Navegación real
+                        } else {
+                            window.location.href = pendingNavigationTargetUrl; // Navegación real
+                        }
+                        pendingNavigationButtonName = null; // Limpiar navegación pendiente
+                        pendingNavigationTargetUrl = null;
+                    }
+                }
             } else {
-                console.warn(`URL no definida para el botón: "${buttonName}"`);
+                adminLoginErrorMessage.textContent = "Clave de administrador incorrecta.";
+                adminLoginErrorMessage.classList.remove('hidden');
+            }
+        }
+
+        /**
+         * Maneja el intento de inicio de sesión para acceso personalizado.
+         */
+        window.handleCustomUserLogin = function() {
+            const enteredName = customUserNameInput.value.trim();
+            const enteredCode = customUserCodeInput.value.trim();
+
+            if (!enteredName || enteredCode.length !== 3) {
+                customUserLoginErrorMessage.textContent = "Por favor, introduce un nombre y un código de 3 dígitos.";
+                customUserLoginErrorMessage.classList.remove('hidden');
+                return;
+            }
+
+            const buttonConfig = urlMappings[pendingNavigationButtonName];
+            const foundUser = buttonConfig.customUsers.find(user => user.name === enteredName && user.code === enteredCode);
+
+            if (foundUser) {
+                window.hideModal('customUserLoginModal');
+                console.log(`Acceso personalizado concedido para ${enteredName}.`);
+                // Si el acceso personalizado es exitoso, ahora manejamos las conexiones
+                handleButtonConnections(pendingNavigationButtonName, pendingNavigationTargetUrl);
+                pendingNavigationButtonName = null;
+                pendingNavigationTargetUrl = null;
+                customUserNameInput.value = '';
+                customUserCodeInput.value = '';
+            } else {
+                customUserLoginErrorMessage.textContent = "Nombre o código incorrecto.";
+                customUserLoginErrorMessage.classList.remove('hidden');
+            }
+        };
+
+        /**
+         * Guarda los cambios realizados en la consola de administración.
+         */
+        window.saveAdminChanges = async function() {
+            const newGeneralKey = adminGeneralKeyInput.value.trim();
+            const newAdminKey = adminAdminKeyInput.value.trim();
+
+            if (!newGeneralKey || !newAdminKey) {
+                adminConsoleMessage.textContent = "Las claves no pueden estar vacías.";
+                adminConsoleMessage.style.color = '#ef4444';
+                adminConsoleMessage.classList.remove('hidden');
+                return;
+            }
+
+            // Actualizar las claves en memoria
+            currentKey = newGeneralKey;
+            adminKey = newAdminKey;
+
+            // Recopilar los mapeos de URL actualizados del DOM
+            const updatedUrlMappings = {};
+            const urlItems = urlMappingsPanel.querySelectorAll('.url-mapping-item');
+            urlItems.forEach(item => {
+                const buttonName = item.querySelector('label').textContent;
+                const accessSelect = item.querySelector('select');
+                
+                const customUsers = [];
+                if (accessSelect.value === 'custom') {
+                    const customUserItems = item.querySelectorAll('.custom-user-item');
+                    customUserItems.forEach(userItem => {
+                        const nameSpan = userItem.querySelector('span:first-child');
+                        const codeSpan = userItem.querySelector('span:nth-child(2)');
+                        if (nameSpan && codeSpan) {
+                            customUsers.push({
+                                name: nameSpan.textContent.replace('Nombre: ', '').trim(),
+                                code: codeSpan.textContent.replace('Código: ', '').trim()
+                            });
+                        }
+                    });
+                }
+
+                const connections = [];
+                const connectionItems = item.querySelectorAll('.connection-item');
+                connectionItems.forEach(connItem => {
+                    const labelSpan = connItem.querySelector('span:first-child');
+                    const urlSpan = connItem.querySelector('span:nth-child(2)');
+                    if (labelSpan && urlSpan) {
+                        connections.push({
+                            label: labelSpan.textContent.replace('Etiqueta: ', '').trim(),
+                            url: urlSpan.textContent.replace('URL: ', '').trim()
+                        });
+                    }
+                });
+                
+                updatedUrlMappings[buttonName] = {
+                    connections: connections,
+                    access: accessSelect.value,
+                    customUsers: customUsers
+                };
+            });
+            urlMappings = updatedUrlMappings; // Actualizar el objeto global
+
+            const saved = await saveAppSettings(); // Guardar todo en Firestore
+
+            if (saved) {
+                adminConsoleMessage.textContent = "¡Cambios guardados exitosamente!";
+                adminConsoleMessage.style.color = '#22c55e';
+                adminConsoleMessage.classList.remove('hidden');
+                // Opcional: Cerrar el modal de administración después de un tiempo
+                setTimeout(() => {
+                    window.hideModal('adminModal');
+                }, 2000);
+            } else {
+                adminConsoleMessage.textContent = "Error al guardar los cambios. Inténtalo de nuevo.";
+                adminConsoleMessage.style.color = '#ef4444';
+                adminConsoleMessage.classList.remove('hidden');
+            }
+        }
+
+        /**
+         * Renderiza dinámicamente el panel para editar las URLs y accesos de los botones.
+         */
+        function renderUrlMappings() {
+            urlMappingsPanel.innerHTML = ''; // Limpiar contenido previo
+            for (const buttonName in urlMappings) {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('url-mapping-item');
+
+                const label = document.createElement('label');
+                label.textContent = buttonName;
+                itemDiv.appendChild(label);
+
+                // Sección para conexiones múltiples
+                const connectionListSection = document.createElement('div');
+                connectionListSection.classList.add('connection-list-section');
+                itemDiv.appendChild(connectionListSection);
+
+                const renderConnections = (connections, sectionElement) => {
+                    sectionElement.innerHTML = '';
+                    connections.forEach((conn, index) => {
+                        const connItem = document.createElement('div');
+                        connItem.classList.add('connection-item');
+                        connItem.innerHTML = `
+                            <span>Etiqueta: ${conn.label}</span>
+                            <span>URL: ${conn.url}</span>
+                            <button data-index="${index}" class="remove-connection-button">Eliminar</button>
+                        `;
+                        sectionElement.appendChild(connItem);
+                    });
+
+                    const addInputsDiv = document.createElement('div');
+                    addInputsDiv.classList.add('add-connection-inputs');
+                    addInputsDiv.innerHTML = `
+                        <input type="text" placeholder="Etiqueta (ej. Página 2)" class="new-connection-label">
+                        <input type="text" placeholder="URL (ej. index2.html)" class="new-connection-url">
+                        <button class="add-connection-button">Agregar Conexión</button>
+                    `;
+                    sectionElement.appendChild(addInputsDiv);
+
+                    sectionElement.querySelectorAll('.remove-connection-button').forEach(button => {
+                        button.onclick = (e) => {
+                            const indexToRemove = parseInt(e.target.dataset.index);
+                            urlMappings[buttonName].connections.splice(indexToRemove, 1);
+                            renderConnections(urlMappings[buttonName].connections, sectionElement);
+                        };
+                    });
+
+                    sectionElement.querySelector('.add-connection-button').onclick = () => {
+                        const newLabelInput = sectionElement.querySelector('.new-connection-label');
+                        const newUrlInput = sectionElement.querySelector('.new-connection-url');
+                        const newLabel = newLabelInput.value.trim();
+                        const newUrl = newUrlInput.value.trim();
+
+                        if (newLabel && newUrl) {
+                            urlMappings[buttonName].connections.push({ label: newLabel, url: newUrl });
+                            newLabelInput.value = '';
+                            newUrlInput.value = '';
+                            renderConnections(urlMappings[buttonName].connections, sectionElement);
+                        } else {
+                            console.error("Error: La etiqueta y la URL de la conexión no pueden estar vacías.");
+                            const errorMsg = document.createElement('p');
+                            errorMsg.textContent = "Error: La etiqueta y la URL no pueden estar vacías.";
+                            errorMsg.style.color = '#ef4444';
+                            errorMsg.style.fontSize = '0.75rem';
+                            errorMsg.style.marginTop = '0.5rem';
+                            sectionElement.appendChild(errorMsg);
+                            setTimeout(() => {
+                                errorMsg.remove();
+                            }, 3000);
+                        }
+                    };
+                };
+                renderConnections(urlMappings[buttonName].connections, connectionListSection);
+
+
+                const accessSelect = document.createElement('select');
+                accessSelect.setAttribute('data-button-name', buttonName); // Para identificar el botón al guardar
+                
+                const generalOption = document.createElement('option');
+                generalOption.value = 'general';
+                generalOption.textContent = 'Acceso General';
+                accessSelect.appendChild(generalOption);
+
+                const adminOption = document.createElement('option');
+                adminOption.value = 'admin';
+                adminOption.textContent = 'Acceso Administrador';
+                accessSelect.appendChild(adminOption);
+
+                const customOption = document.createElement('option');
+                customOption.value = 'custom';
+                customOption.textContent = 'Acceso Personalizado';
+                accessSelect.appendChild(customOption);
+
+                accessSelect.value = urlMappings[buttonName].access; // Establecer el valor actual
+                itemDiv.appendChild(accessSelect);
+
+                const customUsersSection = document.createElement('div');
+                customUsersSection.classList.add('custom-users-section');
+                customUsersSection.style.display = accessSelect.value === 'custom' ? 'block' : 'none';
+                itemDiv.appendChild(customUsersSection);
+
+                // Función para renderizar los usuarios personalizados dentro de la sección
+                const renderCustomUsers = (users, sectionElement) => {
+                    sectionElement.innerHTML = ''; // Limpiar usuarios previos
+                    users.forEach((user, index) => {
+                        const userItem = document.createElement('div');
+                        userItem.classList.add('custom-user-item');
+                        userItem.innerHTML = `
+                            <span>Nombre: ${user.name}</span>
+                            <span>Código: ${user.code}</span>
+                            <button data-index="${index}" class="remove-custom-user">Eliminar</button>
+                        `;
+                        sectionElement.appendChild(userItem);
+                    });
+
+                    // Añadir inputs para nuevo usuario
+                    const addInputsDiv = document.createElement('div');
+                    addInputsDiv.classList.add('add-custom-user-inputs');
+                    addInputsDiv.innerHTML = `
+                        <input type="text" placeholder="Nuevo Nombre" class="new-custom-user-name">
+                        <input type="text" placeholder="Código (3 dígitos)" maxlength="3" class="new-custom-user-code">
+                        <button class="add-custom-user-button">Agregar</button>
+                    `;
+                    sectionElement.appendChild(addInputsDiv);
+
+                    // Añadir listeners para los botones de eliminar y agregar
+                    sectionElement.querySelectorAll('.remove-custom-user').forEach(button => {
+                        button.onclick = (e) => {
+                            const indexToRemove = parseInt(e.target.dataset.index);
+                            urlMappings[buttonName].customUsers.splice(indexToRemove, 1);
+                            renderCustomUsers(urlMappings[buttonName].customUsers, sectionElement);
+                        };
+                    });
+
+                    sectionElement.querySelector('.add-custom-user-button').onclick = () => {
+                        const newNameInput = sectionElement.querySelector('.new-custom-user-name');
+                        const newCodeInput = sectionElement.querySelector('.new-custom-user-code');
+                        const newName = newNameInput.value.trim();
+                        const newCode = newCodeInput.value.trim();
+
+                        if (newName && newCode.length === 3) {
+                            urlMappings[buttonName].customUsers.push({ name: newName, code: newCode });
+                            newNameInput.value = '';
+                            newCodeInput.value = '';
+                            renderCustomUsers(urlMappings[buttonName].customUsers, sectionElement);
+                        } else {
+                            // Replace alert with a message in the console or a temporary message in the UI
+                            console.error("Error: Introduce un nombre y un código válido de 3 dígitos.");
+                            // For a more user-friendly approach, you could add a temporary message element in the customUsersSection
+                            const errorMsg = document.createElement('p');
+                            errorMsg.textContent = "Error: Introduce un nombre y un código válido de 3 dígitos.";
+                            errorMsg.style.color = '#ef4444';
+                            errorMsg.style.fontSize = '0.75rem';
+                            errorMsg.style.marginTop = '0.5rem';
+                            sectionElement.appendChild(errorMsg);
+                            setTimeout(() => {
+                                errorMsg.remove();
+                            }, 3000);
+                        }
+                    };
+                };
+
+                // Renderizar usuarios personalizados si el acceso es 'custom'
+                if (accessSelect.value === 'custom') {
+                    renderCustomUsers(urlMappings[buttonName].customUsers, customUsersSection);
+                }
+
+                // Listener para cambiar la visibilidad de la sección de usuarios personalizados
+                accessSelect.onchange = () => {
+                    if (accessSelect.value === 'custom') {
+                        customUsersSection.style.display = 'block';
+                        renderCustomUsers(urlMappings[buttonName].customUsers, customUsersSection);
+                    } else {
+                        customUsersSection.style.display = 'none';
+                    }
+                };
+
+                urlMappingsPanel.appendChild(itemDiv);
+            }
+        }
+
+        /**
+         * Muestra el modal de selección de conexión y lo puebla con las opciones.
+         * @param {string} buttonName - El nombre del botón que se está activando.
+         * @param {Array<Object>} connections - Array de objetos {label, url}.
+         * @param {boolean} isDockIcon - Si la navegación es de un icono del dock.
+         */
+        window.showConnectionSelectionModal = function(buttonName, connections, isDockIcon) {
+            currentButtonNameSpan.textContent = buttonName;
+            connectionButtonsContainer.innerHTML = ''; // Limpiar botones anteriores
+
+            if (connections.length === 0) {
+                const noConnectionsMessage = document.createElement('p');
+                noConnectionsMessage.textContent = "No hay conexiones configuradas para este botón.";
+                noConnectionsMessage.style.color = '#ef4444';
+                connectionButtonsContainer.appendChild(noConnectionsMessage);
+                return;
+            }
+
+            connections.forEach(conn => {
+                const button = document.createElement('button');
+                button.classList.add('connection-choice-button');
+                button.textContent = conn.label;
+                button.onclick = () => {
+                    window.hideModal('selectConnectionModal');
+                    if (isDockIcon) {
+                        window.open(conn.url, '_blank');
+                    } else {
+                        window.location.href = conn.url;
+                    }
+                };
+                connectionButtonsContainer.appendChild(button);
+            });
+
+            window.showModal('selectConnectionModal');
+        };
+
+        /**
+         * Función auxiliar para manejar la navegación después de las comprobaciones de acceso.
+         * @param {string} buttonName - El nombre del botón.
+         * @param {string} targetUrl - La URL inicial (puede ser ignorada si hay múltiples conexiones).
+         * @param {boolean} isDockIcon - Si la navegación es de un icono del dock.
+         */
+        function handleButtonConnections(buttonName, targetUrl, isDockIcon = false) {
+            const buttonConfig = urlMappings[buttonName];
+            if (!buttonConfig || !buttonConfig.connections || buttonConfig.connections.length === 0) {
+                console.warn(`No hay conexiones configuradas para el botón: ${buttonName}`);
+                // Mostrar un mensaje al usuario si no hay conexiones
+                if (isDockIcon) {
+                    window.showInfoMessage(`No hay conexiones configuradas para "${buttonName}".`);
+                } else {
+                    loginErrorMessage.textContent = `No hay conexiones configuradas para "${buttonName}".`;
+                    loginErrorMessage.classList.remove('hidden');
+                }
+                return;
+            }
+
+            if (buttonConfig.connections.length === 1) {
+                const finalUrl = buttonConfig.connections[0].url;
+                console.log(`Navigating to "${buttonConfig.connections[0].label}" for "${buttonName}": ${finalUrl}`);
+                if (isDockIcon) {
+                    window.open(finalUrl, '_blank');
+                } else {
+                    window.location.href = finalUrl;
+                }
+            } else {
+                // Si hay múltiples conexiones, mostrar el modal de selección
+                window.showConnectionSelectionModal(buttonName, buttonConfig.connections, isDockIcon);
+            }
+        }
+
+
+        // =====================================================================
+        // CONTROL DE ACCESO PARA BOTONES PRINCIPALES Y DOCK
+        // =====================================================================
+
+        /**
+         * Verifica el acceso antes de navegar para los botones principales.
+         * @param {string} buttonName - El nombre del botón.
+         */
+        window.checkAccessAndNavigate = function(buttonName) {
+            const buttonConfig = urlMappings[buttonName];
+            if (!buttonConfig) {
+                console.warn(`Configuración no encontrada para el botón: ${buttonName}`);
+                return;
+            }
+
+            if (!isLoggedIn) {
+                window.showModal('loginModal');
+                loginErrorMessage.textContent = "Por favor, inicia sesión para acceder a las funcionalidades.";
+                loginErrorMessage.classList.remove('hidden');
+                return;
+            }
+
+            if (buttonConfig.access === 'admin') {
+                window.promptAdminAccess(buttonName, null); // targetUrl ya no es tan relevante aquí, se usará de connections
+            } else if (buttonConfig.access === 'custom') {
+                pendingNavigationButtonName = buttonName;
+                pendingNavigationTargetUrl = null; // targetUrl ya no es tan relevante aquí
+                window.showModal('customUserLoginModal'); // Pide nombre y código personalizado
+            }
+            else { // access === 'general'
+                handleButtonConnections(buttonName, null, false); // Maneja las conexiones
+            }
+        }
+
+        /**
+         * Verifica el acceso antes de navegar para los iconos del dock.
+         * @param {string} iconName - El nombre del icono.
+         * @param {string} defaultTarget - La URL por defecto del icono (usada si no está en urlMappings).
+         */
+        window.checkAccessAndNavigateDock = function(iconName, defaultTarget) {
+            const iconConfig = urlMappings[iconName];
+            // defaultTarget se usará solo si no hay ninguna conexión configurada en Firestore
+            const targetUrl = (iconConfig && iconConfig.connections && iconConfig.connections.length > 0) ? iconConfig.connections[0].url : defaultTarget;
+            const accessType = (iconConfig && iconConfig.access) ? iconConfig.access : 'general'; // Default to general
+
+            if (!isLoggedIn) {
+                window.showModal('loginModal');
+                loginErrorMessage.textContent = "Por favor, inicia sesión para usar el dock.";
+                loginErrorMessage.classList.remove('hidden');
+                return;
+            }
+
+            if (accessType === 'admin') {
+                window.promptAdminAccess(iconName, null); // targetUrl ya no es tan relevante aquí
+            } else if (accessType === 'custom') {
+                pendingNavigationButtonName = iconName;
+                pendingNavigationTargetUrl = null; // targetUrl ya no es tan relevante aquí
+                window.showModal('customUserLoginModal'); // Pide nombre y código personalizado
+            }
+            else { // access === 'general'
+                handleButtonConnections(iconName, null, true); // Maneja las conexiones
             }
         }
 
@@ -538,13 +2094,10 @@
             const icons = dock.querySelectorAll('.dock-icon');
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
             
-            // Efecto en cadena al pasar el mouse (solo en desktop)
             if (!isMobile) {
                 icons.forEach(icon => {
                     icon.addEventListener('mouseenter', () => {
                         const index = Array.from(icons).indexOf(icon);
-                        
-                        // Afectar iconos adyacentes
                         if (icons[index - 1]) {
                             icons[index - 1].classList.add('adjacent-effect');
                         }
@@ -556,70 +2109,42 @@
                     icon.addEventListener('mouseleave', () => {
                         icons.forEach(icon => {
                             icon.classList.remove('adjacent-effect');
-                            // El reset del transform se maneja por CSS con transition
-                            // No es necesario resetear explícitamente aquí para el efecto de hover
                         });
                     });
                 });
             }
             
-            // Acción al hacer clic (para todos los dispositivos)
             icons.forEach(icon => {
                 icon.addEventListener('click', () => {
-                    // Marcar como activo (el indicador de punto inferior)
+                    // El control de acceso se maneja en window.checkAccessAndNavigateDock
+                    // que ya es llamado directamente desde el onclick en el HTML.
+                    // Solo actualizamos la clase 'active' para el efecto visual del dock.
                     icons.forEach(i => i.classList.remove('active'));
                     icon.classList.add('active');
-                    
-                    // Ejecutar acción de navegación
-                    const action = icon.getAttribute('data-action');
-                    const target = icon.getAttribute('data-target');
-                    
-                    // === CAMBIO CLAVE: Lógica de navegación con un pequeño retraso para permitir el efecto visual CSS :active ===
-                    if (isMobile) {
-                        // Un pequeño retraso para que el efecto visual CSS :active sea perceptible antes de la navegación
-                        setTimeout(() => {
-                            if (action === 'url') {
-                                window.open(target, '_blank');
-                            } else if (action === 'page') {
-                                console.log(`Simulando navegación a: ${target}`);
-                                // window.location.href = target;
-                            }
-                        }, 200); // Duración del efecto de "pulsación"
-                    } else {
-                        // Para desktop, navegar inmediatamente
-                        if (action === 'url') {
-                            window.open(target, '_blank');
-                        } else if (action === 'page') {
-                            console.log(`Simulando navegación a: ${target}`);
-                            // window.location.href = target;
-                        }
-                    }
                 });
             });
             
-            // Scroll suave para móviles (basado en el ejemplo proporcionado)
             if (isMobile) {
                 let startX, scrollLeft;
                 let isDown = false;
                 
-                // Prevenir el scroll vertical del body al interactuar con el dock
                 dock.addEventListener('touchmove', (e) => {
                     e.preventDefault();
                 }, { passive: false });
-                
+
                 dock.addEventListener('touchstart', (e) => {
                     isDown = true;
                     startX = e.touches[0].pageX - dock.offsetLeft;
                     scrollLeft = dock.scrollLeft;
-                }, { passive: false }); // Usar passive: false para permitir preventDefault
+                }, { passive: false });
 
                 dock.addEventListener('touchmove', (e) => {
                     if (!isDown) return;
-                    e.preventDefault(); // Prevenir el scroll vertical del body
+                    e.preventDefault();
                     const x = e.touches[0].pageX - dock.offsetLeft;
-                    const walk = (x - startX) * 2; // Ajustar la velocidad de scroll
+                    const walk = (x - startX) * 2;
                     dock.scrollLeft = scrollLeft - walk;
-                }, { passive: false }); // Usar passive: false
+                }, { passive: false });
 
                 dock.addEventListener('touchend', () => {
                     isDown = false;
@@ -628,4 +2153,4 @@
         });
     </script>
 </body>
-</html>
+</html
