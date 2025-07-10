@@ -1819,24 +1819,141 @@
 
         // Mapeo de URLs por defecto para los botones principales y del dock.
         // Cada entrada tiene un array 'connections' para soportar múltiples URLs y un tipo de acceso.
-        let urlMappings = {
-            "Buscador de Direcciones": { connections: [{ label: "Buscador de Direcciones", url: "https://visordirecciones2-production.up.railway.app/" }], access: "general", customUsers: [] },
-            "Calculadora de Boleta": { connections: [{ label: "Calculadora de Boleta", url: "https://sites.google.com/view/ciclofacturacionwom/p%C3%A1gina-principal" }], access: "general", customUsers: [] },
-            "Evaluar RUT": { connections: [{ label: "Evaluar RUT", url: "https://www.wom.cl/paga-aqui/" }], access: "general", customUsers: [] },
-            "Condiciones Comerciales": { connections: [{ label: "Condiciones Comerciales", url: "https://drive.google.com/drive/folders/1RFC7V23aiver5fL8iN-lneFGNLY7Hvp2?usp=sharing" }], access: "general", customUsers: [] },
-            "Factibilidad": { connections: [{ label: "Factibilidad", url: "https://sso-ocp4-sr-amp.apps.sr-ocp.wom.cl/auth/realms/customer-care/protocol/openid-connect/auth?client_id=e7c0d592&redirect_uri=https%3A%2F%2Fcustomercareapplicationservice.ose.wom.cl%2Fwomac%2Flogin&state=e2dd136e-8c38-4633-8184-4a77187b3817&response_mode=fragment&response_type=code&scope=openid&nonce=f9ae47e6-8b9c-4a69-9e94-80dd90ef2410" }], access: "general", customUsers: [] },
-            "Registro de Venta": { connections: [{ label: "Registro de Venta", url: "https://sites.google.com/view/ciclowom/p%C3%A1gina-principal" }], access: "general", customUsers: [] },
-            "Inicio": { connections: [{ label: "Página Principal (index.html)", url: "index.html" }], access: "general", customUsers: [] },
-            "Configuración": { connections: [{ label: "Consola Admin", url: "config.html" }], access: "admin", customUsers: [] }, 
-            "Informes": { connections: [{ label: "Informes Demo", url: "reports.html" }], access: "general", customUsers: [] },
-            "Desplegar": { connections: [{ label: "Despliegue Demo", url: "deploy.html" }], access: "general", customUsers: [] },
-            "Smart": { connections: [{ label: "Smart Demo", url: "smart.html" }], access: "general", customUsers: [] },
-            "Calendario": { connections: [{ label: "Calendario Anual", url: "#calendarModal" }], access: "general", customUsers: [] }, // Updated to Calendario
-            "Correo": { connections: [{ label: "Correo Demo", url: "mail.html" }], access: "general", customUsers: [] },
-            "Mensajes": { connections: [{ label: "WhatsApp", url: "https://web.whatsapp.com/" }], access: "general", customUsers: [] },
-            "Perfil": { connections: [{ label: "Perfil Demo", url: "profile.html" }], access: "general", customUsers: [] }
-        };
+      let urlMappings = {
+    // Herramientas de trabajo generales
+    "Buscador de Direcciones": { 
+        connections: [{ 
+            label: "Buscador de Direcciones", 
+            url: "https://visordirecciones2-production.up.railway.app/" 
+        }], 
+        access: "general", 
+        customUsers: [] 
+    },
+    "Calculadora de Boleta": { 
+        connections: [{ 
+            label: "Calculadora de Boleta", 
+            url: "https://sites.google.com/view/ciclofacturacionwom/p%C3%A1gina-principal" 
+        }], 
+        access: "general", 
+        customUsers: [] 
+    },
+    "Evaluar RUT": { 
+        connections: [{ 
+            label: "Evaluar RUT", 
+            url: "https://www.wom.cl/paga-aqui/" 
+        }], 
+        access: "general", 
+        customUsers: [] 
+    },
+    "Factibilidad": { 
+        connections: [{ 
+            label: "Factibilidad", 
+            url: "https://sso-ocp4-sr-amp.apps.sr-ocp.wom.cl/auth/..." 
+        }], 
+        access: "general", 
+        customUsers: [] 
+    },
+    "Registro de Venta": { 
+        connections: [{ 
+            label: "Registro de Venta", 
+            url: "https://sites.google.com/view/ciclowom?usp=sharing" 
+        }], 
+        access: "general", 
+        customUsers: [] 
+    },
 
+    // Documentación y recursos
+    "Condiciones Comerciales": { 
+        connections: [{ 
+            label: "Condiciones Comerciales", 
+            url: "https://drive.google.com/.../1RFC7V23aiver5fL8iN-lneFGNLY7Hvp2" 
+        }], 
+        access: "general", 
+        customUsers: [] 
+    },
+
+    // Navegación principal
+    "Inicio": { 
+        connections: [{ 
+            label: "Página Principal (index.html)", 
+            url: "index.html" 
+        }], 
+        access: "general", 
+        customUsers: [] 
+    },
+
+    // Herramientas administrativas
+    "Configuración": { 
+        connections: [{ 
+            label: "Consola Admin", 
+            url: "config.html" 
+        }], 
+        access: "admin",  // Nota: Solo para administradores
+        customUsers: [] 
+    },
+
+    // Demos y pruebas
+    "Informes": { 
+        connections: [{ 
+            label: "Informes Demo", 
+            url: "reports.html" 
+        }], 
+        access: "admin",  // Nota: Solo para administradores
+        customUsers: [] 
+    },
+    "Desplegar": { 
+        connections: [{ 
+            label: "Despliegue Demo", 
+            url: "deploy.html" 
+        }], 
+        access: "admin",  // Nota: Solo para administradores
+        customUsers: [] 
+    },
+    "Smart": { 
+        connections: [{ 
+            label: "Smart Demo", 
+            url: "smart.html" 
+        }], 
+        access: "general", 
+        customUsers: [] 
+    },
+
+    // Comunicación
+    "Mensajes": { 
+        connections: [{ 
+            label: "WhatsApp", 
+            url: "https://api.whatsapp.com/send?phone=56927372611" 
+        }], 
+        access: "admin",  // Nota: Solo para administradores 
+        customUsers: [] 
+    },
+    "Correo": { 
+        connections: [{ 
+            label: "Correo Demo", 
+            url: "mail.html" 
+        }], 
+        access: "admin",  // Nota: Solo para administradores 
+        customUsers: [] 
+    },
+
+    // Utilidades
+    "Calendario": { 
+        connections: [{ 
+            label: "Calendario Anual", 
+            url: "#calendarModal" 
+        }], 
+        access: "general", 
+        customUsers: [] 
+    },
+    "Perfil": { 
+        connections: [{ 
+            label: "Perfil Demo", 
+            url: "profile.html" 
+        }], 
+        access: "general", 
+        customUsers: [] 
+    }
+};
         // Variables globales para almacenar detalles de navegación pendiente para acceso de administrador/personalizado
         let pendingNavigationButtonName = null;
         let adminLoginForConsole = false; // Bandera para distinguir el inicio de sesión de administrador para la consola vs. navegación
