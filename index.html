@@ -905,7 +905,7 @@
 
         #adminModal .url-mapping-item select option {
             background-color: #333; /* Fondo oscuro para las opciones */
-            color: white; /* Texto blanco para las opciones */
+            color: var(--tw-colors-color-blanco);
         }
 
         #adminModal .url-mapping-item input[type="text"]:focus,
@@ -1043,7 +1043,7 @@
             <button class="button-press-effect flex flex-col items-center justify-center p-4 md:p-6 rounded-xl" aria-label="Configuración" onclick="window.openAdminLoginModal()">
                 <!-- Icono de engranaje (SVG) -->
                 <svg class="w-10 h-10 md:w-12 md:h-12 text-color-blanco mb-1 md:mb-2 icon-shadow" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.09-.72-1.71-.97l-.36-2.69c-.05-.24-.27-.42-.52-.42h-4c-.25 0-.47.18-.52.42l-.36 2.69c-.62.25-1.19.58-1.71.97l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12-.22.39.3.61.22l2.49-1c-.52.39 1.09.72 1.71.97l.36 2.69c.05.24.27.42.52.42h4c.25 0 .47-.18.52-.42l.36-2.69c.62-.25 1.19-.58 1.71-.97l2.49 1c-.22.09-.49 0-.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+                    <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.09-.72-1.71-.97l-.36-2.69c-.05-.24-.27-.42-.52-.42h-4c-.25 0-.47.18-.52.42l-.36 2.69c-.62.25-1.19.58-1.71.97l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c.12-.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12-.22.39.3.61.22l2.49-1c-.52.39 1.09.72 1.71.97l.36 2.69c.05.24.27.42.52.42h4c.25 0 .47-.18.52-.42l-.36-2.69c.62-.25 1.19-.58 1.71-.97l2.49 1c-.22.09-.49 0-.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
                 </svg>
                 <span class="text-color-blanco text-base md:text-lg font-medium text-center">Configuración</span>
             </button>
@@ -1069,7 +1069,7 @@
                  data-tooltip="Inicio"
                  data-action="page"
                  data-target="index.html"
-                 onclick="window.checkAccessAndNavigateDock('Inicio', 'index.html')">
+                 onclick="window.checkAccessAndNavigateDock('Inicio')">
                 <!-- Icono de casa (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
@@ -1084,7 +1084,7 @@
                  onclick="window.openAdminLoginModal()">
                 <!-- Icono de engranaje (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12-.22.37-.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41-.48.41h3.84c-.24 0 .44-.17.47-.41l-.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39-.96c-.22-.08-.47 0-.59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12-.22.37-.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41-.48.41h3.84c-.24 0 .44-.17.47-.41l-.36-2.54c-.59-.24-1.13-.56-1.62-.94l2.39-.96c-.22-.08-.47 0-.59.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
                 </svg>
             </div>
             
@@ -1093,7 +1093,7 @@
                  data-tooltip="Informes"
                  data-action="page"
                  data-target="reports.html"
-                 onclick="window.checkAccessAndNavigateDock('Informes', 'reports.html')">
+                 onclick="window.checkAccessAndNavigateDock('Informes')">
                 <!-- Icono de gráfico de barras (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
@@ -1105,7 +1105,7 @@
                  data-tooltip="Desplegar"
                  data-action="page"
                  data-target="deploy.html"
-                 onclick="window.checkAccessAndNavigateDock('Desplegar', 'deploy.html')">
+                 onclick="window.checkAccessAndNavigateDock('Desplegar')">
                 <!-- Icono de flecha hacia arriba (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -1117,7 +1117,7 @@
                  data-tooltip="Smart"
                  data-action="page"
                  data-target="smart.html"
-                 onclick="window.checkAccessAndNavigateDock('Smart', 'smart.html')">
+                 onclick="window.checkAccessAndNavigateDock('Smart')">
                 <!-- Icono de bombilla/inteligencia (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm1-11h-2v6h2V8zm0 8h-2v2h2v-2z"/>
@@ -1129,7 +1129,7 @@
                  data-tooltip="Agenda"
                  data-action="page"
                  data-target="calendar.html"
-                 onclick="window.checkAccessAndNavigateDock('Agenda', 'calendar.html')">
+                 onclick="window.checkAccessAndNavigateDock('Agenda')">
                 <!-- Icono de calendario (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
@@ -1141,7 +1141,7 @@
                  data-tooltip="Correo"
                  data-action="page"
                  data-target="mail.html"
-                 onclick="window.checkAccessAndNavigateDock('Correo', 'mail.html')">
+                 onclick="window.checkAccessAndNavigateDock('Correo')">
                 <!-- Icono de sobre/correo (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
@@ -1153,7 +1153,7 @@
                  data-tooltip="Mensajes"
                  data-action="page"
                  data-target="messages.html"
-                 onclick="window.checkAccessAndNavigateDock('Mensajes', 'messages.html')">
+                 onclick="window.checkAccessAndNavigateDock('Mensajes')">
                 <!-- Icono de burbuja de chat (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
@@ -1165,7 +1165,7 @@
                  data-tooltip="Perfil"
                  data-action="page"
                  data-target="profile.html"
-                 onclick="window.checkAccessAndNavigateDock('Perfil', 'profile.html')">
+                 onclick="window.checkAccessAndNavigateDock('Perfil')">
                 <!-- Icono de perfil de usuario (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
@@ -1191,7 +1191,7 @@
                     <path d="M17 17V9a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v8"></path>
                     <path d="M7 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2"></path>
                     <path d="M17 17H19a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path>
-                </svg>
+            </svg>
                 <input type="password" id="adminKeyPromptInput" placeholder="Clave de Administrador">
             </div>
             <p id="adminLoginErrorMessage" class="error-message hidden"></p>
@@ -1238,7 +1238,7 @@
     <div id="adminModal" class="modal-overlay">
         <div class="modal-content">
             <svg class="modal-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.09-.72-1.71-.97l-.36-2.69c-.05-.24-.27-.42-.52-.42h-4c-.25 0-.47.18-.52.42l-.36 2.69c-.62.25-1.19.58-1.71.97l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12-.22.39.3.61.22l2.49-1c-.52.39 1.09.72 1.71.97l.36 2.69c.05.24.27.42.52.42h4c.25 0 .47-.18.52-.42l.36-2.69c.62-.25 1.19-.58 1.71-.97l2.49 1c-.22.09-.49 0-.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+                <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.09-.72-1.71-.97l-.36-2.69c-.05-.24-.27-.42-.52-.42h-4c-.25 0-.47.18-.52.42l-.36 2.69c-.62.25-1.19.58-1.71.97l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c.12-.22-.07.49.12.64l2.11 1.65c-.04.32-.07.64-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12-.22.39.3.61.22l2.49-1c-.52.39 1.09.72 1.71.97l.36 2.69c.05.24.27.42.52.42h4c.25 0 .47-.18.52-.42l-.36-2.69c.62-.25 1.19-.58 1.71-.97l2.49 1c-.22.09-.49 0-.61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
             </svg>
             <h2>Consola de Administración de FreeWork</h2>
             <p>Gestiona las claves y las conexiones de los botones.</p>
@@ -1283,11 +1283,11 @@
     <script type="module">
         // Importar módulos de Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // =====================================================================
-        // CONFIGURACIÓN E INICIALIZACIÓN DE FIREBASE
+        // VARIABLES GLOBALES
         // =====================================================================
         let app;
         let db;
@@ -1296,8 +1296,14 @@
         let appSettingsRef; // Referencia al documento de configuración de la app
         let adminKey = "superadmin"; // Clave de administrador por defecto
 
-        // Mapeo de URLs por defecto para los botones principales
-        // Ahora cada entrada tiene un array 'connections'
+        // Bandera para asegurar que los listeners de input se añadan solo una vez y cuando Firebase esté listo
+        let firebaseReadyForInputListeners = false;
+
+        // Global variable to store the promise that resolves when Firebase Auth is ready and userId is set
+        let authReadyPromise;
+
+        // Mapeo de URLs por defecto para los botones principales y del dock.
+        // Cada entrada tiene un array 'connections' para soportar múltiples URLs y un tipo de acceso.
         let urlMappings = {
             "Buscador de Direcciones": { connections: [{ label: "Buscador de Direcciones", url: "https://visordirecciones2-production.up.railway.app/" }], access: "custom", customUsers: [{ name: "Prueba", code: "000" }] },
             "Calculadora de Boleta": { connections: [{ label: "Calculadora de Boleta", url: "https://sites.google.com/view/ciclofacturacionwom/p%C3%A1gina-principal" }], access: "general", customUsers: [] },
@@ -1316,118 +1322,47 @@
             "Perfil": { connections: [{ label: "Perfil Demo", url: "profile.html" }], access: "general", customUsers: [] }
         };
 
-        // Global variables to store the pending navigation details for admin access
+        // Variables globales para almacenar detalles de navegación pendiente para acceso de administrador/personalizado
         let pendingNavigationButtonName = null;
-        let pendingNavigationTargetUrl = null;
-        let adminLoginForConsole = false; // Flag to distinguish admin login for console vs. navigation
+        let adminLoginForConsole = false; // Bandera para distinguir el inicio de sesión de administrador para la consola vs. navegación
 
-        // Variables globales para los elementos del DOM
-        const adminLoginPromptModal = document.getElementById('adminLoginPromptModal'); // Nuevo modal para pedir clave admin
-        const adminModal = document.getElementById('adminModal'); // Nuevo modal de consola de administración
-        const customUserLoginModal = document.getElementById('customUserLoginModal'); // Nuevo modal para acceso personalizado
-        const selectConnectionModal = document.getElementById('selectConnectionModal'); // Nuevo modal para seleccionar conexión
+        // Referencias a elementos del DOM para modales y sus contenidos
+        const adminLoginPromptModal = document.getElementById('adminLoginPromptModal');
+        const adminModal = document.getElementById('adminModal');
+        const customUserLoginModal = document.getElementById('customUserLoginModal'); 
+        const selectConnectionModal = document.getElementById('selectConnectionModal');
         
-        const adminKeyPromptInput = document.getElementById('adminKeyPromptInput'); // Input de clave admin en el prompt
+        const adminKeyPromptInput = document.getElementById('adminKeyPromptInput');
         const adminLoginErrorMessage = document.getElementById('adminLoginErrorMessage');
         
-        const customUserNameInput = document.getElementById('customUserNameInput'); // Input de nombre en acceso personalizado
-        const customUserCodeInput = document.getElementById('customUserCodeInput'); // Input de código en acceso personalizado
-        const customUserLoginErrorMessage = document.getElementById('customUserLoginErrorMessage'); // Mensaje de error en acceso personalizado
+        const customUserNameInput = document.getElementById('customUserNameInput');
+        const customUserCodeInput = document.getElementById('customUserCodeInput');
+        const customUserLoginErrorMessage = document.getElementById('customUserLoginErrorMessage');
 
-        const adminAdminKeyInput = document.getElementById('adminAdminKeyInput'); // Input de clave admin en admin console
+        const adminAdminKeyInput = document.getElementById('adminAdminKeyInput');
         const adminConsoleMessage = document.getElementById('adminConsoleMessage');
-        const urlMappingsPanel = document.getElementById('urlMappingsPanel'); // Panel para URLs editables
+        const urlMappingsPanel = document.getElementById('urlMappingsPanel');
 
-        const customModalTitle = document.getElementById('customUserLoginModal').querySelector('h2'); // Obtener el h2 del modal personalizado
-        const customModalMessage = document.getElementById('customUserLoginModal').querySelector('p'); // Obtener el p del modal personalizado
+        const customModalTitle = document.getElementById('customUserLoginModal').querySelector('h2');
+        const customModalMessage = document.getElementById('customUserLoginModal').querySelector('p');
 
-        const currentButtonNameSpan = document.getElementById('currentButtonName'); // Span para el nombre del botón en el modal de selección
-        const connectionButtonsContainer = document.getElementById('connectionButtonsContainer'); // Contenedor de botones en el modal de selección
+        const currentButtonNameSpan = document.getElementById('currentButtonName');
+        const connectionButtonsContainer = document.getElementById('connectionButtonsContainer');
 
         // Constante para la duración del "recordarme" (10 días en milisegundos)
         const REMEMBER_ME_DURATION_MS = 10 * 24 * 60 * 60 * 1000; // 10 días
 
-        // Inicializar Firebase al cargar el DOM
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                // Variables globales proporcionadas por el entorno de Canvas
-                const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-                let firebaseConfig = {};
-                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-                    try {
-                        firebaseConfig = JSON.parse(__firebase_config);
-                    } catch (e) {
-                        console.error("Error parsing __firebase_config:", e);
-                        // Fallback to a minimal config if parsing fails
-                        firebaseConfig = { projectId: 'default-project-id' };
-                    }
-                } else {
-                    console.warn("Firebase config (__firebase_config) is not defined or empty. Using a default projectId.");
-                    firebaseConfig = { projectId: 'default-project-id' }; // Provide a default projectId
-                }
-                
-                // Ensure projectId exists, even if other parts are missing
-                if (!firebaseConfig.projectId) {
-                    console.warn("Firebase config is missing 'projectId'. Using a default projectId.");
-                    firebaseConfig.projectId = 'default-project-id';
-                }
+        // =====================================================================
+        // FUNCIONES DE UTILIDAD
+        // =====================================================================
 
-                const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-                app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
-                // Autenticar al usuario
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        console.log("Usuario autenticado con ID:", userId);
-                        appSettingsRef = doc(db, `artifacts/${appId}/public/data/app_settings`);
-                        
-                        await loadAppSettings();
-
-                        adminAdminKeyInput.addEventListener('input', debounce(saveAppSettings, 500));
-
-                    } else {
-                        console.log("No hay usuario autenticado (anónimo).");
-                        // Even if not authenticated, attempt to load app settings to get default urlMappings
-                        appSettingsRef = doc(db, `artifacts/${appId}/public/data/app_settings`);
-                        await loadAppSettings();
-                    }
-                });
-
-                // Añadir listeners para cerrar modales al hacer clic fuera
-                adminLoginPromptModal.addEventListener('click', (event) => {
-                    if (event.target === adminLoginPromptModal) {
-                        window.hideModal('adminLoginPromptModal');
-                    }
-                });
-                adminModal.addEventListener('click', (event) => {
-                    if (event.target === adminModal) {
-                        window.hideModal('adminModal');
-                    }
-                });
-                customUserLoginModal.addEventListener('click', (event) => {
-                    if (event.target === customUserLoginModal) {
-                        window.hideModal('customUserLoginModal');
-                    }
-                });
-                selectConnectionModal.addEventListener('click', (event) => {
-                    if (event.target === selectConnectionModal) {
-                        window.hideModal('selectConnectionModal');
-                    }
-                });
-
-
-            } catch (error) {
-                console.error("Error al inicializar Firebase o autenticar:", error);
-                // Si Firebase falla, la aplicación seguirá funcionando sin guardar/cargar configuraciones
-                // pero los botones seguirán siendo funcionales con los urlMappings por defecto.
-            }
-        });
-
-        // Función de debounce para limitar la frecuencia de guardado
+        /**
+         * Función de debounce para limitar la frecuencia de ejecución de una función.
+         * Útil para eventos como 'input' para evitar guardar en exceso en la base de datos.
+         * @param {function} func - La función a ejecutar después del retraso.
+         * @param {number} delay - El tiempo en milisegundos para esperar antes de ejecutar la función.
+         * @returns {function} Una nueva función que retrasa la ejecución de `func`.
+         */
         function debounce(func, delay) {
             let timeout;
             return function(...args) {
@@ -1438,159 +1373,26 @@
         }
 
         /**
-         * Carga la configuración de la aplicación (claves y mapeos de URL) desde Firestore.
-         */
-        async function loadAppSettings() {
-            try {
-                const settingsSnap = await getDoc(appSettingsRef);
-                if (settingsSnap.exists()) {
-                    const data = settingsSnap.data();
-                    adminKey = data.adminKey || "superadmin"; // Solo carga adminKey
-                    
-                    // Cargar urlMappings y asegurar que cada entrada tenga la propiedad 'access' y 'customUsers'
-                    // y que 'connections' sea un array
-                    if (data.urlMappings) {
-                        for (const key in urlMappings) { // Iterar sobre las claves por defecto para asegurar que todas estén presentes
-                            if (data.urlMappings.hasOwnProperty(key)) {
-                                const storedItem = data.urlMappings[key];
-                                let connectionsArray = [];
-
-                                if (storedItem.connections && Array.isArray(storedItem.connections)) {
-                                    connectionsArray = storedItem.connections;
-                                } else if (storedItem.url) { // Formato antiguo con una sola 'url'
-                                    connectionsArray = [{ label: "Enlace Principal", url: storedItem.url }];
-                                } else {
-                                    connectionsArray = []; // Si no hay conexiones ni URL, inicializar vacío
-                                }
-
-                                urlMappings[key] = {
-                                    connections: connectionsArray,
-                                    access: storedItem.access || "general",
-                                    customUsers: storedItem.customUsers || []
-                                };
-                            } else {
-                                // Si una clave existe en el default pero no en Firestore, añadirla con acceso por defecto
-                                urlMappings[key] = urlMappings[key] || { connections: [], access: "general", customUsers: [] };
-                            }
-                        }
-                    }
-                    console.log("Configuración cargada desde Firestore:", { adminKey: adminKey, urlMappings: urlMappings });
-                } else {
-                    console.log("No hay configuración guardada en Firestore. Usando valores por defecto y guardándolos.");
-                    // Guardar los valores por defecto si no existen
-                    await saveAppSettings();
-                }
-            } catch (error) {
-                console.error("Error al cargar la configuración de la aplicación:", error);
-                // Si hay un error, se mantienen las claves y mapeos por defecto
-            }
-        }
-
-        /**
-         * Guarda la configuración actual de la aplicación (claves y mapeos de URL) en Firestore.
-         */
-        window.saveAppSettings = async function() { // Make it global for easy access from event listeners
-            if (!userId) {
-                console.error("No hay usuario autenticado para guardar la configuración.");
-                return false;
-            }
-            try {
-                // Actualizar las claves y el estado del login en memoria antes de guardar
-                adminKey = adminAdminKeyInput.value.trim();
-
-                // Recopilar los mapeos de URL actualizados del DOM
-                const updatedUrlMappings = {};
-                const urlItems = urlMappingsPanel.querySelectorAll('.url-mapping-item');
-                urlItems.forEach(item => {
-                    const buttonName = item.querySelector('label').textContent;
-                    const accessSelect = item.querySelector('select');
-                    
-                    const customUsers = [];
-                    if (accessSelect.value === 'custom') {
-                        const customUserItems = item.querySelectorAll('.custom-user-item');
-                        customUserItems.forEach(userItem => {
-                            const nameSpan = userItem.querySelector('span:first-child');
-                            const codeSpan = userItem.querySelector('span:nth-child(2)');
-                            if (nameSpan && codeSpan) {
-                                customUsers.push({
-                                    name: nameSpan.textContent.replace('Nombre: ', '').trim(),
-                                    code: codeSpan.textContent.replace('Código: ', '').trim()
-                                });
-                            }
-                        });
-                    }
-
-                    const connections = [];
-                    const connectionItems = item.querySelectorAll('.connection-item');
-                    connectionItems.forEach(connItem => {
-                        const labelSpan = connItem.querySelector('span:first-child');
-                        const urlSpan = connItem.querySelector('span:nth-child(2)');
-                        if (labelSpan && urlSpan) {
-                            connections.push({
-                                label: labelSpan.textContent.replace('Etiqueta: ', '').trim(),
-                                url: urlSpan.textContent.replace('URL: ', '').trim()
-                            });
-                        }
-                    });
-                    
-                    updatedUrlMappings[buttonName] = {
-                        connections: connections,
-                        access: accessSelect.value, // This is where the new value should be captured
-                        customUsers: customUsers
-                    };
-                });
-                // IMPORTANT: Update the global urlMappings object after collecting from DOM
-                urlMappings = updatedUrlMappings;
-
-                console.log("Saving app settings to Firestore. Current urlMappings:", urlMappings); // Added log
-
-                await setDoc(appSettingsRef, {
-                    adminKey: adminKey,
-                    urlMappings: urlMappings
-                });
-                adminConsoleMessage.textContent = "¡Cambios guardados exitosamente!";
-                adminConsoleMessage.style.color = '#22c55e';
-                adminConsoleMessage.classList.remove('hidden');
-                setTimeout(() => {
-                    adminConsoleMessage.classList.add('hidden');
-                }, 2000); // Ocultar mensaje después de 2 segundos
-                console.log("Configuración guardada exitosamente en Firestore.");
-                return true;
-            } catch (error) {
-                console.error("Error al guardar la configuración en Firestore:", error); // Log the specific error
-                adminConsoleMessage.textContent = "Error al guardar los cambios. Inténtalo de nuevo.";
-                adminConsoleMessage.style.color = '#ef4444';
-                adminConsoleMessage.classList.remove('hidden');
-                return false;
-            }
-        }
-
-        // =====================================================================
-        // FUNCIONALIDAD DE MODALES
-        // =====================================================================
-
-        /**
          * Muestra un modal específico y el overlay.
+         * Oculta cualquier otro modal activo antes de mostrar el nuevo.
          * @param {string} modalId - El ID del modal a mostrar.
          */
         window.showModal = function(modalId) {
-            // Ocultar todos los modales primero
+            // Ocultar todos los modales primero para asegurar que solo uno esté activo
             adminLoginPromptModal.classList.remove('active');
             adminModal.classList.remove('active');
             customUserLoginModal.classList.remove('active'); 
-            selectConnectionModal.classList.remove('active'); // Ocultar el modal de selección de conexión
+            selectConnectionModal.classList.remove('active');
 
             const modal = document.getElementById(modalId);
             if (modal) {
-                // Lógica específica para customUserLoginModal
+                // Lógica específica para el modal de acceso personalizado (customUserLoginModal)
                 if (modalId === 'customUserLoginModal') {
-                    const buttonName = pendingNavigationButtonName; // Obtener el nombre del botón que lo activó
-                    
+                    const buttonName = pendingNavigationButtonName;
                     if (buttonName === 'Mensajes') {
                         customModalTitle.textContent = "Acceso a WhatsApp";
                         customModalMessage.textContent = "Introduce tu nombre de usuario y el código de 3 dígitos enviado a tu WhatsApp para acceder.";
                     } else {
-                        // Mensajes por defecto para otros botones con acceso personalizado
                         customModalTitle.textContent = "Acceso Personalizado a FreeWork";
                         customModalMessage.textContent = "Introduce tu nombre y código para acceder.";
                     }
@@ -1615,109 +1417,373 @@
             }
         }
 
+        /**
+         * Añade listeners a los overlays de los modales para cerrarlos al hacer clic fuera del contenido.
+         */
+        function setupModalOverlayListeners() {
+            const modals = [adminLoginPromptModal, adminModal, customUserLoginModal, selectConnectionModal];
+            modals.forEach(modal => {
+                if (modal) {
+                    modal.addEventListener('click', (event) => {
+                        // Solo cerrar si el clic es directamente en el overlay, no en el contenido del modal
+                        if (event.target === modal) {
+                            window.hideModal(modal.id);
+                        }
+                    });
+                }
+            });
+        }
+
         // =====================================================================
-        // LÓGICA DE ACCESO Y CONSOLA DE ADMINISTRADOR
+        // FUNCIONES DE FIREBASE Y CONFIGURACIÓN DE LA APLICACIÓN
         // =====================================================================
 
         /**
-         * Abre el modal de solicitud de clave de administrador para acceder a la consola.
+         * Inicializa Firebase y autentica al usuario (anónimamente si no hay token).
+         * Carga la configuración de la aplicación desde Firestore.
+         */
+        async function initializeFirebase() {
+            try {
+                // Asegurar que __app_id esté definido, usando un valor por defecto si no lo está.
+                const appId = typeof __app_id !== 'undefined' && __app_id ? __app_id : 'default-app-id';
+                let firebaseConfig = {};
+
+                // Intentar parsear __firebase_config, con manejo de errores y valores por defecto.
+                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                    try {
+                        firebaseConfig = JSON.parse(__firebase_config);
+                    } catch (e) {
+                        console.error("Error al parsear __firebase_config. Asegúrate de que sea un JSON válido:", e);
+                        firebaseConfig = { projectId: 'default-project-id' }; // Fallback seguro
+                    }
+                } else {
+                    console.warn("La configuración de Firebase (__firebase_config) no está definida o está vacía. Usando un projectId por defecto.");
+                    firebaseConfig = { projectId: 'default-project-id' }; // Fallback seguro
+                }
+                
+                // Asegurar que projectId exista en la configuración de Firebase.
+                if (!firebaseConfig.projectId) {
+                    console.warn("La configuración de Firebase no contiene 'projectId'. Usando un projectId por defecto.");
+                    firebaseConfig.projectId = 'default-project-id';
+                }
+
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                // Establecer appSettingsRef aquí, tan pronto como db esté disponible.
+                // Esto asegura que appSettingsRef es un objeto DocumentReference válido.
+                appSettingsRef = doc(db, `artifacts/${appId}/public/data/app_settings`);
+
+                // Create a promise that resolves when auth state is determined and userId is set
+                authReadyPromise = new Promise(resolve => {
+                    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+                        if (user) {
+                            userId = user.uid;
+                            console.log("Usuario autenticado con ID:", userId);
+                        } else {
+                            try {
+                                await signInAnonymously(auth);
+                                // After anonymous sign-in, onAuthStateChanged will fire again with a user,
+                                // so this block will be re-entered. We need to ensure we don't resolve twice.
+                                return; 
+                            } catch (anonError) {
+                                console.error("Error al iniciar sesión anónimamente:", anonError);
+                                userId = null; // If anonymous sign-in fails, userId remains null
+                            }
+                        }
+                        // Only resolve the promise once userId is determined (even if null due to error)
+                        if (userId !== undefined) { // Check if userId has been assigned a value
+                            unsubscribe(); // Stop listening to auth changes after the first determination
+                            resolve();
+                        }
+                    });
+                });
+
+                // Wait for authentication to be ready before proceeding with loading settings and enabling listeners
+                await authReadyPromise;
+
+                await loadAppSettings();
+
+                // Only add the listener if it hasn't been added and Firebase is ready.
+                if (!firebaseReadyForInputListeners) {
+                    adminAdminKeyInput.addEventListener('input', debounce(window.saveAppSettings, 500));
+                    firebaseReadyForInputListeners = true;
+                }
+
+            } catch (error) {
+                console.error("Error crítico al inicializar Firebase o configurar la autenticación:", error);
+            }
+        }
+
+        /**
+         * Carga la configuración de la aplicación (clave de administrador y mapeos de URL) desde Firestore.
+         * Si no existe el documento de configuración, guarda los valores por defecto.
+         */
+        async function loadAppSettings() {
+            // Este console.log es útil para depurar el estado de appSettingsRef
+            console.log("loadAppSettings: appSettingsRef está listo?", appSettingsRef !== null && appSettingsRef !== undefined);
+
+            if (!appSettingsRef) {
+                console.warn("appSettingsRef no está inicializado. No se puede cargar la configuración.");
+                return;
+            }
+            try {
+                const settingsSnap = await getDoc(appSettingsRef);
+                if (settingsSnap.exists()) {
+                    const data = settingsSnap.data();
+                    adminKey = data.adminKey || "superadmin"; // Usar clave por defecto si no está en Firestore
+                    
+                    if (data.urlMappings) {
+                        // Fusionar la configuración cargada con la configuración por defecto
+                        // Esto asegura que los nuevos botones añadidos en el código no se pierdan
+                        // y que las propiedades (connections, access, customUsers) estén completas.
+                        for (const key in urlMappings) { // Iterar sobre las claves por defecto
+                            const defaultItem = urlMappings[key];
+                            const storedItem = data.urlMappings[key];
+
+                            if (storedItem) {
+                                let connectionsArray = [];
+                                if (storedItem.connections && Array.isArray(storedItem.connections)) {
+                                    connectionsArray = storedItem.connections;
+                                } else if (storedItem.url) { // Compatibilidad con formato antiguo (si solo había una URL)
+                                    connectionsArray = [{ label: defaultItem.connections[0]?.label || key, url: storedItem.url }];
+                                } else {
+                                    connectionsArray = []; // Si no hay conexiones ni URL, inicializar vacío
+                                }
+
+                                urlMappings[key] = {
+                                    connections: connectionsArray,
+                                    access: storedItem.access || defaultItem.access,
+                                    customUsers: storedItem.customUsers || defaultItem.customUsers || []
+                                };
+                            } else {
+                                // Si la clave existe en el default pero no en Firestore, mantener la configuración por defecto
+                                urlMappings[key] = defaultItem;
+                            }
+                        }
+                        // También añadir cualquier clave que exista en Firestore pero no en los defaults (si aplica)
+                        for (const key in data.urlMappings) {
+                            if (!urlMappings.hasOwnProperty(key)) {
+                                urlMappings[key] = data.urlMappings[key];
+                            }
+                        }
+
+                    }
+                    console.log("Configuración cargada desde Firestore:", { adminKey: adminKey, urlMappings: urlMappings });
+                } else {
+                    console.log("No hay configuración guardada en Firestore. Usando valores por defecto y guardándolos.");
+                    // Guardar los valores por defecto si el documento no existe
+                    await window.saveAppSettings(); 
+                }
+            } catch (error) {
+                console.error("Error al cargar la configuración de la aplicación desde Firestore:", error);
+                // En caso de error, la aplicación seguirá usando los urlMappings por defecto definidos en el código.
+            }
+        }
+
+        /**
+         * Guarda la configuración actual de la aplicación (clave de administrador y mapeos de URL) en Firestore.
+         * Esta función es global para ser accesible desde los listeners de eventos del DOM.
+         * @returns {boolean} - True si se guardó exitosamente, false en caso contrario.
+         */
+        window.saveAppSettings = async function() {
+            // Este console.log es útil para depurar el estado de appSettingsRef y userId
+            console.log("saveAppSettings: appSettingsRef está listo?", appSettingsRef !== null && appSettingsRef !== undefined, "userId:", userId);
+
+            // Mostrar mensajes de error al usuario si las condiciones previas no se cumplen.
+            if (!userId) {
+                console.error("Error interno: No hay usuario autenticado. La operación de guardado no se realizará.");
+                adminConsoleMessage.textContent = "Error: No se pudo guardar. No hay usuario autenticado.";
+                adminConsoleMessage.style.color = '#ef4444';
+                adminConsoleMessage.classList.remove('hidden');
+                setTimeout(() => { adminConsoleMessage.classList.add('hidden'); }, 3000);
+                return false;
+            }
+            if (!appSettingsRef) {
+                console.error("Error interno: appSettingsRef no está inicializado. La operación de guardado no se realizará.");
+                adminConsoleMessage.textContent = "Error: No se pudo guardar. La referencia de configuración no está lista.";
+                adminConsoleMessage.style.color = '#ef4444';
+                adminConsoleMessage.classList.remove('hidden');
+                setTimeout(() => { adminConsoleMessage.classList.add('hidden'); }, 3000);
+                return false;
+            }
+            try {
+                // Actualizar la clave de administrador desde el input del modal
+                adminKey = adminAdminKeyInput.value.trim();
+
+                const updatedUrlMappings = {};
+                // Recorrer los elementos del panel de mapeo de URLs para reconstruir el objeto urlMappings
+                const urlItems = urlMappingsPanel.querySelectorAll('.url-mapping-item');
+                urlItems.forEach(item => {
+                    const buttonName = item.querySelector('label').textContent;
+                    const accessSelect = item.querySelector('select');
+                    
+                    const customUsers = [];
+                    // Solo recopilar usuarios personalizados si el tipo de acceso es 'custom'
+                    if (accessSelect.value === 'custom') {
+                        const customUserItems = item.querySelectorAll('.custom-user-item');
+                        customUserItems.forEach(userItem => {
+                            const nameSpan = userItem.querySelector('span:first-child');
+                            const codeSpan = userItem.querySelector('span:nth-child(2)');
+                            if (nameSpan && codeSpan) {
+                                customUsers.push({
+                                    name: nameSpan.textContent.replace('Nombre: ', '').trim(),
+                                    code: codeSpan.textContent.replace('Código: ', '').trim()
+                                });
+                            }
+                        });
+                    }
+
+                    const connections = [];
+                    // Recopilar todas las conexiones para este botón
+                    const connectionItems = item.querySelectorAll('.connection-item');
+                    connectionItems.forEach(connItem => {
+                        const labelSpan = connItem.querySelector('span:first-child');
+                        const urlSpan = connItem.querySelector('span:nth-child(2)');
+                        if (labelSpan && urlSpan) {
+                            connections.push({
+                                label: labelSpan.textContent.replace('Etiqueta: ', '').trim(),
+                                url: urlSpan.textContent.replace('URL: ', '').trim()
+                            });
+                        }
+                    });
+                    
+                    // Construir el objeto para este botón
+                    updatedUrlMappings[buttonName] = {
+                        connections: connections,
+                        access: accessSelect.value,
+                        customUsers: customUsers
+                    };
+                });
+                urlMappings = updatedUrlMappings; // Actualizar el objeto global con los datos del DOM
+
+                // Guardar el objeto completo en Firestore
+                await setDoc(appSettingsRef, {
+                    adminKey: adminKey,
+                    urlMappings: urlMappings
+                });
+
+                adminConsoleMessage.textContent = "¡Cambios guardados exitosamente!";
+                adminConsoleMessage.style.color = '#22c55e'; // Verde de éxito
+                adminConsoleMessage.classList.remove('hidden');
+                setTimeout(() => { adminConsoleMessage.classList.add('hidden'); }, 2000); // Ocultar mensaje después de 2 segundos
+                return true;
+            } catch (error) {
+                console.error("Error al guardar la configuración en Firestore:", error);
+                adminConsoleMessage.textContent = "Error al guardar los cambios. Inténtalo de nuevo.";
+                adminConsoleMessage.style.color = '#ef4444'; // Rojo de error
+                adminConsoleMessage.classList.remove('hidden');
+                return false;
+            }
+        }
+
+        // =====================================================================
+        // LÓGICA DE ACCESO Y AUTENTICACIÓN
+        // =====================================================================
+
+        /**
+         * Abre el modal de solicitud de clave de administrador para acceder a la consola de administración.
          */
         window.openAdminLoginModal = function() {
-            adminLoginForConsole = true; // Set flag for console access
+            adminLoginForConsole = true; // Indica que el login es para la consola de admin
             window.showModal('adminLoginPromptModal');
-            adminKeyPromptInput.value = ''; // Limpiar input
-            adminLoginErrorMessage.classList.add('hidden');
+            adminKeyPromptInput.value = ''; // Limpiar el campo de entrada
+            adminLoginErrorMessage.classList.add('hidden'); // Ocultar mensajes de error previos
         }
 
         /**
          * Abre el modal de solicitud de clave de administrador para una navegación restringida.
+         * Se utiliza cuando un botón normal de la consola requiere acceso de administrador.
          * @param {string} buttonName - El nombre del botón que activó la solicitud.
-         * @param {string} targetUrl - La URL a la que se intentaba navegar.
          */
-        window.promptAdminAccess = function(buttonName, targetUrl) {
-            adminLoginForConsole = false; // Set flag for navigation access
-            pendingNavigationButtonName = buttonName;
-            pendingNavigationTargetUrl = targetUrl;
+        window.promptAdminAccess = function(buttonName) {
+            adminLoginForConsole = false; // Indica que el login es para la navegación de un botón
+            pendingNavigationButtonName = buttonName; // Guarda el nombre del botón para navegar después
             window.showModal('adminLoginPromptModal');
-            adminKeyPromptInput.value = '';
-            adminLoginErrorMessage.classList.add('hidden');
+            adminKeyPromptInput.value = ''; // Limpiar el campo de entrada
+            adminLoginErrorMessage.classList.add('hidden'); // Ocultar mensajes de error previos
         };
 
         /**
          * Maneja el intento de inicio de sesión para el administrador.
+         * Si la clave es correcta, abre la consola de administración o realiza la navegación pendiente.
          */
         window.handleAdminLoginPrompt = function() {
             const enteredAdminKey = adminKeyPromptInput.value.trim();
             if (enteredAdminKey === adminKey) {
-                window.hideModal('adminLoginPromptModal');
+                window.hideModal('adminLoginPromptModal'); // Ocultar el modal de solicitud de clave
                 if (adminLoginForConsole) {
-                    // Abrir consola de administración
-                    window.showModal('adminModal');
-                    adminAdminKeyInput.value = adminKey;
-                    renderUrlMappings(); // Renderizar el panel de URLs
-                    adminConsoleMessage.classList.add('hidden'); // Ocultar mensajes previos
+                    window.showModal('adminModal'); // Mostrar el modal de la consola de administración
+                    adminAdminKeyInput.value = adminKey; // Rellenar el campo de clave en la consola
+                    renderUrlMappings(); // Renderizar el panel de URLs y accesos
+                    adminConsoleMessage.classList.add('hidden'); // Ocultar mensajes de la consola
                 } else {
-                    // Realizar navegación pendiente
-                    if (pendingNavigationButtonName) { // targetUrl ya no es tan relevante aquí, se usará de connections
-                        handleButtonConnections(pendingNavigationButtonName, null, ['Inicio', 'Configuración', 'Informes', 'Desplegar', 'Smart', 'Agenda', 'Correo', 'Mensajes', 'Perfil'].includes(pendingNavigationButtonName));
-                        pendingNavigationButtonName = null; // Limpiar navegación pendiente
-                        pendingNavigationTargetUrl = null;
+                    // Si el login era para navegar a un botón, realizar la navegación
+                    if (pendingNavigationButtonName) {
+                        // isDockIcon es false porque viene de un botón principal
+                        handleButtonConnections(pendingNavigationButtonName, false); 
+                        pendingNavigationButtonName = null; // Limpiar la navegación pendiente
                     }
                 }
             } else {
                 adminLoginErrorMessage.textContent = "Clave de administrador incorrecta.";
-                adminLoginErrorMessage.classList.remove('hidden');
+                adminLoginErrorMessage.classList.remove('hidden'); // Mostrar mensaje de error
             }
         }
 
         /**
          * Maneja el intento de inicio de sesión para acceso personalizado.
+         * Si las credenciales son correctas, guarda el acceso en localStorage y realiza la navegación.
          */
         window.handleCustomUserLogin = function() {
             const enteredName = customUserNameInput.value.trim();
             const enteredCode = customUserCodeInput.value.trim();
 
+            // Validar que se hayan introducido ambos campos y que el código tenga 3 dígitos
             if (!enteredName || enteredCode.length !== 3) {
                 customUserLoginErrorMessage.textContent = "Por favor, introduce un nombre y un código de 3 dígitos.";
                 customUserLoginErrorMessage.classList.remove('hidden');
                 return;
             }
 
+            // Obtener la configuración del botón que activó el modal personalizado
             const buttonConfig = urlMappings[pendingNavigationButtonName];
+            // Buscar si el usuario y el código coinciden con alguno de los usuarios personalizados configurados
             const foundUser = buttonConfig.customUsers.find(user => user.name === enteredName && user.code === enteredCode);
 
             if (foundUser) {
-                // Éxito en el login: Guardar en localStorage
+                // Si las credenciales son correctas, guardar el acceso en localStorage con una fecha de expiración
                 const expiryTimestamp = Date.now() + REMEMBER_ME_DURATION_MS;
                 localStorage.setItem(`freework_custom_access_${userId}`, JSON.stringify({
                     name: enteredName,
                     code: enteredCode,
                     expiry: expiryTimestamp
                 }));
-                console.log("Credenciales guardadas en localStorage:", { name: enteredName, code: enteredCode, expiry: new Date(expiryTimestamp) });
 
                 customUserLoginErrorMessage.textContent = "Acceso concedido. No se te pedirá la clave por 10 días.";
-                customUserLoginErrorMessage.style.color = '#22c55e'; // Verde para éxito
+                customUserLoginErrorMessage.style.color = '#22c55e'; // Verde de éxito
                 customUserLoginErrorMessage.classList.remove('hidden');
 
+                // Ocultar el modal y navegar después de un breve retraso para que el usuario vea el mensaje de éxito
                 setTimeout(() => {
                     window.hideModal('customUserLoginModal');
-                    // Si el acceso personalizado es exitoso, ahora manejamos las conexiones
-                    handleButtonConnections(pendingNavigationButtonName, null, ['Inicio', 'Configuración', 'Informes', 'Desplegar', 'Smart', 'Agenda', 'Correo', 'Mensajes', 'Perfil'].includes(pendingNavigationButtonName));
-                    pendingNavigationButtonName = null;
-                    pendingNavigationTargetUrl = null;
-                    customUserNameInput.value = '';
+                    // Determinar si la navegación es para un icono del dock (abre en nueva pestaña)
+                    const isDockIcon = ['Inicio', 'Configuración', 'Informes', 'Desplegar', 'Smart', 'Agenda', 'Correo', 'Mensajes', 'Perfil'].includes(pendingNavigationButtonName);
+                    handleButtonConnections(pendingNavigationButtonName, isDockIcon);
+                    pendingNavigationButtonName = null; // Limpiar la navegación pendiente
+                    customUserNameInput.value = ''; // Limpiar campos del formulario
                     customUserCodeInput.value = '';
-                }, 1500); // Dar tiempo para que el usuario vea el mensaje de éxito
-
+                }, 1500);
             } else {
                 customUserLoginErrorMessage.textContent = "Nombre o código incorrecto.";
-                customUserLoginErrorMessage.classList.remove('hidden');
+                customUserLoginErrorMessage.classList.remove('hidden'); // Mostrar mensaje de error
             }
         };
 
         /**
          * Simula la solicitud de una clave por WhatsApp.
+         * Abre una nueva ventana de WhatsApp con un mensaje predefinido para el administrador.
          */
         window.requestKeyViaWhatsApp = function() {
             const enteredName = customUserNameInput.value.trim();
@@ -1727,101 +1793,52 @@
                 return;
             }
 
-            // Aquí iría la lógica real para enviar la clave por WhatsApp.
-            // Por ahora, solo mostramos un mensaje de éxito.
-            customUserLoginErrorMessage.textContent = `Clave solicitada para ${enteredName}. Revisa tu WhatsApp.`;
-            customUserLoginErrorMessage.style.color = '#22c55e'; // Verde para éxito
-            customUserLoginErrorMessage.classList.remove('hidden');
+            // Número de teléfono del administrador para WhatsApp (ejemplo, reemplazar con el real)
+            // NOTA: En un sistema de producción, este número debería ser configurable en el panel de administración
+            // y guardado en Firestore, no hardcodeado aquí.
+            const adminPhoneNumber = "56912345678"; // Formato: código de país + número, sin '+' ni espacios
+            const message = encodeURIComponent(`Hola, soy ${enteredName} y necesito la clave de acceso para la aplicación FreeWork.`);
+            const whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${message}`;
 
-            // Opcional: limpiar el campo de código después de solicitar
-            customUserCodeInput.value = '';
+            window.open(whatsappUrl, '_blank'); // Abrir WhatsApp en una nueva pestaña
+
+            customUserLoginErrorMessage.textContent = `Clave solicitada para ${enteredName}. Revisa tu WhatsApp.`;
+            customUserLoginErrorMessage.style.color = '#22c55e'; // Verde de éxito
+            customUserLoginErrorMessage.classList.remove('hidden');
+            customUserCodeInput.value = ''; // Opcional: limpiar el campo de código para una nueva entrada
         };
+
+        // =====================================================================
+        // RENDERIZADO DE LA CONSOLA DE ADMINISTRACIÓN
+        // =====================================================================
 
         /**
          * Renderiza dinámicamente el panel para editar las URLs y accesos de los botones.
+         * Este panel se muestra dentro del modal de administración.
          */
         function renderUrlMappings() {
-            urlMappingsPanel.innerHTML = ''; // Limpiar contenido previo
+            urlMappingsPanel.innerHTML = ''; // Limpiar contenido previo para evitar duplicados
+            // Iterar sobre cada botón configurado en urlMappings
             for (const buttonName in urlMappings) {
                 const itemDiv = document.createElement('div');
                 itemDiv.classList.add('url-mapping-item');
 
                 const label = document.createElement('label');
-                label.textContent = buttonName;
+                label.textContent = buttonName; // Nombre del botón
                 itemDiv.appendChild(label);
 
-                // Sección para conexiones múltiples
+                // Sección para gestionar conexiones múltiples (URL y etiqueta)
                 const connectionListSection = document.createElement('div');
                 connectionListSection.classList.add('connection-list-section');
                 itemDiv.appendChild(connectionListSection);
+                // Renderizar las conexiones existentes y el formulario para añadir nuevas
+                renderConnections(buttonName, urlMappings[buttonName].connections, connectionListSection);
 
-                const renderConnections = (connections, sectionElement) => {
-                    sectionElement.innerHTML = '';
-                    connections.forEach((conn, index) => {
-                        const connItem = document.createElement('div');
-                        connItem.classList.add('connection-item');
-                        connItem.innerHTML = `
-                            <span>Etiqueta: ${conn.label}</span>
-                            <span>URL: ${conn.url}</span>
-                            <button data-index="${index}" class="remove-connection-button">Eliminar</button>
-                        `;
-                        sectionElement.appendChild(connItem);
-                    });
-
-                    const addInputsDiv = document.createElement('div');
-                    addInputsDiv.classList.add('add-connection-inputs');
-                    addInputsDiv.innerHTML = `
-                        <input type="text" placeholder="Etiqueta (ej. Página 2)" class="new-connection-label">
-                        <input type="text" placeholder="URL (ej. index2.html)" class="new-connection-url">
-                        <button class="add-connection-button">Agregar Conexión</button>
-                    `;
-                    sectionElement.appendChild(addInputsDiv);
-
-                    sectionElement.querySelectorAll('.remove-connection-button').forEach(button => {
-                        button.onclick = (e) => {
-                            const indexToRemove = parseInt(e.target.dataset.index);
-                            urlMappings[buttonName].connections.splice(indexToRemove, 1);
-                            renderConnections(urlMappings[buttonName].connections, sectionElement);
-                            saveAppSettings(); // Auto-guardar al eliminar
-                        };
-                    });
-
-                    sectionElement.querySelector('.add-connection-button').onclick = () => {
-                        const newLabelInput = sectionElement.querySelector('.new-connection-label');
-                        const newUrlInput = sectionElement.querySelector('.new-connection-url');
-                        const newLabel = newLabelInput.value.trim();
-                        const newUrl = newUrlInput.value.trim();
-
-                        if (newLabel && newUrl) {
-                            urlMappings[buttonName].connections.push({ label: newLabel, url: newUrl });
-                            newLabelInput.value = '';
-                            newUrlInput.value = '';
-                            renderConnections(urlMappings[buttonName].connections, sectionElement);
-                            saveAppSettings(); // Auto-guardar al agregar
-                        } else {
-                            const errorMsg = document.createElement('p');
-                            errorMsg.textContent = "Error: La etiqueta y la URL no pueden estar vacías.";
-                            errorMsg.style.color = '#ef4444';
-                            errorMsg.style.fontSize = '0.75rem';
-                            errorMsg.style.marginTop = '0.5rem';
-                            sectionElement.appendChild(errorMsg);
-                            setTimeout(() => {
-                                errorMsg.remove();
-                            }, 3000);
-                        }
-                    };
-
-                    // Añadir listeners para auto-guardado en los inputs de conexión
-                    sectionElement.querySelectorAll('.new-connection-label, .new-connection-url').forEach(input => {
-                        input.addEventListener('input', debounce(saveAppSettings, 500));
-                    });
-                };
-                renderConnections(urlMappings[buttonName].connections, connectionListSection);
-
-
+                // Selector de tipo de acceso (General, Administrador, Personalizado)
                 const accessSelect = document.createElement('select');
-                accessSelect.setAttribute('data-button-name', buttonName); // Para identificar el botón al guardar
+                accessSelect.setAttribute('data-button-name', buttonName); // Asociar el select al nombre del botón
                 
+                // Opciones del selector
                 const generalOption = document.createElement('option');
                 generalOption.value = 'general';
                 generalOption.textContent = 'Acceso General';
@@ -1837,153 +1854,238 @@
                 customOption.textContent = 'Acceso Personalizado';
                 accessSelect.appendChild(customOption);
 
-                accessSelect.value = urlMappings[buttonName].access; // Establecer el valor actual
+                accessSelect.value = urlMappings[buttonName].access; // Seleccionar el valor actual
                 itemDiv.appendChild(accessSelect);
 
+                // Sección para usuarios personalizados (inicialmente oculta si el acceso no es 'custom')
                 const customUsersSection = document.createElement('div');
                 customUsersSection.classList.add('custom-users-section');
                 customUsersSection.style.display = accessSelect.value === 'custom' ? 'block' : 'none';
                 itemDiv.appendChild(customUsersSection);
 
-                // Función para renderizar los usuarios personalizados dentro de la sección
-                const renderCustomUsers = (users, sectionElement) => {
-                    sectionElement.innerHTML = ''; // Limpiar usuarios previos
-                    users.forEach((user, index) => {
-                        const userItem = document.createElement('div');
-                        userItem.classList.add('custom-user-item');
-                        userItem.innerHTML = `
-                            <span>Nombre: ${user.name}</span>
-                            <span>Código: ${user.code}</span>
-                            <button data-index="${index}" class="remove-custom-user">Eliminar</button>
-                        `;
-                        sectionElement.appendChild(userItem);
-                    });
-
-                    // Añadir inputs para nuevo usuario
-                    const addInputsDiv = document.createElement('div');
-                    addInputsDiv.classList.add('add-custom-user-inputs');
-                    addInputsDiv.innerHTML = `
-                        <input type="text" placeholder="Nuevo Nombre" class="new-custom-user-name">
-                        <input type="text" placeholder="Código (3 dígitos)" maxlength="3" class="new-custom-user-code">
-                        <button class="add-custom-user-button">Agregar</button>
-                    `;
-                    sectionElement.appendChild(addInputsDiv);
-
-                    // Añadir listeners para los botones de eliminar y agregar
-                    sectionElement.querySelectorAll('.remove-custom-user').forEach(button => {
-                        button.onclick = (e) => {
-                            const indexToRemove = parseInt(e.target.dataset.index);
-                            urlMappings[buttonName].customUsers.splice(indexToRemove, 1);
-                            renderCustomUsers(urlMappings[buttonName].customUsers, sectionElement);
-                            saveAppSettings(); // Auto-guardar al eliminar
-                        };
-                    });
-
-                    sectionElement.querySelector('.add-custom-user-button').onclick = () => {
-                        const newNameInput = sectionElement.querySelector('.new-custom-user-name');
-                        const newCodeInput = sectionElement.querySelector('.new-custom-user-code');
-                        const newName = newNameInput.value.trim();
-                        const newCode = newCodeInput.value.trim();
-
-                        if (newName && newCode.length === 3) {
-                            urlMappings[buttonName].customUsers.push({ name: newName, code: newCode });
-                            newNameInput.value = '';
-                            newCodeInput.value = '';
-                            renderCustomUsers(urlMappings[buttonName].customUsers, sectionElement);
-                            saveAppSettings(); // Auto-guardar al agregar
-                        } else {
-                            const errorMsg = document.createElement('p');
-                            errorMsg.textContent = "Error: Introduce un nombre y un código válido de 3 dígitos.";
-                            errorMsg.style.color = '#ef4444';
-                            errorMsg.style.fontSize = '0.75rem';
-                            errorMsg.style.marginTop = '0.5rem';
-                            sectionElement.appendChild(errorMsg);
-                            setTimeout(() => {
-                                errorMsg.remove();
-                            }, 3000);
-                        }
-                    };
-
-                    // Añadir listeners para auto-guardado en los inputs de usuario personalizado
-                    sectionElement.querySelectorAll('.new-custom-user-name, .new-custom-user-code').forEach(input => {
-                        input.addEventListener('input', debounce(saveAppSettings, 500));
-                    });
-                };
-
-                // Renderizar usuarios personalizados si el acceso es 'custom'
+                // Si el acceso es 'custom', renderizar los usuarios personalizados existentes
                 if (accessSelect.value === 'custom') {
-                    renderCustomUsers(urlMappings[buttonName].customUsers, customUsersSection);
+                    renderCustomUsers(buttonName, urlMappings[buttonName].customUsers, customUsersSection);
                 }
 
                 // Listener para cambiar la visibilidad de la sección de usuarios personalizados
+                // y guardar los cambios al cambiar el tipo de acceso
                 accessSelect.onchange = () => {
-                    console.log(`Access type changed for ${buttonName} to ${accessSelect.value}`); // Added log
                     if (accessSelect.value === 'custom') {
                         customUsersSection.style.display = 'block';
-                        renderCustomUsers(urlMappings[buttonName].customUsers, customUsersSection);
+                        renderCustomUsers(buttonName, urlMappings[buttonName].customUsers, customUsersSection);
                     } else {
                         customUsersSection.style.display = 'none';
                     }
-                    // Add a small debounce here to ensure the DOM has updated before saving
-                    debounce(saveAppSettings, 100)(); // Call the debounced function immediately
+                    debounce(window.saveAppSettings, 100)(); // Guardar con debounce
                 };
 
-                urlMappingsPanel.appendChild(itemDiv);
+                urlMappingsPanel.appendChild(itemDiv); // Añadir el elemento completo al panel
             }
         }
 
         /**
-         * Muestra el modal de selección de conexión y lo puebla con las opciones.
+         * Renderiza las conexiones (URLs) para un botón específico en el panel de administración.
+         * Incluye los inputs para añadir nuevas conexiones y botones para eliminar las existentes.
+         * @param {string} buttonName - El nombre del botón al que pertenecen las conexiones.
+         * @param {Array<Object>} connections - Array de objetos {label, url} de las conexiones.
+         * @param {HTMLElement} sectionElement - El elemento DOM donde se renderizarán las conexiones.
+         */
+        function renderConnections(buttonName, connections, sectionElement) {
+            sectionElement.innerHTML = ''; // Limpiar contenido previo
+            connections.forEach((conn, index) => {
+                const connItem = document.createElement('div');
+                connItem.classList.add('connection-item');
+                connItem.innerHTML = `
+                    <span>Etiqueta: ${conn.label}</span>
+                    <span>URL: ${conn.url}</span>
+                    <button data-index="${index}" class="remove-connection-button">Eliminar</button>
+                `;
+                sectionElement.appendChild(connItem);
+            });
+
+            // Inputs para añadir una nueva conexión
+            const addInputsDiv = document.createElement('div');
+            addInputsDiv.classList.add('add-connection-inputs');
+            addInputsDiv.innerHTML = `
+                <input type="text" placeholder="Etiqueta (ej. Página 2)" class="new-connection-label">
+                <input type="text" placeholder="URL (ej. https://ejemplo.com/pagina2)" class="new-connection-url">
+                <button class="add-connection-button">Agregar Conexión</button>
+            `;
+            sectionElement.appendChild(addInputsDiv);
+
+            // Listener para los botones de eliminar conexión
+            sectionElement.querySelectorAll('.remove-connection-button').forEach(button => {
+                button.onclick = (e) => {
+                    const indexToRemove = parseInt(e.target.dataset.index);
+                    urlMappings[buttonName].connections.splice(indexToRemove, 1); // Eliminar del array
+                    renderConnections(buttonName, urlMappings[buttonName].connections, sectionElement); // Volver a renderizar
+                    window.saveAppSettings(); // Guardar cambios en Firestore
+                };
+            });
+
+            // Listener para el botón de añadir conexión
+            sectionElement.querySelector('.add-connection-button').onclick = () => {
+                const newLabelInput = sectionElement.querySelector('.new-connection-label');
+                const newUrlInput = sectionElement.querySelector('.new-connection-url');
+                const newLabel = newLabelInput.value.trim();
+                const newUrl = newUrlInput.value.trim();
+
+                if (newLabel && newUrl) {
+                    urlMappings[buttonName].connections.push({ label: newLabel, url: newUrl }); // Añadir al array
+                    newLabelInput.value = ''; // Limpiar inputs
+                    newUrlInput.value = '';
+                    renderConnections(buttonName, urlMappings[buttonName].connections, sectionElement); // Volver a renderizar
+                    window.saveAppSettings(); // Guardar cambios en Firestore
+                } else {
+                    // Mostrar mensaje de error si los campos están vacíos
+                    const errorMsg = document.createElement('p');
+                    errorMsg.textContent = "Error: La etiqueta y la URL no pueden estar vacías.";
+                    errorMsg.style.color = '#ef4444';
+                    errorMsg.style.fontSize = '0.75rem';
+                    errorMsg.style.marginTop = '0.5rem';
+                    sectionElement.appendChild(errorMsg);
+                    setTimeout(() => { errorMsg.remove(); }, 3000); // Ocultar mensaje después de 3 segundos
+                }
+            };
+
+            // Listeners con debounce para guardar automáticamente al cambiar los inputs
+            sectionElement.querySelectorAll('.new-connection-label, .new-connection-url').forEach(input => {
+                input.addEventListener('input', debounce(window.saveAppSettings, 500));
+            });
+        }
+
+        /**
+         * Renderiza los usuarios personalizados para un botón específico en el panel de administración.
+         * Incluye inputs para añadir nuevos usuarios y botones para eliminar los existentes.
+         * @param {string} buttonName - El nombre del botón al que pertenecen los usuarios.
+         * @param {Array<Object>} users - Array de objetos {name, code} de los usuarios.
+         * @param {HTMLElement} sectionElement - El elemento DOM donde se renderizarán los usuarios.
+         */
+        function renderCustomUsers(buttonName, users, sectionElement) {
+            sectionElement.innerHTML = ''; // Limpiar contenido previo
+            users.forEach((user, index) => {
+                const userItem = document.createElement('div');
+                userItem.classList.add('custom-user-item');
+                userItem.innerHTML = `
+                    <span>Nombre: ${user.name}</span>
+                    <span>Código: ${user.code}</span>
+                    <button data-index="${index}" class="remove-custom-user">Eliminar</button>
+                `;
+                sectionElement.appendChild(userItem);
+            });
+
+            // Inputs para añadir un nuevo usuario personalizado
+            const addInputsDiv = document.createElement('div');
+            addInputsDiv.classList.add('add-custom-user-inputs');
+            addInputsDiv.innerHTML = `
+                <input type="text" placeholder="Nuevo Nombre" class="new-custom-user-name">
+                <input type="text" placeholder="Código (3 dígitos)" maxlength="3" class="new-custom-user-code">
+                <button class="add-custom-user-button">Agregar</button>
+            `;
+            sectionElement.appendChild(addInputsDiv);
+
+            // Listener para los botones de eliminar usuario
+            sectionElement.querySelectorAll('.remove-custom-user').forEach(button => {
+                button.onclick = (e) => {
+                    const indexToRemove = parseInt(e.target.dataset.index);
+                    urlMappings[buttonName].customUsers.splice(indexToRemove, 1); // Eliminar del array
+                    renderCustomUsers(buttonName, urlMappings[buttonName].customUsers, sectionElement); // Volver a renderizar
+                    window.saveAppSettings(); // Guardar cambios en Firestore
+                };
+            });
+
+            // Listener para el botón de añadir usuario
+            sectionElement.querySelector('.add-custom-user-button').onclick = () => {
+                const newNameInput = sectionElement.querySelector('.new-custom-user-name');
+                const newCodeInput = sectionElement.querySelector('.new-custom-user-code');
+                const newName = newNameInput.value.trim();
+                const newCode = newCodeInput.value.trim();
+
+                // Validar que el nombre no esté vacío y el código tenga exactamente 3 dígitos
+                if (newName && newCode.length === 3) {
+                    urlMappings[buttonName].customUsers.push({ name: newName, code: newCode }); // Añadir al array
+                    newNameInput.value = ''; // Limpiar inputs
+                    newCodeInput.value = '';
+                    renderCustomUsers(buttonName, urlMappings[buttonName].customUsers, sectionElement); // Volver a renderizar
+                    window.saveAppSettings(); // Guardar cambios en Firestore
+                } else {
+                    // Mostrar mensaje de error si la validación falla
+                    const errorMsg = document.createElement('p');
+                    errorMsg.textContent = "Error: Introduce un nombre y un código válido de 3 dígitos.";
+                    errorMsg.style.color = '#ef4444';
+                    errorMsg.style.fontSize = '0.75rem';
+                    errorMsg.style.marginTop = '0.5rem';
+                    sectionElement.appendChild(errorMsg);
+                    setTimeout(() => { errorMsg.remove(); }, 3000); // Ocultar mensaje después de 3 segundos
+                }
+            };
+
+            // Listeners con debounce para guardar automáticamente al cambiar los inputs
+            sectionElement.querySelectorAll('.new-custom-user-name, .new-custom-user-code').forEach(input => {
+                input.addEventListener('input', debounce(window.saveAppSettings, 500));
+            });
+        }
+
+        /**
+         * Muestra el modal de selección de conexión y lo puebla con las opciones disponibles.
          * @param {string} buttonName - El nombre del botón que se está activando.
-         * @param {Array<Object>} connections - Array de objetos {label, url}.
-         * @param {boolean} isDockIcon - Si la navegación es de un icono del dock.
+         * @param {Array<Object>} connections - Array de objetos {label, url} de las conexiones disponibles.
+         * @param {boolean} isDockIcon - Indica si la navegación proviene de un icono del dock (abre en nueva pestaña).
          */
         window.showConnectionSelectionModal = function(buttonName, connections, isDockIcon) {
-            currentButtonNameSpan.textContent = buttonName;
-            connectionButtonsContainer.innerHTML = ''; // Limpiar botones anteriores
+            currentButtonNameSpan.textContent = buttonName; // Actualizar el nombre del botón en el modal
+            connectionButtonsContainer.innerHTML = ''; // Limpiar botones anteriores para evitar duplicados
 
+            // Mostrar un mensaje si no hay conexiones configuradas
             if (connections.length === 0) {
                 const noConnectionsMessage = document.createElement('p');
                 noConnectionsMessage.textContent = "No hay conexiones configuradas para este botón.";
                 noConnectionsMessage.style.color = '#ef4444';
                 connectionButtonsContainer.appendChild(noConnectionsMessage);
+                window.showModal('selectConnectionModal'); // Asegurarse de mostrar el modal incluso si está vacío
                 return;
             }
 
+            // Crear un botón para cada conexión disponible
             connections.forEach(conn => {
                 const button = document.createElement('button');
                 button.classList.add('connection-choice-button');
                 button.textContent = conn.label;
                 button.onclick = () => {
-                    window.hideModal('selectConnectionModal');
+                    window.hideModal('selectConnectionModal'); // Ocultar el modal al seleccionar una conexión
                     if (isDockIcon) {
-                        window.open(conn.url, '_blank');
+                        window.open(conn.url, '_blank'); // Abrir en nueva pestaña si es un icono del dock
                     } else {
-                        window.location.href = conn.url;
+                        window.location.href = conn.url; // Navegar en la misma pestaña
                     }
                 };
                 connectionButtonsContainer.appendChild(button);
             });
 
-            window.showModal('selectConnectionModal');
+            window.showModal('selectConnectionModal'); // Mostrar el modal de selección
         };
+
+        // =====================================================================
+        // LÓGICA DE NAVEGACIÓN Y ACCESO DE BOTONES
+        // =====================================================================
 
         /**
          * Función auxiliar para manejar la navegación después de las comprobaciones de acceso.
-         * @param {string} buttonName - El nombre del botón.
-         * @param {string} targetUrl - La URL inicial (puede ser ignorada si hay múltiples conexiones).
-         * @param {boolean} isDockIcon - Si la navegación es de un icono del dock.
+         * Determina si se abre una URL directamente o se muestra un modal de selección de conexiones.
+         * @param {string} buttonName - El nombre del botón que se está activando.
+         * @param {boolean} isDockIcon - Indica si la navegación proviene de un icono del dock (abre en nueva pestaña).
          */
-        function handleButtonConnections(buttonName, targetUrl, isDockIcon = false) {
+        function handleButtonConnections(buttonName, isDockIcon = false) {
             const buttonConfig = urlMappings[buttonName];
             if (!buttonConfig || !buttonConfig.connections || buttonConfig.connections.length === 0) {
-                console.warn(`No hay conexiones configuradas para el botón: ${buttonName}`);
-                // Mostrar un mensaje al usuario si no hay conexiones
-                // En esta versión, no hay un "loginStatusMessage" general, así que se imprime en consola.
-                console.log(`Mensaje: No hay conexiones configuradas para "${buttonName}".`);
+                console.warn(`No hay conexiones configuradas para el botón: ${buttonName}.`);
+                // Considerar mostrar un mensaje al usuario aquí si no hay URL configurada
+                window.showConnectionSelectionModal(buttonName, [], isDockIcon); // Mostrar modal vacío con mensaje
                 return;
             }
 
+            // Si solo hay una conexión, navegar directamente
             if (buttonConfig.connections.length === 1) {
                 const finalUrl = buttonConfig.connections[0].url;
                 if (isDockIcon) {
@@ -1997,128 +2099,132 @@
             }
         }
 
-
-        // =====================================================================
-        // CONTROL DE ACCESO PARA BOTONES PRINCIPALES Y DOCK
-        // =====================================================================
-
         /**
-         * Verifica el acceso antes de navegar para los botones principales.
+         * Verifica el acceso antes de navegar para los botones principales de la consola.
          * @param {string} buttonName - El nombre del botón.
          */
         window.checkAccessAndNavigate = function(buttonName) {
             const buttonConfig = urlMappings[buttonName];
             if (!buttonConfig) {
-                console.warn(`Configuración no encontrada para el botón: ${buttonName}`);
+                console.warn(`Configuración no encontrada para el botón: ${buttonName}.`);
                 return;
             }
 
             if (buttonConfig.access === 'admin') {
-                window.promptAdminAccess(buttonName, null); // targetUrl ya no es tan relevante aquí, se usará de connections
+                window.promptAdminAccess(buttonName); // Solicitar clave de administrador
             } else if (buttonConfig.access === 'custom') {
-                // Verificar si el usuario ya está recordado
                 const storedAccess = localStorage.getItem(`freework_custom_access_${userId}`);
+                let hasValidStoredAccess = false;
                 if (storedAccess) {
                     try {
                         const parsedAccess = JSON.parse(storedAccess);
-                        // Verificar que las credenciales guardadas coincidan con un usuario configurado para ESTE botón
+                        // Verificar si el acceso almacenado es válido y no ha expirado
                         const foundUserInConfig = buttonConfig.customUsers.find(user =>
                             user.name === parsedAccess.name && user.code === parsedAccess.code
                         );
 
                         if (parsedAccess.expiry && parsedAccess.expiry > Date.now() && foundUserInConfig) {
-                            console.log("Acceso personalizado concedido automáticamente (recordado).");
-                            handleButtonConnections(buttonName, null, false);
-                            return; // Salir de la función, acceso concedido
+                            hasValidStoredAccess = true;
                         } else {
-                            // Credenciales expiradas o no válidas para este botón, limpiar y pedir de nuevo
+                            // Si el acceso ha expirado o no coincide, eliminarlo de localStorage
                             localStorage.removeItem(`freework_custom_access_${userId}`);
-                            console.log("Credenciales recordadas expiradas o no válidas para este botón, se solicitarán de nuevo.");
                         }
                     } catch (e) {
-                        console.error("Error parsing stored custom access:", e);
-                        localStorage.removeItem(`freework_custom_access_${userId}`); // Limpiar datos corruptos
+                        console.error("Error al parsear el acceso personalizado almacenado:", e);
+                        localStorage.removeItem(`freework_custom_access_${userId}`);
                     }
                 }
-                // Si no se concedió acceso automático, pedir credenciales
-                pendingNavigationButtonName = buttonName;
-                pendingNavigationTargetUrl = null;
-                window.showModal('customUserLoginModal'); // Pide nombre y código personalizado
-            }
-            else { // access === 'general'
-                handleButtonConnections(buttonName, null, false); // Maneja las conexiones
+
+                if (hasValidStoredAccess) {
+                    handleButtonConnections(buttonName, false); // Acceso válido, navegar
+                } else {
+                    pendingNavigationButtonName = buttonName; // Guardar botón pendiente
+                    window.showModal('customUserLoginModal'); // Mostrar modal de acceso personalizado
+                }
+            } else { // access === 'general'
+                handleButtonConnections(buttonName, false); // Acceso general, navegar directamente
             }
         }
 
         /**
          * Verifica el acceso antes de navegar para los iconos del dock.
+         * Los iconos del dock siempre abren enlaces en una nueva pestaña.
          * @param {string} iconName - El nombre del icono.
-         * @param {string} defaultTarget - La URL por defecto del icono (usada si no está en urlMappings).
          */
-        window.checkAccessAndNavigateDock = function(iconName, defaultTarget) {
+        window.checkAccessAndNavigateDock = function(iconName) {
             const iconConfig = urlMappings[iconName];
-            // defaultTarget se usará solo si no hay ninguna conexión configurada en Firestore
-            const targetUrl = (iconConfig && iconConfig.connections && iconConfig.connections.length > 0) ? iconConfig.connections[0].url : defaultTarget;
-            const accessType = (iconConfig && iconConfig.access) ? iconConfig.access : 'general'; // Default to general
+            if (!iconConfig) {
+                console.warn(`Configuración no encontrada para el icono del dock: ${iconName}.`);
+                return;
+            }
 
-            if (accessType === 'admin') {
-                window.promptAdminAccess(iconName, null); // targetUrl ya no es tan relevante aquí
-            } else if (accessType === 'custom') {
-                 // Verificar si el usuario ya está recordado
+            if (iconConfig.access === 'admin') {
+                window.promptAdminAccess(iconName); // Solicitar clave de administrador
+            } else if (iconConfig.access === 'custom') {
                 const storedAccess = localStorage.getItem(`freework_custom_access_${userId}`);
+                let hasValidStoredAccess = false;
                 if (storedAccess) {
                     try {
                         const parsedAccess = JSON.parse(storedAccess);
-                        // Verificar que las credenciales guardadas coincidan con un usuario configurado para ESTE botón
+                        // Verificar si el acceso almacenado es válido y no ha expirado
                         const foundUserInConfig = iconConfig.customUsers.find(user =>
                             user.name === parsedAccess.name && user.code === parsedAccess.code
                         );
 
                         if (parsedAccess.expiry && parsedAccess.expiry > Date.now() && foundUserInConfig) {
-                            console.log("Acceso personalizado concedido automáticamente (recordado) para dock icon.");
-                            handleButtonConnections(iconName, null, true);
-                            return; // Salir de la función, acceso concedido
+                            hasValidStoredAccess = true;
                         } else {
-                            // Credenciales expiradas o no válidas para este botón, limpiar y pedir de nuevo
+                            // Si el acceso ha expirado o no coincide, eliminarlo de localStorage
                             localStorage.removeItem(`freework_custom_access_${userId}`);
-                            console.log("Credenciales recordadas expiradas o no válidas para este dock icon, se solicitarán de nuevo.");
                         }
                     } catch (e) {
-                        console.error("Error parsing stored custom access for dock icon:", e);
-                        localStorage.removeItem(`freework_custom_access_${userId}`); // Limpiar datos corruptos
+                        console.error("Error al parsear el acceso personalizado almacenado para el icono del dock:", e);
+                        localStorage.removeItem(`freework_custom_access_${userId}`);
                     }
                 }
-                // Si no se concedió acceso automático, pedir credenciales
-                pendingNavigationButtonName = iconName;
-                pendingNavigationTargetUrl = null;
-                window.showModal('customUserLoginModal'); // Pide nombre y código personalizado
-            }
-            else { // access === 'general'
-                handleButtonConnections(iconName, null, true); // Maneja las conexiones
+
+                if (hasValidStoredAccess) {
+                    handleButtonConnections(iconName, true); // Acceso válido, navegar en nueva pestaña
+                } else {
+                    pendingNavigationButtonName = iconName; // Guardar icono pendiente
+                    window.showModal('customUserLoginModal'); // Mostrar modal de acceso personalizado
+                }
+            } else { // access === 'general'
+                handleButtonConnections(iconName, true); // Acceso general, navegar en nueva pestaña
             }
         }
 
         // =====================================================================
-        // LÓGICA DEL DOCK macOS (ADAPTADA DEL CÓDIGO PROPORCIONADO)
+        // LÓGICA DEL DOCK macOS (ANIMACIONES)
         // =====================================================================
-        document.addEventListener('DOMContentLoaded', () => {
+
+        /**
+         * Configura las animaciones y el comportamiento del dock macOS.
+         * Incluye efectos de magnificación, efecto en cadena y scroll táctil para móviles.
+         */
+        function setupDockAnimations() {
             const dock = document.getElementById('macosDock');
             const icons = dock.querySelectorAll('.dock-icon');
+            // Determinar si el dispositivo es móvil (no soporta hover)
             const isMobile = window.matchMedia('(max-width: 768px)').matches;
             
+            // Aplicar efectos de hover y adyacentes solo en dispositivos no móviles
             if (!isMobile) {
                 icons.forEach(icon => {
                     icon.addEventListener('mouseenter', () => {
                         const index = Array.from(icons).indexOf(icon);
+                        // Aplicar efecto a icono anterior si existe
                         if (icons[index - 1]) {
                             icons[index - 1].classList.add('adjacent-effect');
                         }
+                        // Aplicar efecto a icono siguiente si existe
                         if (icons[index + 1]) {
                             icons[index + 1].classList.add('adjacent-effect');
                         }
                     });
                     
                     icon.addEventListener('mouseleave', () => {
+                        // Eliminar el efecto de todos los iconos adyacentes al salir del hover
                         icons.forEach(icon => {
                             icon.classList.remove('adjacent-effect');
                         });
@@ -2126,42 +2232,57 @@
                 });
             }
             
+            // Listener para el clic en los iconos del dock (actualiza el estado 'active')
             icons.forEach(icon => {
                 icon.addEventListener('click', () => {
-                    // El control de acceso se maneja en window.checkAccessAndNavigateDock
-                    // que ya es llamado directamente desde el onclick en el HTML.
-                    // Solo actualizamos la clase 'active' para el efecto visual del dock.
+                    // Remover la clase 'active' de todos los iconos
                     icons.forEach(i => i.classList.remove('active'));
+                    // Añadir la clase 'active' al icono clicado
                     icon.classList.add('active');
                 });
             });
             
+            // Manejo de scroll táctil para el dock en móviles (para arrastrar el dock)
             if (isMobile) {
                 let startX, scrollLeft;
-                let isDown = false;
+                let isDown = false; // Bandera para saber si el toque está presionado
                 
+                // Prevenir el comportamiento por defecto de 'touchmove' para evitar scroll de página
                 dock.addEventListener('touchmove', (e) => {
                     e.preventDefault();
-                }, { passive: false });
+                }, { passive: false }); // Usar passive: false para permitir preventDefault
 
+                // Al iniciar el toque
                 dock.addEventListener('touchstart', (e) => {
                     isDown = true;
-                    startX = e.touches[0].pageX - dock.offsetLeft;
-                    scrollLeft = dock.scrollLeft;
+                    startX = e.touches[0].pageX - dock.offsetLeft; // Posición inicial del toque
+                    scrollLeft = dock.scrollLeft; // Posición inicial del scroll del dock
                 }, { passive: false });
 
+                // Al mover el dedo sobre el dock
                 dock.addEventListener('touchmove', (e) => {
-                    if (!isDown) return;
+                    if (!isDown) return; // Si no está presionado, salir
                     e.preventDefault();
-                    const x = e.touches[0].pageX - dock.offsetLeft;
-                    const walk = (x - startX) * 2;
-                    dock.scrollLeft = scrollLeft - walk;
+                    const x = e.touches[0].pageX - dock.offsetLeft; // Posición actual del toque
+                    const walk = (x - startX) * 2; // Calcular el desplazamiento (multiplicar por 2 para mayor sensibilidad)
+                    dock.scrollLeft = scrollLeft - walk; // Ajustar la posición de scroll
                 }, { passive: false });
 
+                // Al levantar el dedo
                 dock.addEventListener('touchend', () => {
-                    isDown = false;
+                    isDown = false; // Resetear la bandera
                 });
             }
+        }
+
+        // =====================================================================
+        // INICIALIZACIÓN DE LA APLICACIÓN
+        // =====================================================================
+        // Asegurar que el DOM esté completamente cargado antes de inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initializeFirebase(); // Inicializar Firebase y cargar ajustes de la app
+            setupModalOverlayListeners(); // Configurar listeners para cerrar modales al hacer clic fuera
+            setupDockAnimations(); // Configurar animaciones y comportamiento del dock
         });
     </script>
 </body>
