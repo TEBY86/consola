@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consola de Control - Estilo Apple</title>
+    <title>Consola de Control - Estilo Apple (Móvil)</title>
     <!-- Enlace a Tailwind CSS CDN para estilos rápidos y responsivos -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Configuración personalizada de Tailwind CSS para la fuente y colores -->
@@ -984,6 +984,480 @@
             -ms-transform: translateX(26px);
             transform: translateX(26px);
         }
+
+        /* ===================================================================== */
+        /* ESTILOS DEL CALENDARIO MODAL (SCOPED) */
+        /* ===================================================================== */
+        .calendar-body-styles {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d0d; /* Slightly lighter dark background for better contrast with elements */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden; /* Prevents unwanted scrollbars */
+        }
+
+        /* Main Calendar Modal Container (this is the #calendarModalOverlay in the main HTML) */
+        #calendarModalOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); /* More opaque background for main modal */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* High z-index to be on top */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, visibility 0s 0.5s; /* Smooth transition for show/hide */
+        }
+
+        #calendarModalOverlay.active { /* Use 'active' as per main app's modal system */
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.5s ease-in-out; /* No delay on show */
+        }
+
+        .calendar-close-button { /* Renamed to avoid conflict with other close buttons */
+            position: absolute;
+            top: 1.25rem; /* Slightly more padding from top */
+            right: 1.25rem; /* Slightly more padding from right */
+            background-color: #FFD700; /* Gold color */
+            color: #1a1a1a; /* Darker text for better contrast */
+            border: none;
+            border-radius: 50%; /* Circular button */
+            width: 2.75rem; /* Slightly larger */
+            height: 2.75rem; /* Slightly larger */
+            font-size: 1.6rem; /* Slightly larger font */
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 2px 6px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            z-index: 1002; /* Above everything else */
+        }
+
+        .calendar-close-button:hover {
+            background-color: #e6c200; /* Slightly darker gold on hover */
+            transform: scale(1.08); /* More noticeable scale */
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7), 0 3px 9px rgba(0, 0, 0, 0.5);
+        }
+
+        .calendar-close-button:active {
+            transform: scale(0.96); /* More noticeable active state */
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .year-container-wrapper {
+            /* This wrapper exists to contain the year-container and allow it to be transformed */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%; /* Takes full width of parent modal */
+            height: 100%; /* Takes full height of parent modal */
+            padding: 0.02rem;
+            box-sizing: border-box;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        .year-container {
+            background: linear-gradient(160deg, #2c2c2c, #151515); /* Deeper, richer dark gradient */
+            border-radius: 1rem; /* Larger rounded corners for a softer look */
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.9), 0 8px 25px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(255, 255, 255, 0.08); /* Stronger, multi-layered shadow with inner glow */
+            padding: 1.5rem; /* Increased padding for a more spacious feel */
+            color: #f0f0f0; /* Brighter text color for better contrast */
+            max-width: 95vw; /* Slightly less max-width to ensure some margin */
+            max-height: 95vh; /* Slightly less max-height */
+            width: fit-content; /* Allows content to dictate width, respecting max-width */
+            height: fit-content; /* Allows content to dictate height, respecting max-height */
+            position: relative;
+            transition: transform 0.5s ease-in-out, filter 0.5s ease-in-out; /* Smooth transition for zoom/unzoom and blur */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 1; /* Allows it to shrink if content is too large */
+            transform-origin: 0 0; /* Set transform origin to top-left for easier calculations */
+        }
+
+        /* Class to apply blur and disable interaction to the entire year container when a month is zoomed */
+        .year-container.blurred-background {
+            filter: blur(8px); /* More intense blur effect */
+            pointer-events: none; /* Disable interaction with blurred elements */
+        }
+
+        .year-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 1rem; /* Increased margin */
+        }
+
+        .year-header h2 {
+            font-size: 1.8rem; /* Larger text for the year */
+            font-weight: 700;
+            color: #FFD700; /* Bright golden color */
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.9), 0 0 25px rgba(255, 215, 0, 0.5); /* Brighter, more intense glow */
+        }
+
+        .months-grid {
+            display: grid;
+            /* Default for smallest screens: allow months to shrink significantly */
+            grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); /* Larger min-width for months */
+            gap: 1rem; /* Increased space between months */
+            width: 100%;
+            justify-items: center; /* Centers months within grid cells */
+            /* No blur or pointer-events here directly, handled by .year-container.blurred-background */
+        }
+
+        .month-card {
+            background: linear-gradient(145deg, #4d4d4d, #222222); /* Dark month background with gradient for glossy effect */
+            border-radius: 0.8rem; /* Larger rounded corners */
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.15), inset 0 0 2px rgba(255, 255, 255, 0.1); /* More pronounced shadow with stronger inner glow */
+            padding: 0.85rem; /* Increased padding for month card */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%; /* Ensures card takes available width in grid */
+            max-width: 220px; /* Increased max width of each month */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer; /* Indicate it's clickable */
+            z-index: 2; /* Default z-index for month cards */
+        }
+
+        .month-card:hover {
+            transform: translateY(-2px); /* More noticeable hover effect */
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), inset 0 0 10px rgba(255, 255, 255, 0.2); /* Enhanced hover shadow */
+        }
+
+        /* Styles for the month that is currently zoomed and acting as a modal */
+        .month-card.month-modal-active {
+            position: fixed; /* Position relative to viewport */
+            top: 50%;
+            left: 50%;
+            /* transform will be set by JS */
+            z-index: 1001; /* IMPORTANT: Higher than mainCalendarModal (1000) and modal-overlay (1000) */
+            filter: none !important; /* Ensure no blur on the zoomed month */
+            box-shadow: 0 25px 75px rgba(0, 0, 0, 0.95), 0 15px 45px rgba(0, 0, 0, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.15); /* Even more prominent shadow for modal with intense inner glow */
+            transition: transform 0.5s ease-in-out, box-shadow 0.5s ease; /* Smooth transition for its own movement */
+            pointer-events: auto; /* Ensure it's clickable */
+        }
+
+        .month-name {
+            font-size: 1.1rem; /* Larger month name text */
+            font-weight: 600;
+            color: #FFD700;
+            margin-bottom: 0.6rem; /* Increased margin */
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            width: 100%;
+            margin-bottom: 0.3rem; /* Increased margin */
+            text-align: center;
+            font-weight: 600;
+            color: #bbbbbb; /* Slightly lighter gray for weekdays */
+            font-size: 0.65rem; /* Larger weekday text */
+        }
+
+        .weekday-item {
+            padding: 0.15rem 0; /* Increased padding */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Slightly thicker border */
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.12rem; /* Increased space between days */
+            width: 100%;
+            text-align: center;
+        }
+
+        .day-cell {
+            background-color: #555555; /* Slightly lighter day background for better contrast */
+            padding: 0.2rem 0.15rem; /* Increased padding */
+            border-radius: 0.2rem; /* Slightly larger borders */
+            font-size: 0.75rem; /* Larger day text */
+            font-weight: 400;
+            color: #e0e0e0;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 1 / 1; /* Ensures cells are square */
+            box-shadow: inset 0 0.3px 0.3px rgba(0, 0, 0, 0.3); /* More subtle inner shadow */
+        }
+
+        .day-cell:hover:not(.empty):not(.current-day) {
+            background-color: #666666; /* Lighter on hover */
+            transform: translateY(-0.3px);
+            box-shadow: 0 0.8px 2px rgba(0, 0, 0, 0.4);
+        }
+
+        .day-cell:active:not(.empty):not(.current-day) {
+            transform: translateY(0);
+            box-shadow: inset 0 0.3px 0.3px rgba(0, 0, 0, 0.45);
+        }
+
+        .empty {
+            background-color: transparent;
+            cursor: default;
+            box-shadow: none;
+        }
+
+        .current-day {
+            background-color: #FFD700; /* Current day in bright gold */
+            color: #121212;
+            font-weight: 700;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.9), inset 0 0.3px 1px rgba(0, 0, 0, 0.5); /* Brighter shadow */
+            transform: scale(1.12); /* Slightly more prominent scale */
+        }
+
+        /* Zoom and rotation controls */
+        .controls {
+            margin-top: 1rem; /* Increased margin */
+            display: flex;
+            gap: 0.8rem; /* Increased space between buttons */
+            flex-wrap: wrap; /* Ensures buttons wrap on small screens */
+            justify-content: center;
+        }
+
+        .control-button {
+            background-color: #3a3a3a; /* Dark background for control buttons */
+            color: #e0e0e0; /* Light text */
+            border: none;
+            border-radius: 0.4rem; /* Slightly larger borders */
+            padding: 0.5rem 1rem; /* Increased padding */
+            font-size: 0.9rem; /* Larger text */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0.8px 2px rgba(0, 0, 0, 0.4);
+        }
+
+        .control-button:hover {
+            background-color: #4a4a4a;
+            transform: translateY(-0.8px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .control-button:active {
+            transform: translateY(0);
+            box-shadow: 0 0.3px 1px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Message modal */
+        .message-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Darker semi-transparent background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s ease;
+        }
+
+        .message-modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .message-content {
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a); /* Dark background with gradient for modal */
+            color: #e0e0e0;
+            padding: 1.2rem; /* Increased padding */
+            border-radius: 0.75rem; /* Slightly larger borders */
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+            max-width: 85vw;
+            transform: translateY(-15px);
+            transition: transform 0.3s ease;
+        }
+
+        .message-modal.show .message-content {
+            transform: translateY(0);
+        }
+
+        .message-content button {
+            margin-top: 1rem; /* Increased margin */
+            background-color: #FFD700;
+            color: #121212;
+            border: none;
+            border-radius: 0.3rem; /* Slightly larger borders */
+            padding: 0.5rem 1rem; /* Increased padding */
+            cursor: pointer;
+            font-size: 0.8rem; /* Larger text */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .message-content button:hover {
+            background-color: #e6c200;
+            transform: translateY(-0.3px);
+        }
+
+        /* Overlay for the month zoom effect (within the calendar modal) */
+        .calendar-modal-overlay-inner { /* Renamed to avoid conflict */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75); /* Darker semi-transparent background */
+            z-index: 1000; /* Same as mainCalendarModal, or slightly higher if needed */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, visibility 0s 0.5s; /* Delay visibility on hide */
+        }
+
+        .calendar-modal-overlay-inner.show {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.5s ease-in-out; /* No delay on show */
+        }
+
+        /* Media queries for responsiveness */
+        /* For very small screens (vertical smartphones) */
+        @media (max-width: 479px) {
+            .months-grid {
+                grid-template-columns: repeat(1, 1fr); /* Always 1 column */
+                gap: 0.2rem; /* Very reduced space */
+            }
+            .month-card {
+                max-width: 120px; /* Limits card width in single column */
+                padding: 0.2rem;
+            }
+            .year-container {
+                padding: 0.2rem;
+            }
+            .year-header h2 {
+                font-size: 1.2rem;
+            }
+            .month-name {
+                font-size: 0.7rem;
+            }
+            .weekdays {
+                font-size: 0.5rem;
+            }
+            .weekday-item {
+                padding: 0.05rem 0;
+            }
+            .days-grid {
+                gap: 0.08rem;
+            }
+            .day-cell {
+                font-size: 0.6rem;
+                padding: 0.05rem;
+            }
+            .controls {
+                margin-top: 0.4rem;
+                gap: 0.4rem;
+            }
+            .control-button {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.6rem;
+            }
+            .calendar-close-button {
+                width: 2rem;
+                height: 2rem;
+                font-size: 1.2rem;
+                top: 0.75rem;
+                right: 0.75rem;
+            }
+        }
+
+        /* For horizontal smartphones or small tablets */
+        @media (min-width: 480px) and (max-width: 767px) {
+            .months-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns */
+                gap: 0.4rem;
+            }
+            .year-container {
+                padding: 0.6rem;
+            }
+            .year-header h2 {
+                font-size: 1.4rem;
+            }
+            .month-name {
+                font-size: 0.8rem;
+            }
+            .weekdays {
+                font-size: 0.55rem;
+            }
+            .day-cell {
+                font-size: 0.65rem;
+                padding: 0.1rem;
+            }
+            .controls {
+                margin-top: 0.6rem;
+                gap: 0.5rem;
+            }
+            .control-button {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            .calendar-close-button {
+                width: 2.25rem;
+                height: 2.25rem;
+                font-size: 1.3rem;
+                top: 1rem;
+                right: 1rem;
+            }
+        }
+
+        /* For tablets */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .months-grid {
+                grid-template-columns: repeat(3, 1fr); /* 3 columns */
+            }
+            .year-container {
+                padding: 1rem;
+            }
+            .year-header h2 {
+                font-size: 1.6rem;
+            }
+            .month-name {
+                font-size: 0.9rem;
+            }
+            .weekdays {
+                font-size: 0.6rem;
+            }
+            .day-cell {
+                font-size: 0.7rem;
+                padding: 0.12rem;
+            }
+            .controls {
+                margin-top: 0.7rem;
+                gap: 0.6rem;
+            }
+            .control-button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* For desktops */
+        @media (min-width: 1024px) {
+            .months-grid {
+                grid-template-columns: repeat(4, 1fr); /* 4 columns */
+            }
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen items-center justify-between p-4 bg-white text-text-dark">
@@ -1124,12 +1598,12 @@
                 </svg>
             </div>
             
-            <!-- Icono Agenda -->
+            <!-- Icono Calendario (formerly Agenda) -->
             <div class="dock-icon" 
-                 data-tooltip="Agenda"
-                 data-action="page"
-                 data-target="calendar.html"
-                 onclick="window.checkAccessAndNavigateDock('Agenda')">
+                 data-tooltip="Calendario"
+                 data-action="modal"
+                 data-target="calendarModalOverlay"
+                 onclick="window.checkAccessAndNavigateDock('Calendario')">
                 <!-- Icono de calendario (SVG) -->
                 <svg viewBox="0 0 24 24" fill="currentColor">
                     <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
@@ -1193,6 +1667,12 @@
                     <path d="M17 17H19a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path>
             </svg>
                 <input type="password" id="adminKeyPromptInput" placeholder="Clave de Administrador">
+            </div>
+            <div class="checkbox-container">
+                <label for="rememberMeCheckbox">
+                    <input type="checkbox" id="rememberMeCheckbox">
+                    Recordarme (10 días)
+                </label>
             </div>
             <p id="adminLoginErrorMessage" class="error-message hidden"></p>
             <button onclick="window.handleAdminLoginPrompt()">Acceder</button>
@@ -1279,6 +1759,41 @@
         </div>
     </div>
 
+    <!-- CALENDARIO MODAL DE PANTALLA COMPLETA -->
+    <div id="calendarModalOverlay" class="calendar-modal-overlay">
+        <button class="calendar-close-button" id="closeCalendarModalButton">X</button>
+        <div class="calendar-body-styles">
+            <div class="year-container-wrapper">
+                <div class="year-container" id="calendarContentContainer">
+                    <div class="year-header">
+                        <h2 id="currentYearDisplay"></h2>
+                    </div>
+                    <div class="months-grid" id="monthsGrid">
+                        <!-- Months will be generated here with JavaScript -->
+                    </div>
+                    <div class="controls">
+                        <button class="control-button" id="prevYear">Año Anterior</button>
+                        <button class="control-button" id="nextYear">Año Siguiente</button>
+                        <button class="control-button" id="zoomIn">Aumentar tamaño (+)</button>
+                        <button class="control-button" id="zoomOut">Reducir tamaño (-)</button>
+                        <button class="control-button" id="resetView">Restablecer vista</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom message modal (scoped to calendar for now) -->
+        <div id="calendarMessageModal" class="message-modal">
+            <div class="message-content">
+                <p id="calendarMessageText"></p>
+                <button id="closeCalendarMessageModal">Cerrar</button>
+            </div>
+        </div>
+
+        <!-- Overlay for the month zoom effect (scoped to calendar for now) -->
+        <div class="calendar-modal-overlay-inner" id="calendarMonthOverlay"></div>
+    </div>
+
     <!-- SCRIPT MEJORADO PARA LA FUNCIONALIDAD DE LA CONSOLA Y EL DOCK -->
     <script type="module">
         // Importar módulos de Firebase
@@ -1305,7 +1820,7 @@
         // Mapeo de URLs por defecto para los botones principales y del dock.
         // Cada entrada tiene un array 'connections' para soportar múltiples URLs y un tipo de acceso.
         let urlMappings = {
-            "Buscador de Direcciones": { connections: [{ label: "Buscador de Direcciones", url: "https://visordirecciones2-production.up.railway.app/" }], access: "custom", customUsers: [{ name: "Prueba", code: "000" }] },
+            "Buscador de Direcciones": { connections: [{ label: "Buscador de Direcciones", url: "https://visordirecciones2-production.up.railway.app/" }], access: "general", customUsers: [] },
             "Calculadora de Boleta": { connections: [{ label: "Calculadora de Boleta", url: "https://sites.google.com/view/ciclofacturacionwom/p%C3%A1gina-principal" }], access: "general", customUsers: [] },
             "Evaluar RUT": { connections: [{ label: "Evaluar RUT", url: "https://www.wom.cl/paga-aqui/" }], access: "general", customUsers: [] },
             "Condiciones Comerciales": { connections: [{ label: "Condiciones Comerciales", url: "https://drive.google.com/drive/folders/1RFC7V23aiver5fL8iN-lneFGNLY7Hvp2?usp=sharing" }], access: "general", customUsers: [] },
@@ -1316,9 +1831,9 @@
             "Informes": { connections: [{ label: "Informes Demo", url: "reports.html" }], access: "general", customUsers: [] },
             "Desplegar": { connections: [{ label: "Despliegue Demo", url: "deploy.html" }], access: "general", customUsers: [] },
             "Smart": { connections: [{ label: "Smart Demo", url: "smart.html" }], access: "general", customUsers: [] },
-            "Agenda": { connections: [{ label: "Agenda Demo", url: "calendar.html" }], access: "general", customUsers: [] },
+            "Calendario": { connections: [{ label: "Calendario Anual", url: "#calendarModal" }], access: "general", customUsers: [] }, // Updated to Calendario
             "Correo": { connections: [{ label: "Correo Demo", url: "mail.html" }], access: "general", customUsers: [] },
-            "Mensajes": { connections: [{ label: "WhatsApp", url: "https://web.whatsapp.com/" }], access: "custom", customUsers: [{ name: "Ejemplo", code: "123" }] },
+            "Mensajes": { connections: [{ label: "WhatsApp", url: "https://web.whatsapp.com/" }], access: "general", customUsers: [] },
             "Perfil": { connections: [{ label: "Perfil Demo", url: "profile.html" }], access: "general", customUsers: [] }
         };
 
@@ -1331,9 +1846,11 @@
         const adminModal = document.getElementById('adminModal');
         const customUserLoginModal = document.getElementById('customUserLoginModal'); 
         const selectConnectionModal = document.getElementById('selectConnectionModal');
-        
+        const calendarModalOverlay = document.getElementById('calendarModalOverlay'); // New calendar modal
+
         const adminKeyPromptInput = document.getElementById('adminKeyPromptInput');
         const adminLoginErrorMessage = document.getElementById('adminLoginErrorMessage');
+        const rememberMeCheckbox = document.getElementById('rememberMeCheckbox');
         
         const customUserNameInput = document.getElementById('customUserNameInput');
         const customUserCodeInput = document.getElementById('customUserCodeInput');
@@ -1383,6 +1900,7 @@
             adminModal.classList.remove('active');
             customUserLoginModal.classList.remove('active'); 
             selectConnectionModal.classList.remove('active');
+            calendarModalOverlay.classList.remove('active'); // Ensure calendar modal is also hidden
 
             const modal = document.getElementById(modalId);
             if (modal) {
@@ -1421,7 +1939,7 @@
          * Añade listeners a los overlays de los modales para cerrarlos al hacer clic fuera del contenido.
          */
         function setupModalOverlayListeners() {
-            const modals = [adminLoginPromptModal, adminModal, customUserLoginModal, selectConnectionModal];
+            const modals = [adminLoginPromptModal, adminModal, customUserLoginModal, selectConnectionModal, calendarModalOverlay];
             modals.forEach(modal => {
                 if (modal) {
                     modal.addEventListener('click', (event) => {
@@ -1601,7 +2119,7 @@
                 return false;
             }
             if (!appSettingsRef) {
-                console.error("Error interno: appSettingsRef no está inicializado. La operación de guardado no se realizará.");
+                console.error("Internal error: appSettingsRef is not initialized. Save operation will not proceed.");
                 adminConsoleMessage.textContent = "Error: No se pudo guardar. La referencia de configuración no está lista.";
                 adminConsoleMessage.style.color = '#ef4444';
                 adminConsoleMessage.classList.remove('hidden');
@@ -1690,6 +2208,27 @@
             window.showModal('adminLoginPromptModal');
             adminKeyPromptInput.value = ''; // Limpiar el campo de entrada
             adminLoginErrorMessage.classList.add('hidden'); // Ocultar mensajes de error previos
+
+            // Intentar cargar la clave de administrador guardada
+            const storedAdminKeyData = localStorage.getItem('freework_admin_key');
+            if (storedAdminKeyData) {
+                try {
+                    const parsedData = JSON.parse(storedAdminKeyData);
+                    if (parsedData.expiry && parsedData.expiry > Date.now()) {
+                        adminKeyPromptInput.value = parsedData.key;
+                        rememberMeCheckbox.checked = true;
+                    } else {
+                        localStorage.removeItem('freework_admin_key'); // Eliminar clave expirada
+                        rememberMeCheckbox.checked = false;
+                    }
+                } catch (e) {
+                    console.error("Error al parsear la clave de administrador guardada:", e);
+                    localStorage.removeItem('freework_admin_key');
+                    rememberMeCheckbox.checked = false;
+                }
+            } else {
+                rememberMeCheckbox.checked = false;
+            }
         }
 
         /**
@@ -1703,6 +2242,7 @@
             window.showModal('adminLoginPromptModal');
             adminKeyPromptInput.value = ''; // Limpiar el campo de entrada
             adminLoginErrorMessage.classList.add('hidden'); // Ocultar mensajes de error previos
+            rememberMeCheckbox.checked = false; // Por defecto, no recordar para navegaciones
         };
 
         /**
@@ -1712,6 +2252,14 @@
         window.handleAdminLoginPrompt = function() {
             const enteredAdminKey = adminKeyPromptInput.value.trim();
             if (enteredAdminKey === adminKey) {
+                // Si el checkbox "Recordarme" está marcado, guardar la clave en localStorage
+                if (rememberMeCheckbox.checked) {
+                    const expiryTimestamp = Date.now() + REMEMBER_ME_DURATION_MS;
+                    localStorage.setItem('freework_admin_key', JSON.stringify({ key: enteredAdminKey, expiry: expiryTimestamp }));
+                } else {
+                    localStorage.removeItem('freework_admin_key'); // Si no está marcado, eliminar cualquier clave guardada
+                }
+
                 window.hideModal('adminLoginPromptModal'); // Ocultar el modal de solicitud de clave
                 if (adminLoginForConsole) {
                     window.showModal('adminModal'); // Mostrar el modal de la consola de administración
@@ -1769,7 +2317,7 @@
                 setTimeout(() => {
                     window.hideModal('customUserLoginModal');
                     // Determinar si la navegación es para un icono del dock (abre en nueva pestaña)
-                    const isDockIcon = ['Inicio', 'Configuración', 'Informes', 'Desplegar', 'Smart', 'Agenda', 'Correo', 'Mensajes', 'Perfil'].includes(pendingNavigationButtonName);
+                    const isDockIcon = ['Inicio', 'Configuración', 'Informes', 'Desplegar', 'Smart', 'Calendario', 'Correo', 'Mensajes', 'Perfil'].includes(pendingNavigationButtonName);
                     handleButtonConnections(pendingNavigationButtonName, isDockIcon);
                     pendingNavigationButtonName = null; // Limpiar la navegación pendiente
                     customUserNameInput.value = ''; // Limpiar campos del formulario
@@ -2078,14 +2626,24 @@
          */
         function handleButtonConnections(buttonName, isDockIcon = false) {
             const buttonConfig = urlMappings[buttonName];
-            if (!buttonConfig || !buttonConfig.connections || buttonConfig.connections.length === 0) {
+            if (!buttonConfig) {
+                console.warn(`Configuración no encontrada para el botón: ${buttonName}.`);
+                return;
+            }
+
+            // Special handling for the Calendar modal
+            if (buttonName === 'Calendario' && buttonConfig.connections[0].url === '#calendarModal') {
+                window.openCalendarModal();
+                return;
+            }
+
+            if (!buttonConfig.connections || buttonConfig.connections.length === 0) {
                 console.warn(`No hay conexiones configuradas para el botón: ${buttonName}.`);
-                // Considerar mostrar un mensaje al usuario aquí si no hay URL configurada
                 window.showConnectionSelectionModal(buttonName, [], isDockIcon); // Mostrar modal vacío con mensaje
                 return;
             }
 
-            // Si solo hay una conexión, navegar directamente
+            // If there's only one connection, navigate directly
             if (buttonConfig.connections.length === 1) {
                 const finalUrl = buttonConfig.connections[0].url;
                 if (isDockIcon) {
@@ -2094,7 +2652,7 @@
                     window.location.href = finalUrl;
                 }
             } else {
-                // Si hay múltiples conexiones, mostrar el modal de selección
+                // If there are multiple connections, show the selection modal
                 window.showConnectionSelectionModal(buttonName, buttonConfig.connections, isDockIcon);
             }
         }
@@ -2274,6 +2832,404 @@
                 });
             }
         }
+
+        // =====================================================================
+        // LÓGICA DEL CALENDARIO (INTEGRADO COMO MODAL)
+        // =====================================================================
+        function initializeCalendar() {
+            const calendarContentContainer = document.getElementById('calendarContentContainer');
+            const closeCalendarModalButton = document.getElementById('closeCalendarModalButton');
+
+            const currentYearDisplay = calendarContentContainer.querySelector('#currentYearDisplay');
+            const monthsGrid = calendarContentContainer.querySelector('#monthsGrid');
+            const prevYearBtn = calendarContentContainer.querySelector('#prevYear');
+            const nextYearBtn = calendarContentContainer.querySelector('#nextYear');
+            const zoomInBtn = calendarContentContainer.querySelector('#zoomIn');
+            const zoomOutBtn = calendarContentContainer.querySelector('#zoomOut');
+            const resetViewBtn = calendarContentContainer.querySelector('#resetView');
+            const calendarMonthOverlay = document.getElementById('calendarMonthOverlay'); // Inner overlay for month zoom
+
+            const calendarMessageModal = document.getElementById('calendarMessageModal');
+            const calendarMessageText = document.getElementById('calendarMessageText');
+            const closeCalendarMessageModalBtn = document.getElementById('closeCalendarMessageModal');
+
+            let currentYear = new Date().getFullYear();
+            let rotationZ = 0;
+            let scaleFactor = 0.75; // Initial scale factor set to 0.75 for better visibility
+            let translateX = 0;
+            let translateY = 0;
+
+            let zoomedMonthElement = null;
+            let originalMonthParent = null;
+            let originalMonthNextSibling = null;
+            let originalYearContainerState = { translateX: 0, translateY: 0, scaleFactor: 1, rotationZ: 0 };
+
+            let isDragging = false;
+            let startX, startY;
+            let startRotationZ, startTranslateX, startTranslateY;
+            let lastX, lastY;
+            let lastTime;
+            let velocityX = 0;
+            let velocityY = 0;
+            let velocityZ = 0;
+
+            let animationFrameId;
+
+            function showCalendarMessage(message) {
+                calendarMessageText.textContent = message;
+                calendarMessageModal.classList.add('show');
+            }
+
+            closeCalendarMessageModalBtn.addEventListener('click', () => {
+                calendarMessageModal.classList.remove('show');
+            });
+
+            function renderMonth(monthIndex, year, monthContainerDiv) {
+                monthContainerDiv.innerHTML = '';
+
+                const today = new Date();
+                const firstDayOfMonth = new Date(year, monthIndex, 1);
+                const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+                const startDayOfWeek = firstDayOfMonth.getDay();
+
+                const monthName = new Date(year, monthIndex).toLocaleString('es-ES', { month: 'long' });
+
+                const monthNameHeader = document.createElement('h3');
+                monthNameHeader.classList.add('month-name');
+                monthNameHeader.textContent = monthName.replace(/\b\w/g, char => char.toUpperCase());
+
+                monthContainerDiv.appendChild(monthNameHeader);
+
+                const weekdaysDiv = document.createElement('div');
+                weekdaysDiv.classList.add('weekdays');
+                const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+                dayNames.forEach(day => {
+                    const span = document.createElement('span');
+                    span.classList.add('weekday-item');
+                    span.textContent = day;
+                    weekdaysDiv.appendChild(span);
+                });
+                monthContainerDiv.appendChild(weekdaysDiv);
+
+                const daysGridDiv = document.createElement('div');
+                daysGridDiv.classList.add('days-grid');
+
+                for (let i = 0; i < startDayOfWeek; i++) {
+                    const emptyCell = document.createElement('span');
+                    emptyCell.classList.add('day-cell', 'empty');
+                    daysGridDiv.appendChild(emptyCell);
+                }
+
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const dayCell = document.createElement('span');
+                    dayCell.classList.add('day-cell');
+                    dayCell.textContent = i;
+                    dayCell.dataset.day = i;
+                    dayCell.dataset.month = monthIndex;
+                    dayCell.dataset.year = year;
+
+                    if (i === today.getDate() && monthIndex === today.getMonth() && year === today.getFullYear()) {
+                        dayCell.classList.add('current-day');
+                    }
+
+                    dayCell.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (!dayCell.classList.contains('empty')) {
+                            showCalendarMessage(`Has seleccionado el ${i} de ${monthNameHeader.textContent} de ${year}.`);
+                        }
+                    });
+
+                    daysGridDiv.appendChild(dayCell);
+                }
+                monthContainerDiv.appendChild(daysGridDiv);
+            }
+
+            function renderYear() {
+                monthsGrid.innerHTML = '';
+                currentYearDisplay.textContent = currentYear;
+
+                for (let i = 0; i < 12; i++) {
+                    const monthCard = document.createElement('div');
+                    monthCard.classList.add('month-card');
+                    renderMonth(i, currentYear, monthCard);
+                    monthCard.addEventListener('click', handleMonthClick);
+                    monthsGrid.appendChild(monthCard);
+                }
+            }
+
+            function applyTransformations() {
+                calendarContentContainer.style.transform = `translate(${translateX}px, ${translateY}px) rotateZ(${rotationZ}deg) scale(${scaleFactor})`;
+            }
+
+            function handleMonthClick(event) {
+                const clickedMonth = event.currentTarget;
+
+                if (zoomedMonthElement) {
+                    if (clickedMonth === zoomedMonthElement) {
+                        zoomOutMonth();
+                    } else {
+                        zoomOutMonth();
+                        setTimeout(() => zoomInMonth(clickedMonth), 550);
+                    }
+                } else {
+                    zoomInMonth(clickedMonth);
+                }
+            }
+
+            function zoomInMonth(monthElement) {
+                originalYearContainerState = {
+                    translateX: translateX,
+                    translateY: translateY,
+                    scaleFactor: scaleFactor,
+                    rotationZ: rotationZ
+                };
+
+                originalMonthParent = monthElement.parentNode;
+                originalMonthNextSibling = monthElement.nextSibling;
+                
+                calendarMonthOverlay.classList.add('show');
+                calendarContentContainer.classList.add('blurred-background');
+
+                document.body.appendChild(monthElement); // Append to body to handle fixed positioning correctly
+                monthElement.classList.add('month-modal-active');
+                zoomedMonthElement = monthElement;
+
+                const monthRect = monthElement.getBoundingClientRect();
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+
+                const targetPercentage = 0.9;
+                const newScaleFactorX = (viewportWidth * targetPercentage) / monthRect.width;
+                const newScaleFactorY = (viewportHeight * targetPercentage) / monthRect.height;
+                const newScaleFactor = Math.min(newScaleFactorX, newScaleFactorY);
+
+                monthElement.style.transform = `translate(-50%, -50%) scale(${newScaleFactor})`;
+            }
+
+            function zoomOutMonth() {
+                if (!zoomedMonthElement) return;
+
+                calendarMonthOverlay.classList.remove('show');
+                calendarContentContainer.classList.remove('blurred-background');
+
+                zoomedMonthElement.classList.remove('month-modal-active');
+
+                if (originalMonthNextSibling) {
+                    originalMonthParent.insertBefore(zoomedMonthElement, originalMonthNextSibling);
+                } else {
+                    originalMonthParent.appendChild(zoomedMonthElement);
+                }
+
+                zoomedMonthElement.style.transform = '';
+
+                translateX = originalYearContainerState.translateX;
+                translateY = originalYearContainerState.translateY;
+                scaleFactor = originalYearContainerState.scaleFactor;
+                rotationZ = originalYearContainerState.rotationZ;
+                
+                calendarContentContainer.style.transition = 'transform 0.5s ease-in-out';
+                applyTransformations();
+
+                zoomedMonthElement = null;
+            }
+
+            calendarMonthOverlay.addEventListener('click', () => {
+                if (zoomedMonthElement) {
+                    zoomOutMonth();
+                }
+            });
+
+            closeCalendarModalButton.addEventListener('click', () => {
+                if (zoomedMonthElement) {
+                    zoomOutMonth();
+                    setTimeout(() => {
+                        window.hideModal('calendarModalOverlay');
+                    }, 550); // Delay hiding the main modal until month zoom-out animation finishes
+                } else {
+                    window.hideModal('calendarModalOverlay');
+                }
+            });
+
+            prevYearBtn.addEventListener('click', () => {
+                if (zoomedMonthElement) return;
+                currentYear--;
+                renderYear();
+            });
+
+            nextYearBtn.addEventListener('click', () => {
+                if (zoomedMonthElement) return;
+                currentYear++;
+                renderYear();
+            });
+
+            zoomInBtn.addEventListener('click', () => {
+                if (zoomedMonthElement) return;
+                scaleFactor = Math.min(scaleFactor + 0.1, 2.0);
+                applyTransformations();
+            });
+
+            zoomOutBtn.addEventListener('click', () => {
+                if (zoomedMonthElement) return;
+                scaleFactor = Math.max(scaleFactor - 0.1, 0.2);
+                applyTransformations();
+            });
+
+            resetViewBtn.addEventListener('click', () => {
+                if (zoomedMonthElement) {
+                    zoomOutMonth();
+                    setTimeout(() => {
+                        rotationZ = 0;
+                        scaleFactor = 0.75; // Reset to the new default smaller scale
+                        translateX = 0;
+                        translateY = 0;
+                        calendarContentContainer.style.transition = 'transform 0.5s ease-out';
+                        applyTransformations();
+                    }, 600);
+                } else {
+                    rotationZ = 0;
+                    scaleFactor = 0.75; // Reset to the new default smaller scale
+                    translateX = 0;
+                    translateY = 0;
+                    calendarContentContainer.style.transition = 'transform 0.5s ease-out';
+                    applyTransformations();
+                }
+            });
+
+            calendarContentContainer.addEventListener('mousedown', (e) => {
+                if (zoomedMonthElement) return;
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                lastX = e.clientX;
+                lastY = e.clientY;
+                lastTime = Date.now();
+                startRotationZ = rotationZ;
+                startTranslateX = translateX;
+                startTranslateY = translateY;
+                velocityX = 0;
+                velocityY = 0;
+                velocityZ = 0;
+                calendarContentContainer.style.transition = 'none';
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging || zoomedMonthElement) return;
+                const currentTime = Date.now();
+                const deltaX = e.clientX - lastX;
+                const deltaY = e.clientY - lastY;
+                const deltaTime = currentTime - lastTime;
+
+                // Update velocities for inertia
+                if (deltaTime > 0) {
+                    velocityX = deltaX / deltaTime;
+                    velocityY = deltaY / deltaTime;
+                }
+
+                translateX += deltaX / scaleFactor;
+                translateY += deltaY / scaleFactor;
+
+                lastX = e.clientX;
+                lastY = e.clientY;
+                lastTime = currentTime;
+
+                applyTransformations();
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    // Start inertia animation
+                    animationFrameId = requestAnimationFrame(animateInertia);
+                }
+            });
+
+            // Touch events for mobile dragging/rotation
+            calendarContentContainer.addEventListener('touchstart', (e) => {
+                if (zoomedMonthElement) return;
+                isDragging = true;
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                lastX = e.touches[0].clientX;
+                lastY = e.touches[0].clientY;
+                lastTime = Date.now();
+                startRotationZ = rotationZ;
+                startTranslateX = translateX;
+                startTranslateY = translateY;
+                velocityX = 0;
+                velocityY = 0;
+                velocityZ = 0;
+                calendarContentContainer.style.transition = 'none';
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+            }, { passive: false }); // Use passive: false to allow preventDefault
+
+            calendarContentContainer.addEventListener('touchmove', (e) => {
+                if (!isDragging || zoomedMonthElement) return;
+                e.preventDefault(); // Prevent scrolling the page
+                const currentTime = Date.now();
+                const deltaX = e.touches[0].clientX - lastX;
+                const deltaY = e.touches[0].clientY - lastY;
+                const deltaTime = currentTime - lastTime;
+
+                if (deltaTime > 0) {
+                    velocityX = deltaX / deltaTime;
+                    velocityY = deltaY / deltaTime;
+                }
+
+                translateX += deltaX / scaleFactor;
+                translateY += deltaY / scaleFactor;
+
+                lastX = e.touches[0].clientX;
+                lastY = e.touches[0].clientY;
+                lastTime = currentTime;
+
+                applyTransformations();
+            }, { passive: false });
+
+            calendarContentContainer.addEventListener('touchend', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    animationFrameId = requestAnimationFrame(animateInertia);
+                }
+            });
+
+            // Wheel event for zoom
+            calendarContentContainer.addEventListener('wheel', (e) => {
+                if (zoomedMonthElement) return;
+                e.preventDefault();
+                const scaleAmount = e.deltaY * -0.001; // Adjust sensitivity
+                scaleFactor = Math.max(0.2, Math.min(2.0, scaleFactor + scaleAmount));
+                applyTransformations();
+            });
+
+            function animateInertia() {
+                if (Math.abs(velocityX) > 0.01 || Math.abs(velocityY) > 0.01 || Math.abs(velocityZ) > 0.01) {
+                    translateX += velocityX * 16; // Multiply by a factor for smoother deceleration
+                    translateY += velocityY * 16;
+                    rotationZ += velocityZ * 16;
+
+                    velocityX *= 0.95; // Friction
+                    velocityY *= 0.95;
+                    velocityZ *= 0.95;
+
+                    applyTransformations();
+                    animationFrameId = requestAnimationFrame(animateInertia);
+                } else {
+                    cancelAnimationFrame(animationFrameId);
+                }
+            }
+
+            renderYear(); // Initial render of the calendar
+        }
+
+        window.openCalendarModal = function() {
+            window.showModal('calendarModalOverlay');
+            initializeCalendar(); // Initialize calendar logic when modal is opened
+        };
 
         // =====================================================================
         // INICIALIZACIÓN DE LA APLICACIÓN
