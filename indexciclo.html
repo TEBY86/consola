@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciclos de Facturación WOM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f2f5 0%, #d1d9e6 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            width: 450px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        .header {
+            color: #5d2e8c;
+            font-size: 2em;
+            margin-bottom: 25px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #5d2e8c;
+            padding-bottom: 10px;
+        }
+        .input-group {
+            margin: 20px 0;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            color: #5d2e8c;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .date-row {
+            display: flex;
+            gap: 15px;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            background: #fff;
+            color: #333;
+            appearance: none;
+            cursor: pointer;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: 'Roboto', sans-serif;
+        }
+        select:focus {
+            outline: none;
+            border-color: #8a4af3;
+            box-shadow: 0 0 5px rgba(138, 74, 243, 0.5);
+        }
+        button {
+            background: linear-gradient(90deg, #5d2e8c 0%, #8a4af3 100%);
+            color: #fff;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-top: 15px;
+            width: 100%;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(93, 46, 140, 0.4);
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border-left: 5px solid #5d2e8c;
+            display: block;
+            animation: fadeIn 0.4s ease-in;
+        }
+        .result p {
+            margin: 10px 0;
+            color: #444;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        .result strong {
+            color: #5d2e8c;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .info-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(90deg, #5d2e8c 0%, #8a4af3 100%);
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            width: 80px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 5px 15px rgba(93, 46, 140, 0.4);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+        .info-button:hover {
+            transform: scale(1.1);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            z-index: 1001;
+            text-align: left;
+            border: 1px solid #e0e0e0;
+        }
+        .modal h3 {
+            color: #5d2e8c;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .modal table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        .modal th, .modal td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .modal th {
+            background: #f9f9f9;
+            color: #5d2e8c;
+            font-weight: 600;
+        }
+        .modal .close {
+            background: #5d2e8c;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+        }
+        .modal .close:hover {
+            background: #4a236e;
+        }
+        @media (max-width: 480px) {
+            .container {
+                width: 100%;
+                padding: 20px;
+            }
+            .date-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .info-button {
+                bottom: 10px;
+                right: 10px;
+                width: 70px;
+                height: 35px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Ciclos de Facturación WOM</div>
+        <div class="input-group">
+            <label>Fecha de Instalación</label>
+            <div class="date-row">
+                <select id="day">
+                    <option value="">Día</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15" selected>15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
+                </select>
+                <select id="month">
+                    <option value="">Mes</option>
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6" selected>Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+            </div>
+        </div>
+        <div class="button-group">
+            <button onclick="calculateCycle()">Calcular Ciclo</button>
+        </div>
+        <div id="result" class="result">
+            <p><strong>Servicio:</strong> Móvil y Fibra</p>
+            <p><strong>Período de Contratación:</strong> <span id="period">Del 14 al 23</span></p>
+            <p><strong>Ciclo Asignado:</strong> <span id="cycle">26</span></p>
+            <p><strong>Vencimiento:</strong> <span id="dueDate">15</span></p>
+        </div>
+    </div>
+    <button class="info-button" onclick="showModal()">Info</button>
+    <div id="modal" class="modal">
+        <h3>Ciclos de Facturación</h3>
+        <table>
+            <tr>
+                <th>Período de Contratación</th>
+                <th>Ciclo Asignado</th>
+                <th>Vencimiento</th>
+            </tr>
+            <tr>
+                <td>Del 30/31 al 04</td>
+                <td>07</td>
+                <td>03</td>
+            </tr>
+            <tr>
+                <td>Del 05 al 13</td>
+                <td>16</td>
+                <td>05</td>
+            </tr>
+            <tr>
+                <td>Del 14 al 23</td>
+                <td>26</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>Del 24 al 29</td>
+                <td>01</td>
+                <td>20</td>
+            </tr>
+        </table>
+        <button class="close" onclick="hideModal()">Cerrar</button>
+    </div>
+
+    <script>
+        function calculateCycle() {
+            const day = parseInt(document.getElementById('day').value);
+            const month = parseInt(document.getElementById('month').value);
+            let period, cycle, dueDate;
+
+            if (!day || !month) {
+                alert('Por favor, seleccione un día y un mes.');
+                return;
+            }
+
+            if ((day >= 1 && day <= 4) || (day >= 30 && day <= 31)) {
+                period = 'Del 30/31 al 04';
+                cycle = 07;
+                dueDate = '03';
+            } else if (day >= 5 && day <= 13) {
+                period = 'Del 05 al 13';
+                cycle = 16;
+                dueDate = '05';
+            } else if (day >= 14 && day <= 23) {
+                period = 'Del 14 al 23';
+                cycle = 26;
+                dueDate = '15';
+            } else if (day >= 24 && day <= 29) {
+                period = 'Del 24 al 29';
+                cycle = 01;
+                dueDate = '20';
+            } else {
+                alert('Fecha fuera del rango de ciclos. Intente nuevamente.');
+                return;
+            }
+
+            document.getElementById('period').textContent = period;
+            document.getElementById('cycle').textContent = cycle;
+            document.getElementById('dueDate').textContent = dueDate;
+        }
+
+        function showModal() {
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function hideModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Pre-fill and calculate on load
+        window.onload = function() {
+            document.getElementById('day').value = '15';
+            document.getElementById('month').value = '6';
+            calculateCycle();
+        };
+
+        // Close modal if clicked outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

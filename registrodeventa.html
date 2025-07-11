@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ingreso de Ventas Eléctrico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Base para el cuerpo y el fondo completamente transparente */
+        body {
+            background-color: transparent !important; /* Asegura transparencia total */
+            margin: 0;
+            padding: 0;
+            display: flex; /* Asegura que el contenido se centre */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif; /* Asegura que Inter sea la fuente principal */
+            overflow-x: hidden; /* Previene el scroll horizontal */
+        }
+
+        /* Contenedor principal del formulario con fondo blanco sólido y sombra destacada */
+        .form-container {
+            background-color: white; /* Blanco sólido para el efecto "PNG" */
+            border-radius: 1.5rem; /* Esquinas redondeadas del contenedor principal */
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25); /* Sombra más grande y oscura para efecto flotante */
+            padding: 2.5rem; /* Padding generoso */
+            max-width: 500px;
+            width: 100%;
+            animation: bubbleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; /* Animación de entrada */
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Estilos para los campos de entrada */
+        .input-field {
+            background-color: #f9fafb; /* Fondo muy claro para los inputs */
+            border: 1px solid #d1d5db; /* Borde ligeramente más oscuro y definido */
+            color: #333; /* Color de texto oscuro */
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.06); /* Sutil sombra interna para profundidad */
+            /* El border-radius ahora se gestiona con clases de Tailwind directamente en el HTML (rounded-lg) */
+        }
+
+        .input-field::placeholder {
+            color: #9ca3af; /* Placeholder gris suave */
+        }
+
+        /* Efecto de luz eléctrica fucsia al pasar el cursor y al enfocar */
+        .input-field:hover {
+            border-color: #FF0080; /* Borde fucsia al pasar el cursor */
+            box-shadow: 0 0 0 3px rgba(255, 0, 128, 0.3), /* Anillo de foco suave */
+                        0 0 15px rgba(255, 0, 128, 0.6); /* Sombra de luz eléctrica */
+        }
+
+        .input-field:focus {
+            background-color: white; /* Blanco sólido al enfocar */
+            border-color: #FF0080; /* Borde fucsia eléctrico al enfocar */
+            box-shadow: 0 0 0 3px rgba(255, 0, 128, 0.3), /* Anillo de foco suave */
+                        0 0 20px rgba(255, 0, 128, 0.8); /* Sombra de luz eléctrica más intensa al enfocar */
+        }
+
+        /* Estilos para los botones */
+        .btn-primary {
+            background: linear-gradient(45deg, #FF0080, #E60073); /* Degradado fucsia eléctrico vibrante */
+            color: white;
+            font-weight: 700; /* Más audaz */
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(255, 0, 128, 0.4); /* Sombra fucsia más pronunciada */
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #E60073, #FF0080); /* Invierte el degradado al pasar el ratón */
+            transform: translateY(-4px); /* Efecto de elevación más notorio */
+            box-shadow: 0 15px 30px rgba(255, 0, 128, 0.6); /* Sombra más grande al pasar el ratón */
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #3B82F6, #2563EB); /* Degradado azul profesional */
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(45deg, #2563EB, #3B82F6);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(59, 130, 246, 0.6);
+        }
+
+        /* Nuevo estilo para el botón de copiar (verde) */
+        .btn-copy {
+            background: linear-gradient(45deg, #10B981, #059669); /* Degradado verde vibrante */
+            color: white;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4); /* Sombra verde */
+        }
+
+        .btn-copy:hover {
+            background: linear-gradient(45deg, #059669, #10B981);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.6);
+        }
+
+        .btn-close {
+            background-color: #6B7280; /* Gris oscuro para cerrar */
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-close:hover {
+            background-color: #4B5563;
+            transform: translateY(-2px);
+        }
+
+        /* Notificación estilo burbuja mejorada */
+        .bubble-notification {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* Sombra más suave */
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            max-width: 90%;
+            opacity: 0;
+            pointer-events: none;
+            font-weight: 500;
+            color: #333;
+        }
+        .bubble-notification.success {
+            background-color: #10B981; /* Verde éxito */
+            color: white;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+        .bubble-notification.error {
+            background-color: #EF4444; /* Rojo error */
+            color: white;
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+        }
+        .bubble-notification svg {
+            margin-right: 0.75rem;
+            min-width: 24px;
+            min-height: 24px;
+        }
+
+        /* Modal mejorado */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        .modal-content-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); /* Sombra más grande */
+            animation: bubbleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Estilos para el Switch de 3 opciones */
+        .company-switch {
+            display: flex;
+            background-color: #f0f2f5; /* Fondo del switch */
+            border-radius: 0.75rem; /* Bordes redondeados */
+            padding: 0.25rem;
+            gap: 0.25rem; /* Espacio entre opciones */
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Sombra interna sutil */
+        }
+
+        .company-switch label {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem 0.5rem; /* Ajusta padding */
+            font-weight: 600;
+            color: #6b7280; /* Texto gris por defecto */
+            cursor: pointer;
+            border-radius: 0.625rem; /* Bordes redondeados de las opciones */
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            font-size: 0.875rem; /* Texto más pequeño para adaptarse */
+        }
+
+        .company-switch input[type="radio"] {
+            display: none; /* Oculta el input de radio nativo */
+        }
+
+        /* Estilo cuando una opción está seleccionada (fucsia eléctrico con luz) */
+        .company-switch input[type="radio"]:checked + label {
+            background: linear-gradient(45deg, #FF0080, #E60073); /* Degradado fucsia eléctrico */
+            color: white; /* Texto blanco */
+            /* Aumentar el brillo: mayor spread y una sombra de texto */
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.8), /* Sombra de luz más grande y opaca */
+                        inset 0 1px 3px rgba(255, 255, 255, 0.2); /* Sombra interna blanca */
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.7); /* Sombra de texto para efecto de brillo */
+            transform: translateY(-1px); /* Pequeña elevación */
+        }
+
+        /* Custom Select Styles */
+        .custom-select-container {
+            position: relative;
+        }
+
+        #customSelectDisplay {
+            /* Inherits input-field styles */
+            cursor: pointer;
+            user-select: none; /* Prevent text selection on click */
+        }
+
+        #customSelectDisplay.active {
+            border-color: #FF0080;
+            box-shadow: 0 0 0 3px rgba(255, 0, 128, 0.3), 0 0 20px rgba(255, 0, 128, 0.8);
+        }
+        #customSelectDisplay.active svg {
+            transform: rotate(180deg); /* Rotate arrow when open */
+        }
+
+        .custom-select-options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #e5e7eb; /* Border for the dropdown list */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Shadow for the dropdown list */
+            animation: fadeIn 0.2s ease-out forwards; /* Fade in animation */
+            max-height: 200px; /* Altura máxima para scroll */
+            overflow-y: auto; /* Scroll si hay muchas opciones */
+            border-radius: 0.5rem; /* ¡Ahora rounded-lg para la lista! */
+            overflow: hidden; /* Asegura que el contenido se recorte con el borde redondeado */
+        }
+
+        .custom-select-options-list li {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .custom-select-options-list li:hover {
+            background-color: #f0f2f5; /* Light background on hover */
+            color: #FF0080; /* Fuchsia text on hover */
+        }
+
+        .custom-select-options-list li.selected {
+            background-color: #FF0080; /* Fuchsia background for selected item */
+            color: white;
+            font-weight: 600;
+        }
+
+
+        /* Ajustes para móviles */
+        @media (max-width: 640px) {
+            .form-container {
+                padding: 1.5rem;
+                border-radius: 1rem;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Sombra más suave en móviles */
+            }
+            .text-mobile {
+                font-size: 1.75rem !important;
+            }
+            .input-field {
+                padding: 0.75rem 1rem !important;
+                font-size: 1rem !important;
+            }
+            .btn-primary, .btn-secondary, .btn-close, .btn-copy { /* Añadido .btn-copy */
+                padding: 0.75rem 1rem !important;
+                font-size: 1rem !important;
+            }
+            .modal-content-card {
+                width: 95% !important;
+                margin: 0.5rem !important;
+                padding: 1.5rem !important;
+            }
+            .bubble-notification {
+                bottom: 1rem;
+                padding: 0.75rem 1.25rem;
+                font-size: 0.9rem;
+            }
+            .bubble-notification svg {
+                width: 20px;
+                height: 20px;
+                margin-right: 0.5rem;
+            }
+            .company-switch label {
+                padding: 0.6rem 0.4rem; /* Ajuste para texto más pequeño en móvil */
+                font-size: 0.8rem;
+            }
+            .custom-select-options-list li {
+                font-size: 0.9rem; /* Ajuste para móviles */
+            }
+            /* Asegurar redondeo de 1rem para móviles en la lista de opciones */
+            .custom-select-options-list {
+                border-radius: 1rem; 
+            }
+        }
+
+        /* Keyframes y animaciones del usuario, ligeramente ajustados para consistencia */
+        @keyframes liftUp {
+            from { transform: scale(1); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); }
+            to { transform: scale(0.98); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 2px 2px rgba(0, 0, 0, 0.1); }
+        }
+        @keyframes bubbleIn {
+            from { transform: translateY(20px) scale(0.9); opacity: 0; }
+            80% { transform: translateY(-5px) scale(1.02); }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        @keyframes bubbleOut {
+            from { transform: translateY(0) scale(1); opacity: 1; }
+            to { transform: translateY(-20px) scale(0.9); opacity: 0; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .ios-btn {
+            transition: all 0.15s ease;
+            transform-origin: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .ios-btn:active {
+            animation: liftUp 0.15s ease-out forwards;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF0080', // Fuchsia Eléctrico
+                        'primary-dark': '#E60073', // Fuchsia Eléctrico más oscuro para hover
+                        accent: '#3B82F6', // Azul profesional para el segundo botón
+                        'accent-dark': '#2563EB', // Azul más oscuro para hover
+                        success: '#10B981', // Verde éxito
+                        error: '#EF4444', // Rojo error
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'embossed': 'inset 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.1)',
+                        'hover-embossed': '0 10px 25px rgba(255, 0, 128, 0.6)', // Sombra fucsia para hover
+                        'ios': '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)',
+                        'ios-active': '0 2px 4px rgba(0, 0, 0, 0.1), inset 0 2px 2px rgba(0, 0, 0, 0.1)',
+                        'floating': '0 25px 50px rgba(0, 0, 0, 0.25)', // Sombra más pronunciada para el contenedor
+                    },
+                    keyframes: {
+                        liftUp: {
+                            '0%': { transform: 'scale(1)', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)' },
+                            '100%': { transform: 'scale(0.98)', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1), inset 0 2px 2px rgba(0, 0, 0, 0.1)' },
+                        },
+                        bubbleIn: {
+                            '0%': { transform: 'translateY(20px) scale(0.9)', opacity: '0' },
+                            '80%': { transform: 'translateY(-5px) scale(1.02)' },
+                            '100%': { transform: 'translateY(0) scale(1)', opacity: '1' },
+                        },
+                        bubbleOut: {
+                            '0%': { transform: 'translateY(0) scale(1)', opacity: '1' },
+                            '100%': { transform: 'translateY(-20px) scale(0.9)', opacity: '0' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    },
+                    animation: {
+                        'ios-press': 'liftUp 0.15s ease-out forwards',
+                        'bubble-in': 'bubbleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                        'bubble-out': 'bubbleOut 0.2s ease-in forwards',
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body>
+    <!-- Se eliminó el div de fondo para un efecto transparente -->
+
+    <div class="form-container rounded-3xl w-full max-w-md">
+        <!-- Logo animado sutil -->
+        <div class="flex justify-center mb-6 sm:mb-8">
+            <!-- Reemplaza esta URL con la de tu GIF animado. Asegúrate de que sea sutil y profesional. -->
+            <img src="https://i.giphy.com/media/v1.gif?cid=ecf05e478v2x3z6y4w5e6r7t8u9i0j1k2l3m4n5o6p7q8r9s0&ep=v1_gifs_search&rid=v1.gif&ct=g" 
+                 alt="Logo animado" 
+                 class="w-24 h-24 rounded-full shadow-md object-cover animate-fade-in"
+                 onerror="this.onerror=null;this.src='https://placehold.co/96x96/E60073/ffffff?text=LOGO';"
+            >
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6 sm:mb-8 text-center text-mobile">Ingreso de Ventas</h1>
+        
+        <!-- Formulario de Ingreso -->
+        <div id="salesFormContainer" class="space-y-5 sm:space-y-7">
+            <div>
+                <label for="executiveNameSelect" class="block text-sm font-medium text-gray-800 mb-1">Nombre de Ejecutivo</label>
+                <!-- Custom Select HTML -->
+                <div class="custom-select-container relative">
+                    <div id="customSelectDisplay" class="input-field cursor-pointer flex items-center justify-between py-2.5 sm:py-3.5 px-4 rounded-lg" tabindex="0">
+                        <span id="selectedExecutiveName">Seleccione su nombre</span>
+                        <svg class="w-4 h-4 text-gray-500 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <ul id="customSelectOptions" class="absolute z-20 w-full bg-white rounded-lg shadow-lg mt-1 hidden custom-select-options-list">
+                        <!-- Options will be dynamically inserted here by JavaScript -->
+                    </ul>
+                </div>
+                <input type="hidden" id="selectedExecutiveRut"> <!-- Hidden input to store RUT for submission -->
+            </div>
+            <div>
+                <label for="clientRut" class="block text-sm font-medium text-gray-800 mb-1">RUT del Cliente</label>
+                <input type="text" id="clientRut" class="mt-1 block w-full input-field py-2.5 sm:py-3.5 px-4 focus:ring-offset-2 rounded-lg" placeholder="12345678-9" required>
+            </div>
+            <div>
+                <label for="saleId" class="block text-sm font-medium text-gray-800 mb-1">ID de la Venta</label>
+                <input type="text" id="saleId" class="mt-1 block w-full input-field py-2.5 sm:py-3.5 px-4 focus:ring-offset-2 rounded-lg" placeholder="Ingrese ID" required>
+            </div>
+
+            <!-- Nuevo Switch de Empresa -->
+            <div class="mb-6 sm:mb-8">
+                <label class="block text-sm font-medium text-gray-800 mb-2">Modo Empresa</label>
+                <div class="company-switch w-full">
+                    <input type="radio" id="modeWom" name="companyMode" value="WOM" checked>
+                    <label for="modeWom">Modo WOM</label>
+
+                    <input type="radio" id="modeOff" name="companyMode" value="OFF">
+                    <label for="modeOff">OFF</label>
+
+                    <input type="radio" id="modeOtros" name="companyMode" value="OTROS">
+                    <label for="modeOtros">Modo OTROS</label>
+                </div>
+            </div>
+            
+            <button onclick="submitForm()" class="w-full btn-primary py-3 sm:py-4 px-4 rounded-xl font-bold ios-btn">Registrar Venta</button>
+        </div>
+
+        <!-- Formulario de Búsqueda -->
+        <div class="mt-8 sm:mt-10 pt-6 border-t border-gray-200">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Buscar Mis Ventas</h2>
+            <div class="search-container flex flex-col space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row items-center">
+                <!-- Nuevo campo para los últimos 4 dígitos del RUT del Ejecutivo -->
+                <input type="text" id="executiveRutLast4Digits" class="w-full input-field py-2.5 sm:py-3.5 px-4 focus:ring-offset-2 rounded-lg" placeholder="Últimos 4 dígitos de su RUT" maxlength="4" required>
+                <!-- Campo para el RUT del Cliente a buscar -->
+                <input type="text" id="clientRutSearch" class="w-full input-field py-2.5 sm:py-3.5 px-4 focus:ring-offset-2 rounded-lg" placeholder="RUT del Cliente a buscar" required>
+                <button onclick="searchMySales()" class="w-full sm:w-auto btn-secondary py-3 sm:py-3.5 px-6 rounded-xl font-bold ios-btn mt-3 sm:mt-0">Buscar</button>
+            </div>
+        </div>
+
+        <!-- Modal Flotante -->
+        <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 p-4 modal-overlay">
+            <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md modal-content-card">
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 text-center">Detalles de la Venta</h2>
+                <div id="modalData" class="space-y-3 text-gray-700 text-base sm:text-lg">
+                    <!-- Contenido dinámico de la venta se insertará aquí -->
+                </div>
+                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-6">
+                    <button onclick="copyToClipboard()" class="w-full btn-copy py-3 px-4 rounded-xl font-bold ios-btn">Copiar Datos</button>
+                    <button onclick="closeModal()" class="w-full btn-primary py-3 px-4 rounded-xl font-bold ios-btn">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notificación Burbuja -->
+        <div id="bubbleNotification" class="bubble-notification hidden">
+            <svg id="bubbleIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span id="bubbleMessage">Venta registrada exitosamente</span>
+        </div>
+
+        <script>
+            let currentExecutiveRut = ''; // Variable global para almacenar el RUT del ejecutivo seleccionado
+
+            // --- Google Apps Script Bridge (para compatibilidad local y despliegue) ---
+            // Si 'google.script.run' no está definido (ej. al abrir el HTML directamente),
+            // se crean funciones dummy para evitar errores y mostrar mensajes en consola.
+            if (typeof google === 'undefined' || typeof google.script === 'undefined' || typeof google.script.run === 'undefined') {
+                console.warn("¡Advertencia! 'google.script.run' no está definido. Esto es normal si estás abriendo el archivo HTML directamente en tu navegador.");
+                console.warn("Para que la aplicación funcione completamente, debes desplegarla como una Aplicación Web en Google Apps Script.");
+
+                // Funciones dummy para simular google.script.run
+                window.google = {
+                    script: {
+                        run: {
+                            withSuccessHandler: function(callback) {
+                                return {
+                                    withFailureHandler: function(errorCallback) {
+                                        return {
+                                            getExecutives: function() {
+                                                console.log("Simulando getExecutives()... (No funciona sin Apps Script)");
+                                                // Simular datos de ejecutivos para prueba local
+                                                setTimeout(() => {
+                                                    callback([{ name: 'Ejecutivo Demo 1', rut: '11111111-1' }, { name: 'Ejecutivo Demo 2', rut: '22222222-2' }]);
+                                                }, 500);
+                                            },
+                                            addSale: function(data) { // Ahora espera un único array 'data'
+                                                console.log("Simulando addSale() con datos:", data, "(No funciona sin Apps Script)");
+                                                setTimeout(() => {
+                                                    callback(true); // Simular éxito
+                                                }, 500);
+                                            },
+                                            getSalesByClientRutAndExecutive: function(executiveRut, clientRut) {
+                                                console.log(`Simulando getSalesByClientRutAndExecutive(${executiveRut}, ${clientRut})... (No funciona sin Apps Script)`);
+                                                setTimeout(() => {
+                                                    // Simular datos de venta para prueba local
+                                                    if (clientRut === '12345678-9' && executiveRut === '11111111-1') {
+                                                        callback([
+                                                            { 'Nombre de Ejecutivo': 'Ejecutivo Demo 1', 'RUT del Cliente': '12345678-9', 'ID de la Venta': 'V001', 'Empresa': 'WOM', 'Fecha de Registro': '2025-07-05', 'RUT del Ejecutivo': '11111111-1' },
+                                                            { 'Nombre de Ejecutivo': 'Ejecutivo Demo 1', 'RUT del Cliente': '12345678-9', 'ID de la Venta': 'V002', 'Empresa': 'ENTEL', 'Fecha de Registro': '2025-07-06', 'RUT del Ejecutivo': '11111111-1' }
+                                                        ]);
+                                                    } else {
+                                                        callback(null); // Simular no encontrado
+                                                    }
+                                                }, 500);
+                                            }
+                                        };
+                                    }
+                                };
+                            }
+                        }
+                    }
+                };
+            }
+            // --- Fin Google Apps Script Bridge ---
+
+
+            // Función para poblar el dropdown de ejecutivos
+            document.addEventListener('DOMContentLoaded', function() {
+                const customSelectDisplay = document.getElementById('customSelectDisplay');
+                const customSelectOptions = document.getElementById('customSelectOptions');
+                const selectedExecutiveNameSpan = document.getElementById('selectedExecutiveName');
+                
+                // Cargar ejecutivos desde Apps Script
+                google.script.run
+                    .withSuccessHandler(function(executives) {
+                        customSelectOptions.innerHTML = ''; // Limpiar opciones existentes
+                        executives.forEach(executive => {
+                            const li = document.createElement('li');
+                            li.textContent = executive.name;
+                            li.setAttribute('data-rut', executive.rut);
+                            li.onclick = function() {
+                                selectedExecutiveNameSpan.textContent = executive.name;
+                                currentExecutiveRut = executive.rut;
+                                customSelectOptions.classList.add('hidden'); // Ocultar opciones
+                                customSelectDisplay.classList.remove('active'); // Remover clase activa
+                                // Opcional: marcar la opción como seleccionada si se desea visualmente
+                                Array.from(customSelectOptions.children).forEach(item => item.classList.remove('selected'));
+                                li.classList.add('selected');
+                            };
+                            customSelectOptions.appendChild(li);
+                        });
+                        // Si hay ejecutivos, seleccionar el primero por defecto y establecer el RUT
+                        if (executives.length > 0) {
+                            selectedExecutiveNameSpan.textContent = executives[0].name;
+                            currentExecutiveRut = executives[0].rut;
+                            customSelectOptions.children[0].classList.add('selected');
+                        }
+                    })
+                    .withFailureHandler(function(error) {
+                        showBubbleNotification('Error al cargar ejecutivos: ' + error.message, false);
+                    })
+                    .getExecutives();
+
+                // Toggle dropdown visibility
+                customSelectDisplay.onclick = function() {
+                    customSelectOptions.classList.toggle('hidden');
+                    customSelectDisplay.classList.toggle('active');
+                };
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!customSelectDisplay.contains(event.target) && !customSelectOptions.contains(event.target)) {
+                        customSelectOptions.classList.add('hidden');
+                        customSelectDisplay.classList.remove('active');
+                    }
+                });
+            });
+
+            function submitForm() {
+                const executiveName = document.getElementById('selectedExecutiveName').textContent; // Obtener del span
+                const clientRut = document.getElementById('clientRut').value;
+                const saleId = document.getElementById('saleId').value;
+                
+                // Obtener el valor de la empresa desde el switch
+                const companyModeRadios = document.getElementsByName('companyMode');
+                let selectedCompanyMode = '';
+                for (const radio of companyModeRadios) {
+                    if (radio.checked) {
+                        selectedCompanyMode = radio.value;
+                        break;
+                    }
+                }
+
+                let company = '';
+                if (selectedCompanyMode === 'WOM') {
+                    company = 'WOM';
+                } else if (selectedCompanyMode === 'OTROS') {
+                    company = 'ENTEL'; // O cualquier otra empresa por defecto para 'OTROS'
+                } else { // Modo OFF
+                    company = ''; // O podrías poner 'N/A' o similar si no debe ir vacío
+                }
+
+                if (!executiveName || executiveName === 'Seleccione su nombre' || !clientRut || !saleId || selectedCompanyMode === 'OFF') {
+                    showBubbleNotification('Por favor, complete todos los campos y seleccione un modo de empresa válido', false);
+                    return;
+                }
+                
+                // Si el modo es OFF, no enviar la venta o manejarlo como un caso especial
+                if (selectedCompanyMode === 'OFF') {
+                    showBubbleNotification('Modo OFF seleccionado. No se registrará la venta.', false);
+                    return;
+                }
+
+                // Llama a la función addSale en tu script de Google Apps Script
+                // Ahora se envía un único array 'data'
+                google.script.run
+                    .withSuccessHandler(() => {
+                        showBubbleNotification('Venta registrada exitosamente', true);
+                        // Limpiar campos después del éxito
+                        document.getElementById('clientRut').value = '';
+                        document.getElementById('saleId').value = '';
+                    })
+                    .withFailureHandler((error) => {
+                        showBubbleNotification('Error al registrar: ' + error.message, false);
+                    })
+                    .addSale([executiveName, clientRut, saleId, company, currentExecutiveRut]); // Envía un array con todos los datos
+            }
+
+            function searchMySales() { // Renombrada a searchMySales
+                const executiveRutLast4Digits = document.getElementById('executiveRutLast4Digits').value;
+                const clientRutSearch = document.getElementById('clientRutSearch').value;
+
+                console.log("--- Iniciando búsqueda de ventas ---");
+                console.log("RUT de ejecutivo seleccionado (completo):", currentExecutiveRut);
+                console.log("Últimos 4 dígitos ingresados:", executiveRutLast4Digits);
+                console.log("RUT de cliente a buscar:", clientRutSearch);
+
+                if (!currentExecutiveRut || currentExecutiveRut === '') {
+                    showBubbleNotification('Por favor, seleccione su nombre de ejecutivo primero en la sección de Ingreso.', false);
+                    console.error("Error de validación: RUT de ejecutivo no seleccionado.");
+                    return;
+                }
+                if (!executiveRutLast4Digits || executiveRutLast4Digits.length !== 4) {
+                    showBubbleNotification('Por favor, ingrese los últimos 4 dígitos de su RUT.', false);
+                    console.error("Error de validación: Últimos 4 dígitos del RUT de ejecutivo inválidos.");
+                    return;
+                }
+                if (!clientRutSearch) {
+                    showBubbleNotification('Por favor, ingrese el RUT del Cliente a buscar.', false);
+                    console.error("Error de validación: RUT del cliente a buscar vacío.");
+                    return;
+                }
+
+                // Validar que los últimos 4 dígitos ingresados coincidan con el RUT completo del ejecutivo seleccionado
+                const last4OfCurrentRut = currentExecutiveRut.slice(-4);
+                console.log("Últimos 4 dígitos del RUT seleccionado (calculado):", last4OfCurrentRut);
+
+                if (executiveRutLast4Digits !== last4OfCurrentRut) {
+                    showBubbleNotification('Los últimos 4 dígitos de su RUT no coinciden con el ejecutivo seleccionado.', false);
+                    console.error("Error de validación: Los últimos 4 dígitos no coinciden.");
+                    return;
+                }
+
+                console.log("Validación de entrada exitosa. Llamando a Apps Script...");
+                // Llama a la función en tu script de Google Apps Script
+                google.script.run
+                    .withSuccessHandler((result) => {
+                        console.log("Respuesta de Apps Script (éxito):", result);
+                        const modalDataElement = document.getElementById('modalData');
+                        modalDataElement.innerHTML = ''; // Limpiar contenido anterior
+
+                        if (result && result.length > 0) {
+                            result.forEach((sale, index) => {
+                                // Iterar sobre las propiedades del objeto de venta (encabezado: valor)
+                                for (const key in sale) {
+                                    if (Object.hasOwnProperty.call(sale, key)) {
+                                        const p = document.createElement('p');
+                                        p.innerHTML = `<strong class="font-semibold text-gray-800">${key}:</strong> <span>${sale[key]}</span>`;
+                                        modalDataElement.appendChild(p);
+                                    }
+                                }
+                                // Añadir un separador si hay múltiples ventas
+                                if (result.length > 1 && index < result.length - 1) {
+                                    const hr = document.createElement('hr');
+                                    hr.className = 'border-t border-gray-200 my-3';
+                                    modalDataElement.appendChild(hr);
+                                }
+                            });
+                            document.getElementById('modal').classList.remove('hidden');
+                        } else {
+                            showBubbleNotification('No se encontraron ventas para este cliente asociadas a su RUT de Ejecutivo.', false);
+                        }
+                    })
+                    .withFailureHandler((error) => {
+                        console.error("Respuesta de Apps Script (error):", error);
+                        showBubbleNotification('Error al buscar: ' + error.message, false);
+                    })
+                    .getSalesByClientRutAndExecutive(currentExecutiveRut, clientRutSearch); // Pasa el RUT completo del ejecutivo y el RUT del cliente
+            }
+
+            function closeModal() {
+                document.getElementById('modal').classList.add('hidden');
+                document.getElementById('modalData').innerHTML = ''; // Limpiar datos al cerrar
+            }
+
+            function copyToClipboard() {
+                const modalDataElement = document.getElementById('modalData');
+                let textToCopy = '';
+                // Recorre los elementos <p> dentro del modalData y construye el texto
+                Array.from(modalDataElement.children).forEach(element => {
+                    if (element.tagName === 'P') {
+                        textToCopy += element.textContent + '\n';
+                    }
+                });
+
+                // Usa document.execCommand('copy') para compatibilidad con iframes de Apps Script
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = textToCopy.trim(); // Elimina espacios extra al final
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                try {
+                    document.execCommand('copy');
+                    showBubbleNotification('Datos copiados correctamente', true);
+                } catch (err) {
+                    console.error('Error al copiar al portapapeles:', err);
+                    showBubbleNotification('Error al copiar los datos', false);
+                }
+                document.body.removeChild(tempTextArea);
+            }
+            
+            // Función para mostrar notificaciones estilo burbuja
+            function showBubbleNotification(message, isSuccess) {
+                const bubble = document.getElementById('bubbleNotification');
+                const bubbleMessage = document.getElementById('bubbleMessage');
+                const bubbleIcon = document.getElementById('bubbleIcon');
+                
+                bubbleMessage.textContent = message;
+                bubble.classList.remove('success', 'error'); // Limpia clases anteriores
+                
+                if (isSuccess) {
+                    bubble.classList.add('success');
+                    bubbleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />'; // Icono de éxito
+                } else {
+                    bubble.classList.add('error');
+                    bubbleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />'; // Icono de error (una X)
+                }
+                
+                bubble.classList.remove('hidden');
+                bubble.style.animation = 'none';
+                void bubble.offsetWidth; // Trigger reflow
+                bubble.style.animation = 'bubbleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+                
+                setTimeout(() => {
+                    bubble.style.animation = 'bubbleOut 0.2s ease-in forwards';
+                    setTimeout(() => bubble.classList.add('hidden'), 300); // Aumentado a 300ms para que la animación de salida se complete
+                }, 3000);
+            }
+            
+            // Prevenir zoom en iOS al enfocar inputs (se mantiene la lógica del usuario)
+            document.addEventListener('DOMContentLoaded', function() {
+                if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                    const inputs = document.querySelectorAll('input');
+                    inputs.forEach(input => {
+                        input.addEventListener('focus', function() {
+                            this.style.fontSize = '16px';
+                        });
+                        input.addEventListener('blur', function() {
+                            this.style.fontSize = '';
+                        });
+                    });
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>

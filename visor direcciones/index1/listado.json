@@ -1,0 +1,247 @@
+[
+  {
+    "codigo": "buin",
+    "nombre": "Buin",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "cerrillos",
+    "nombre": "Cerrillos",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "cerro_navia",
+    "nombre": "Cerro Navia",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "colina",
+    "nombre": "Colina",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "conchali",
+    "nombre": "Conchalí",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "curacavi",
+    "nombre": "Curacaví",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "el_bosque",
+    "nombre": "El Bosque",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "el_monte",
+    "nombre": "El Monte",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "estacion_central",
+    "nombre": "Estación Central",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "independencia",
+    "nombre": "Independencia",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "la_cisterna",
+    "nombre": "La Cisterna",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "la_florida",
+    "nombre": "La Florida",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "la_granja",
+    "nombre": "La Granja",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "la_pintana",
+    "nombre": "La Pintana",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "la_reina",
+    "nombre": "La Reina",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "lampa",
+    "nombre": "Lampa",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "las_condes",
+    "nombre": "Las Condes",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "limache",
+    "nombre": "Limache",
+    "region": "Región de Valparaíso"
+  },
+  {
+    "codigo": "lo_espejo",
+    "nombre": "Lo Espejo",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "lo_prado",
+    "nombre": "Lo Prado",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "los_andes",
+    "nombre": "Los Andes",
+    "region": "Región de Valparaíso"
+  },
+  {
+    "codigo": "macul",
+    "nombre": "Macul",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "maipu",
+    "nombre": "Maipú",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "melipilla",
+    "nombre": "Melipilla",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "nunoa",
+    "nombre": "Ñuñoa",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "padre_hurtado",
+    "nombre": "Padre Hurtado",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "paine",
+    "nombre": "Paine",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "pedro_aguirre_cerda",
+    "nombre": "Pedro Aguirre Cerda",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "penaflor",
+    "nombre": "Peñaflor",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "penalolen",
+    "nombre": "Peñalolén",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "providencia",
+    "nombre": "Providencia",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "pudahuel",
+    "nombre": "Pudahuel",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "puente_alto",
+    "nombre": "Puente Alto",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "quilicura",
+    "nombre": "Quilicura",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "quillota",
+    "nombre": "Quillota",
+    "region": "Región de Valparaíso"
+  },
+  {
+    "codigo": "quilpue",
+    "nombre": "Quilpué",
+    "region": "Región de Valparaíso"
+  },
+  {
+    "codigo": "quinta_normal",
+    "nombre": "Quinta Normal",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "rancagua",
+    "nombre": "Rancagua",
+    "region": "Región de O'Higgins"
+  },
+  {
+    "codigo": "recoleta",
+    "nombre": "Recoleta",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "renca",
+    "nombre": "Renca",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "rengo",
+    "nombre": "Rengo",
+    "region": "Región de O'Higgins"
+  },
+  {
+    "codigo": "san_bernardo",
+    "nombre": "San Bernardo",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "san_felipe",
+    "nombre": "San Felipe",
+    "region": "Región de Valparaíso"
+  },
+  {
+    "codigo": "san_joaquin",
+    "nombre": "San Joaquín",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "san_miguel",
+    "nombre": "San Miguel",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "san_ramon",
+    "nombre": "San Ramón",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "santiago",
+    "nombre": "Santiago",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "talagante",
+    "nombre": "Talagante",
+    "region": "Región Metropolitana"
+  },
+  {
+    "codigo": "villa_alemana",
+    "nombre": "Villa Alemana",
+    "region": "Región de Valparaíso"
+  }
+]

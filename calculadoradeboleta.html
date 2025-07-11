@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Boletas WOM</title>
+    <!-- Importar la fuente Inter desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* 1. Paleta de Colores & 2. Tipografía */
+        :root {
+            --fucsia-electrico: #FF0080;
+            --fucsia-oscuro-degradado: #E60073;
+            --azul-profesional: #3B82F6;
+            --verde-exito: #10B981;
+            --rojo-error: #EF4444;
+            --gris-input-fondo: #f9fafb;
+            --gris-input-borde: #d1d5db;
+            --gris-texto-general: #333;
+            --gris-placeholder: #9ca3af;
+            --gris-switch-fondo: #f0f2f5;
+            --gris-switch-texto: #6b7280;
+            --gris-cerrar-modal: #6B7280;
+            --color-blanco: white;
+
+            /* Nuevas variables para la modal */
+            --modal-overlay-bg: rgba(0, 0, 0, 0.6);
+            --modal-content-bg: white;
+            --modal-shadow: 0 15px 45px rgba(0, 0, 0, 0.4); /* Sombra más pronunciada para la modal */
+
+            /* Variables para el nuevo alert modal */
+            --alert-bg: #fff;
+            --alert-border-color: var(--rojo-error);
+            --alert-text-color: var(--gris-texto-general);
+            --alert-button-bg: var(--rojo-error);
+            --alert-button-hover-bg: #d93025;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: transparent; 
+            background-image: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            border-radius: 1.5rem; /* rounded-3xl */
+            background-color: rgba(255, 255, 255, 0); /* Blanco con 0% de opacidad */
+            backdrop-filter: blur(10px); /* Efecto de desenfoque/cristal esmerilado */
+            -webkit-backdrop-filter: blur(10px); /* Para compatibilidad con Safari */
+            padding: 2.5rem; /* Padding General */
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+
+        h1, h2 {
+            color: var(--gris-texto-general);
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 800; /* ExtraBold para títulos */
+        }
+
+        /* --- Estilo de Campos de Entrada --- */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--gris-texto-general);
+            font-size: 0.95em;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--gris-input-borde);
+            background-color: var(--gris-input-fondo);
+            font-size: 1em;
+            color: var(--gris-texto-general);
+            box-sizing: border-box;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .input-group input::placeholder {
+            color: var(--gris-placeholder);
+        }
+
+        .input-group input:hover,
+        .input-group select:hover {
+            border-color: var(--fucsia-electrico);
+            box-shadow: 0 0 0 3px rgba(255, 0, 128, 0.3), 0 0 15px rgba(255, 0, 128, 0.6);
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            background-color: var(--color-blanco);
+            border-color: var(--fucsia-electrico);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 0, 128, 0.3), 0 0 20px rgba(255, 0, 128, 0.8);
+        }
+
+        /* --- Estilo del Botón --- */
+        button {
+            border-radius: 0.75rem;
+            background: linear-gradient(to right, var(--fucsia-electrico), var(--fucsia-oscuro-degradado));
+            color: var(--color-blanco);
+            padding: 1rem 1.5rem;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1.5rem;
+            box-shadow: 0 10px 20px rgba(255, 0, 128, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, var(--fucsia-oscuro-degradado), var(--fucsia-electrico));
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(255, 0, 128, 0.6);
+        }
+
+        button:active {
+            transform: scale(0.98);
+            box-shadow: 0 5px 10px rgba(255, 0, 128, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- Estilo de Resultados --- */
+        #resultados {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed var(--gris-input-borde);
+        }
+
+        .resultado-item {
+            background-color: var(--gris-input-fondo);
+            border-left: 5px solid var(--fucsia-electrico);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 0.75rem;
+            font-size: 1.05em;
+            color: var(--gris-texto-general);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            font-weight: 500;
+        }
+
+        .resultado-item strong {
+            color: var(--fucsia-electrico);
+            font-weight: 700;
+        }
+
+        .resultado-total {
+            background-color: #fff0f5;
+            border: 2px solid var(--fucsia-electrico);
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: 700;
+            padding: 1.25rem 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 1.5rem;
+            color: var(--gris-texto-general);
+        }
+
+        /* --- Tabla de Información de Ciclos (Desktop) --- */
+        .info-table-desktop { /* Clase para la tabla visible en desktop */
+            margin-top: 2.5rem;
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+            font-weight: 400;
+        }
+
+        .info-table-desktop th, .info-table-desktop td {
+            border: 1px solid var(--gris-input-borde);
+            padding: 0.75rem;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .info-table-desktop th {
+            background-color: var(--fucsia-electrico);
+            color: var(--color-blanco);
+            font-weight: 600;
+        }
+
+        .info-table-desktop tr:nth-child(even) {
+            background-color: #fef4f8;
+        }
+
+        /* --- Disclaimer --- */
+        .disclaimer {
+            font-size: 0.85em;
+            color: var(--gris-placeholder);
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 1rem;
+            border-top: 1px dotted var(--gris-input-borde);
+            font-weight: 300;
+        }
+
+        /* --- Estilos de la Ventana Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-overlay-bg); /* Fondo semi-transparente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Asegura que esté por encima de todo */
+            opacity: 0;
+            visibility: hidden;
+            /* Animación de entrada/salida para el overlay */
+            transition: opacity 0.4s ease-out, visibility 0.4s ease-out;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--modal-content-bg);
+            padding: 2rem;
+            padding-top: 4rem; /* Aumentar padding superior para el título y el botón de cierre */
+            border-radius: 1rem; /* Redondeo de la modal */
+            box-shadow: var(--modal-shadow); /* Sombra de la modal */
+            position: relative;
+            width: 90%; /* Ancho responsivo */
+            max-width: 500px; /* Ancho máximo */
+            /* Animación de entrada/salida para el contenido de la modal */
+            transform: scale(0.9) translateY(50px); /* Comienza más pequeño y más bajo */
+            opacity: 0;
+            transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0); /* Escala a tamaño normal y sube a su posición */
+            opacity: 1;
+        }
+
+        .modal-close-button {
+            position: absolute;
+            top: 25px; /* Ajustar posición para que no se superponga al título */
+            right: 25px; /* Ajustar posición */
+            background: none;
+            border: none;
+            font-size: 1.8em; /* Tamaño más grande para el botón de cierre */
+            cursor: pointer;
+            color: var(--gris-cerrar-modal);
+            font-weight: 300; /* Ligero */
+            transition: color 0.2s ease;
+        }
+
+        .modal-close-button:hover {
+            color: var(--fucsia-electrico); /* Color al pasar el ratón */
+        }
+
+        .modal-title {
+            margin-top: 0; /* Eliminar margin-top, el padding-top del content ya da espacio */
+            margin-bottom: 1.5rem;
+            font-size: 1.5em; /* Ajuste para el título de la modal */
+            text-align: center; /* Centrar el título de la modal */
+            font-weight: 700;
+        }
+
+        /* Estilos de la tabla dentro de la modal (ahora como tabla tradicional con scroll) */
+        .modal-table-content {
+            overflow-x: auto; /* Permite scroll horizontal dentro de la modal si la tabla es muy ancha */
+            padding-bottom: 10px; /* Espacio para la barra de desplazamiento */
+        }
+
+        .modal-table-content .info-table {
+            width: 100%; /* La tabla intenta ocupar el 100% del contenedor */
+            min-width: 350px; /* Asegura un ancho mínimo para la tabla dentro de la modal */
+            border-collapse: collapse;
+            font-size: 0.9em; /* Tamaño de fuente para la tabla dentro de la modal */
+        }
+
+        .modal-table-content .info-table th {
+            white-space: nowrap; /* Evita que el texto se envuelva en los encabezados de la modal */
+        }
+        .modal-table-content .info-table td {
+            white-space: normal; /* Permite que el texto se envuelva en las celdas de la modal */
+        }
+
+        .modal-table-content .info-table th,
+        .modal-table-content .info-table td {
+            border: 1px solid var(--gris-input-borde);
+            padding: 0.6rem; /* Padding de celdas dentro de la modal */
+            text-align: left;
+        }
+        .modal-table-content .info-table th {
+            background-color: var(--fucsia-electrico);
+            color: var(--color-blanco);
+            font-weight: 600;
+        }
+        .modal-table-content .info-table tr:nth-child(even) {
+            background-color: #fef4f8;
+        }
+
+        /* Estilos para el nuevo alert modal */
+        .alert-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-overlay-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001; /* Mayor z-index para estar sobre otras modals */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .alert-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .alert-modal-content {
+            background-color: var(--alert-bg);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            border: 2px solid var(--alert-border-color);
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .alert-modal-overlay.active .alert-modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .alert-modal-message {
+            font-size: 1.1em;
+            color: var(--alert-text-color);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .alert-modal-button {
+            background-color: var(--alert-button-bg);
+            color: var(--color-blanco);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .alert-modal-button:hover {
+            background-color: var(--alert-button-hover-bg);
+        }
+
+
+        /* 7. Responsividad (Ejemplo para móviles) */
+        @media (max-width: 768px) { /* breakpoint ajustado a 768px */
+            body {
+                padding: 10px; /* Reducir padding del body en móviles */
+            }
+            .container {
+                padding: 1.5rem;
+                border-radius: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .input-group label,
+            .input-group input,
+            .input-group select,
+            button,
+            .resultado-item,
+            .disclaimer {
+                font-size: 0.95em;
+            }
+
+            button {
+                padding: 0.9rem 1.25rem;
+            }
+
+            .resultado-total {
+                font-size: 1.2em;
+                padding: 1rem 1.25rem;
+            }
+
+            /* Ocultar la tabla normal de escritorio */
+            .info-table-desktop {
+                display: none;
+            }
+            .info-table-desktop-title { /* Ocultar el título de escritorio en móvil */
+                display: none;
+            }
+
+            /* Mostrar la sección móvil con el título y el botón */
+            .mobile-info-section {
+                display: block; /* Muestra la sección móvil */
+                margin-top: 2.5rem;
+            }
+            .mobile-info-section h2 {
+                margin-bottom: 1rem; /* Ajuste de margen para el título móvil */
+            }
+            .mobile-info-section p {
+                font-size: 0.9em; /* Ajuste de fuente para la instrucción */
+                margin-bottom: 1rem;
+            }
+            #openInfoModalBtn {
+                margin-top: 0.5rem; /* Ajuste de margen para el botón móvil */
+            }
+            
+            .modal-content {
+                width: 95%; /* Aumentar el ancho de la modal en móviles */
+                padding: 1.5rem; /* Reducir padding de la modal en pantallas pequeñas */
+                padding-top: 3rem; /* Ajustar padding superior de la modal en móvil */
+            }
+            .modal-title {
+                font-size: 1.3em; /* Ajustar tamaño de título de la modal en móvil */
+                margin-top: 0; /* Eliminar margin-top, el padding-top del content ya da espacio */
+            }
+            .modal-close-button {
+                top: 20px; /* Ajustar posición del botón de cierre en móvil */
+                right: 20px;
+            }
+            .modal-table-content .info-table {
+                font-size: 0.8em; /* Ajustar tamaño de fuente de la tabla en la modal en móvil */
+                min-width: 300px; /* Ajuste para que la tabla no sea demasiado pequeña, permitiendo scroll */
+            }
+            .modal-table-content .info-table th,
+            .modal-table-content .info-table td {
+                padding: 0.4rem; /* Ajustar padding de celdas en la modal en móvil */
+            }
+
+            /* Alert modal responsive adjustments */
+            .alert-modal-content {
+                padding: 1rem;
+                max-width: 300px;
+            }
+            .alert-modal-message {
+                font-size: 1em;
+            }
+            .alert-modal-button {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9em;
+            }
+        }
+
+        /* Ajustes adicionales para pantallas muy pequeñas (ej. iPhone SE) */
+        @media (max-width: 375px) {
+            .container {
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 1.6em;
+            }
+            .input-group label,
+            .input-group input,
+            .input-group select,
+            button,
+            .resultado-item,
+            .disclaimer {
+                font-size: 0.9em;
+            }
+            .resultado-total {
+                font-size: 1.1em;
+            }
+            .modal-content {
+                padding: 1rem; /* Más reducción de padding en la modal */
+                padding-top: 2.5rem; /* Ajustar padding superior de la modal en pantallas muy pequeñas */
+            }
+            .modal-title {
+                font-size: 1.2em;
+                margin-top: 0; /* Asegurar que no haya margin-top */
+            }
+            .modal-close-button {
+                top: 15px; /* Ajustar posición del botón de cierre en pantallas muy pequeñas */
+                right: 15px;
+            }
+            .modal-table-content .info-table {
+                font-size: 0.75em; /* Fuente aún más pequeña para la tabla en la modal */
+                min-width: 260px; /* Ancho mínimo para pantallas muy estrechas */
+            }
+            .modal-table-content .info-table th,
+            .modal-table-content .info-table td {
+                padding: 0.3rem; /* Padding mínimo para celdas de tabla en la modal */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Boletas WOM</h1>
+        <p class="disclaimer" style="margin-top: -15px; margin-bottom: 25px; font-size: 0.9em; color: var(--gris-placeholder); text-align: center; font-weight: 400;">
+            Estima el valor de tus primeras boletas según la lógica de facturación de WOM.
+        </p>
+        <div class="input-group">
+            <label for="planMonto">Monto del Plan Mensual (sin descuentos iniciales):</label>
+            <input type="number" id="planMonto" placeholder="Ej: 20990">
+        </div>
+
+        <div class="input-group">
+            <label for="descuentoMesCompleto">Monto Descuento del Mes Completo (recurrente):</label>
+            <input type="number" id="descuentoMesCompleto" placeholder="Ej: 6000">
+        </div>
+
+        <div class="input-group">
+            <label for="diaInstalacion">Día de Instalación:</label>
+            <input type="number" id="diaInstalacion" min="1" max="31" placeholder="Ej: 17">
+        </div>
+
+        <div class="input-group">
+            <label for="mesInstalacion">Mes de Instalación:</label>
+            <select id="mesInstalacion">
+                <option value="">Selecciona un mes</option>
+                <option value="1">Enero</option>
+                <option value="2">Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+            </select>
+        </div>
+
+        <button onclick="calcularBoletas()">Calcular Boletas</button>
+
+        <div id="resultados">
+            <h2>Resultados Estimados</h2>
+            <div id="infoCiclo" class="resultado-item" style="display:none;"></div>
+            <div id="desglosePrimeraBoleta" style="display:none;">
+                <h3>Desglose Primera Boleta</h3>
+                <p>Periodo Proporcional (<span id="periodoProp"></span>): <strong id="montoProp"></strong></p>
+                <p>Cobro Adelantado Mes Completo (<span id="mesSiguienteNombre"></span>): <strong id="montoMesSiguiente"></strong></p>
+            </div>
+            <div id="totalPrimeraBoleta" class="resultado-total" style="display:none;"></div>
+            <div id="segundaBoleta" class="resultado-item" style="display:none;"></div>
+        </div>
+
+        <!-- Sección de Información de Ciclos para Desktop -->
+        <h2 style="margin-top: 40px;" class="info-table-desktop-title">Información de Ciclos de Facturación WOM</h2>
+        <div class="info-table-desktop"> <!-- Contenedor para la tabla visible en desktop -->
+            <table class="info-table-desktop">
+                <thead>
+                    <tr>
+                        <th>Período de Contratación</th>
+                        <th>Ciclo Asignado</th>
+                        <th>Vencimiento Estimado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Del 30/31 al 04</td>
+                        <td>07</td>
+                        <td>Día 03 del mes siguiente</td>
+                    </tr>
+                    <tr>
+                        <td>Del 05 al 13</td>
+                        <td>16</td>
+                        <td>Día 05 del mes siguiente</td>
+                    </tr>
+                    <tr>
+                        <td>Del 14 al 23</td>
+                        <td>26</td>
+                        <td>Día 15 del mes siguiente</td>
+                    </tr>
+                    <tr>
+                        <td>Del 24 al 29</td>
+                        <td>01</td>
+                        <td>Día 20 del mes siguiente</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Sección de Información de Ciclos para Móvil (con botón de modal) -->
+        <div class="mobile-info-section"> <!-- Este div se mostrará/ocultará por CSS -->
+            <h2 style="margin-top: 40px; text-align: center;">Información de Ciclos de Facturación WOM</h2>
+            <p style="text-align: center; margin-bottom: 1rem; color: var(--gris-texto-general);">
+                Haz clic para ver los detalles de facturación en tu móvil:
+            </p>
+            <button id="openInfoModalBtn" type="button" onclick="openInfoModal()">Ver Ciclos de Facturación</button>
+        </div>
+
+        <p class="disclaimer">
+            *Esta calculadora ofrece una estimación basada en la lógica de facturación explicada. Los valores reales pueden variar ligeramente debido a decimales, cargos adicionales o ajustes específicos de WOM. Siempre revisa tu boleta oficial.
+        </p>
+    </div>
+
+    <!-- Ventana Modal de Información de Ciclos -->
+    <div id="infoModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-button" onclick="closeInfoModal()">&times;</button>
+            <h2 class="modal-title">Información de Ciclos de Facturación WOM</h2>
+            <div class="modal-table-content">
+                <table class="info-table"> <!-- Usamos la clase info-table para mantener el estilo base de la tabla -->
+                    <thead>
+                        <tr>
+                            <th>Período de Contratación</th>
+                            <th>Ciclo Asignado</th>
+                            <th>Vencimiento Estimado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Del 30/31 al 04</td>
+                            <td>07</td>
+                            <td>Día 03 del mes siguiente</td>
+                        </tr>
+                        <tr>
+                            <td>Del 05 al 13</td>
+                            <td>16</td>
+                            <td>Día 05 del mes siguiente</td>
+                        </tr>
+                        <tr>
+                            <td>Del 14 al 23</td>
+                            <td>26</td>
+                            <td>Día 15 del mes siguiente</td>
+                        </tr>
+                        <tr>
+                            <td>Del 24 al 29</td>
+                            <td>01</td>
+                            <td>Día 20 del mes siguiente</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nuevo Modal para Mensajes de Alerta Personalizados -->
+    <div id="customAlertModal" class="alert-modal-overlay">
+        <div class="alert-modal-content">
+            <p id="customAlertMessage" class="alert-modal-message"></p>
+            <button class="alert-modal-button" onclick="closeCustomAlert()">Aceptar</button>
+        </div>
+    </div>
+
+    <script>
+        // Función para mostrar el modal de alerta personalizado
+        function showCustomAlert(message) {
+            document.getElementById('customAlertMessage').textContent = message;
+            document.getElementById('customAlertModal').classList.add('active');
+        }
+
+        // Función para cerrar el modal de alerta personalizado
+        function closeCustomAlert() {
+            document.getElementById('customAlertModal').classList.remove('active');
+        }
+
+        function calcularBoletas() {
+            // 1. Obtener valores de entrada
+            const planMonto = parseFloat(document.getElementById('planMonto').value);
+            const descuentoMesCompleto = parseFloat(document.getElementById('descuentoMesCompleto').value);
+            const diaInstalacion = parseInt(document.getElementById('diaInstalacion').value);
+            const mesInstalacion = parseInt(document.getElementById('mesInstalacion').value);
+
+            // Validar entradas básicas
+            if (isNaN(planMonto) || isNaN(descuentoMesCompleto) ||
+                isNaN(diaInstalacion) || isNaN(mesInstalacion) ||
+                planMonto <= 0 || diaInstalacion < 1 || diaInstalacion > 31 || mesInstalacion < 1 || mesInstalacion > 12) {
+                // Usar el modal de alerta personalizado en lugar de alert()
+                showCustomAlert('Por favor, ingresa valores válidos en todos los campos.');
+                return;
+            }
+
+            // Nombres de los meses para mostrar en resultados
+            const nombresMeses = [
+                '', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+            ];
+
+            // --- Lógica de Cálculo ---
+
+            // Paso 1: Calcular el Costo Diario del Plan Base
+            const costoDiarioBase = planMonto / 30; // Asumimos 30 días para el cálculo diario
+
+            // Paso 2: Calcular el Monto Proporcional del Primer Período
+            // Determinar el último día del mes de instalación
+            const ultimoDiaMesInstalacion = new Date(2000, mesInstalacion, 0).getDate(); // El 0 en el día del mes siguiente da el último día del mes actual. Año 2000 es bisiesto.
+
+            const diasProporcionales = (ultimoDiaMesInstalacion - diaInstalacion) + 1;
+            const montoBrutoProporcional = costoDiarioBase * diasProporcionales;
+            
+            // Calcular el descuento proporcional automáticamente
+            const descuentoProporcional = (descuentoMesCompleto / 30) * diasProporcionales;
+
+            const montoFinalProporcional = montoBrutoProporcional - descuentoProporcional;
+
+            // Paso 3: Calcular el Monto del Primer Mes Completo (Adelantado)
+            const montoPrimerMesCompletoAdelantado = planMonto - descuentoMesCompleto;
+
+            // Paso 4: Calcular el Total de la Primera Boleta
+            const totalPrimeraBoleta = montoFinalProporcional + montoPrimerMesCompletoAdelantado;
+
+            // Paso 5: Calcular el Monto de la Segunda Boleta (y Siguientes)
+            const montoSegundaBoleta = montoPrimerMesCompletoAdelantado;
+
+            // --- Mostrar Resultados ---
+            const resultadosDiv = document.getElementById('resultados');
+            const infoCicloDiv = document.getElementById('infoCiclo');
+            const desglosePrimeraBoletaDiv = document.getElementById('desglosePrimeraBoleta');
+            const totalPrimeraBoletaDiv = document.getElementById('totalPrimeraBoleta');
+            const segundaBoletaDiv = document.getElementById('segundaBoleta');
+
+            // Determinar ciclo asignado para mostrar información (ajustado para que coincida con la tabla)
+            let cicloAsignadoInfo = "No determinado";
+            let vencimientoInfo = "No determinado";
+            
+            if (diaInstalacion >= 30 || diaInstalacion <= 4) {
+                cicloAsignadoInfo = '07';
+                vencimientoInfo = 'Día 03 del mes siguiente';
+            } else if (diaInstalacion >= 5 && diaInstalacion <= 13) {
+                cicloAsignadoInfo = '16';
+                vencimientoInfo = 'Día 05 del mes siguiente';
+            } else if (diaInstalacion >= 14 && diaInstalacion <= 23) {
+                cicloAsignadoInfo = '26';
+                vencimientoInfo = 'Día 15 del mes siguiente';
+            } else if (diaInstalacion >= 24 && diaInstalacion <= 29) {
+                cicloAsignadoInfo = '01';
+                vencimientoInfo = 'Día 20 del mes siguiente';
+            }
+
+
+            infoCicloDiv.innerHTML = `<strong>Tu Ciclo de Facturación WOM Asignado:</strong> ${cicloAsignadoInfo}<br>` +
+                                      `<strong>Fecha de Vencimiento Estimada de tus Boletas:</strong> ${vencimientoInfo}`;
+            infoCicloDiv.style.display = 'block';
+
+            // Montos sin decimales
+            document.getElementById('periodoProp').textContent = `${nombresMeses?.[mesInstalacion]} del ${diaInstalacion} al ${ultimoDiaMesInstalacion}`;
+            document.getElementById('montoProp').textContent = `$${Math.round(montoFinalProporcional)}`; // Usar Math.round para redondear al entero más cercano
+
+            // Calcular el nombre del mes siguiente para la visualización
+            const mesSiguienteNumero = (mesInstalacion % 12) + 1;
+            document.getElementById('mesSiguienteNombre').textContent = nombresMeses?.[mesSiguienteNumero];
+
+            document.getElementById('montoMesSiguiente').textContent = `$${Math.round(montoPrimerMesCompletoAdelantado)}`; // Usar Math.round
+            desglosePrimeraBoletaDiv.style.display = 'block';
+
+            totalPrimeraBoletaDiv.innerHTML = `<strong>TOTAL Primera Boleta: $${Math.round(totalPrimeraBoleta)}</strong>`; // Usar Math.round
+            totalPrimeraBoletaDiv.style.display = 'block';
+
+            segundaBoletaDiv.innerHTML = `<strong>Monto Estimado de tu Segunda Boleta y Siguientes:</strong> $${Math.round(montoSegundaBoleta)}`; // Usar Math.round
+            segundaBoletaDiv.style.display = 'block';
+
+            resultadosDiv.scrollIntoView({ behavior: 'smooth' }); // Desplazar a los resultados
+        }
+
+        // Funciones para abrir y cerrar la modal
+        function openInfoModal() {
+            document.getElementById('infoModal').classList.add('active');
+        }
+
+        function closeInfoModal() {
+            document.getElementById('infoModal').classList.remove('active');
+        }
+
+        // Cerrar modal al hacer clic fuera de su contenido
+        document.getElementById('infoModal').addEventListener('click', function(event) {
+            if (event.target === this) { // Si el clic fue directamente en el overlay
+                closeInfoModal();
+            }
+        });
+    </script>
+</body>
+</html>
